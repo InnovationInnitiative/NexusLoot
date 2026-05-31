@@ -5,14 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- SEO META-TAGS -->
-    <title>NexusLoot // Live Valorant Skins & Free Game Giveaways</title>
-    <meta name="description" content="Check the live Valorant weapon skins and claim free Steam, Epic Games & Console loot. Updated real-time. The ultimate gamer's daily dashboard.">
-    <meta name="keywords" content="Valorant skins live, free Steam keys, Epic Games giveaways, gaming loot tracker, free skins 2026">
+    <title>NexusLoot // Steam Market Tracker, Valorant Skins & Free Giveaways</title>
+    <meta name="description" content="Check live Steam Community Market price drops, view Valorant skins, and claim free Steam loot. The ultimate real-time gaming trading floor.">
+    <meta name="keywords" content="Steam market tracker, CS2 skin prices, Valorant skins live, free Steam keys, Epic Games giveaways, gaming loot tracker">
     <link rel="canonical" href="https://nexusloot.innovationinnitiative.in/">
 
     <!-- Styles & Dependencies -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Firebase SDK (Compatibility Version for simplicity in single-file) -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+
     <script>
         tailwind.config = {
             theme: {
@@ -23,7 +28,8 @@
                         'nexus-border': '#1e293b',
                         'free': '#10B981',
                         'epic': '#8B5CF6',
-                        'legendary': '#F59E0B'
+                        'legendary': '#F59E0B',
+                        'drop': '#EF4444'
                     },
                     fontFamily: { sans: ['Inter', 'sans-serif'], display: ['Lexend', 'sans-serif'] }
                 }
@@ -37,6 +43,11 @@
         .card-glow:hover { box-shadow: 0 0 30px rgba(139, 92, 246, 0.15); border-color: rgba(139, 92, 246, 0.4); }
         .shimmer { background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent); background-size: 200% 100%; animation: shimmer 2s infinite; }
         @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+        /* Trading Floor Styles */
+        .market-row { transition: all 0.3s ease; }
+        .market-row:hover { background: rgba(255,255,255,0.02); }
+        .price-drop { animation: flash-red 2s infinite; }
+        @keyframes flash-red { 0%, 100% { color: #f8fafc; } 50% { color: #EF4444; } }
     </style>
 </head>
 <body>
@@ -47,10 +58,11 @@
                 <div class="flex justify-between h-16 items-center">
                     <div class="flex items-center gap-3 cursor-pointer" onclick="location.reload()">
                         <i class="fa-solid fa-bolt-lightning text-epic text-2xl drop-shadow-[0_0_8px_#8B5CF6]"></i>
-                        <span class="font-display text-xl tracking-tighter italic uppercase">Nexus<span class="text-epic">Loot</span></span>
+                        <span class="font-display text-xl tracking-tighter italic uppercase text-white">Nexus<span class="text-epic">Loot</span></span>
                     </div>
                     <div class="flex gap-4 sm:gap-8">
-                        <button onclick="switchTab('giveaways')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent hover:text-white" data-tab="giveaways">Loot Drop</button>
+                        <button onclick="switchTab('giveaways')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest py-5 border-b-2 border-transparent hover:text-white" data-tab="giveaways">Loot Drop</button>
+                        <button onclick="switchTab('steam')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest py-5 border-b-2 border-transparent hover:text-white" data-tab="steam">Steam Market</button>
                         <button onclick="switchTab('valorant')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent hover:text-white" data-tab="valorant">Valorant</button>
                     </div>
                 </div>
@@ -73,27 +85,40 @@
                     </script>
                     <script type="text/javascript" src="https://www.highperformanceformat.com/8017a00a59f4a8ef137f11a0ad5b4039/invoke.js"></script>
                 </div>
-                <span class="text-[7px] uppercase tracking-widest text-white/10">Sponsored Content</span>
+                <span class="text-[7px] uppercase tracking-widest text-white/10 italic">Sponsored Neural Interface</span>
             </div>
 
             <!-- Application View Mount -->
             <div id="app-view"></div>
         </main>
 
-        <!-- Footer -->
         <footer class="border-t border-nexus-border py-16 mt-32 bg-black/40 text-center">
             <div class="max-w-7xl mx-auto px-4">
-                <h4 class="font-display text-lg mb-4 italic">NEXUS<span class="text-epic">LOOT</span></h4>
-                <p class="text-[9px] text-white/20 uppercase tracking-[0.2em]">© 2026 Innovation Initiative Hub // Global Digital Asset Index</p>
+                <h4 class="font-display text-lg mb-4 italic uppercase">NEXUS<span class="text-epic">LOOT</span></h4>
+                <p class="text-[9px] text-white/20 uppercase tracking-[0.2em]">© 2026 Innovation Initiative Hub // Full-Stack Gaming Index</p>
             </div>
         </footer>
     </div>
 
     <!-- SCRIPT ENGINE -->
     <script>
+        // FIREBASE INITIALIZATION
+        const firebaseConfig = {
+            apiKey: "AIzaSyCkVuNPu4799F9HZzX3Yxc-AY9C07oTgOo",
+            authDomain: "nexusloot-9b305.firebaseapp.com",
+            databaseURL: "https://nexusloot-9b305-default-rtdb.firebaseio.com",
+            projectId: "nexusloot-9b305",
+            storageBucket: "nexusloot-9b305.firebasestorage.app",
+            messagingSenderId: "426862990535",
+            appId: "1:426862990535:web:3a606f3b5e414fb1ea1ae2"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
         const VIEWS = {
             giveaways: { api: 'https://www.gamerpower.com/api/giveaways', render: renderGiveaways },
-            valorant: { api: ['https://valorant-api.com/v1/weapons', 'https://valorant-api.com/v1/bundles'], render: renderValorant }
+            valorant: { api: ['https://valorant-api.com/v1/weapons', 'https://valorant-api.com/v1/bundles'], render: renderValorant },
+            steam: { type: 'firebase', render: renderSteam }
         };
 
         let currentTab = '';
@@ -122,31 +147,104 @@
 
             try {
                 const config = VIEWS[tabId];
-                let data;
-                if (Array.isArray(config.api)) {
-                    data = await Promise.all(config.api.map(url => nexusFetch(url)));
-                    if (tabId === 'valorant') valorantCache = data[0].data;
+                if (config.type === 'firebase') {
+                    db.ref('steam_market').once('value', (snapshot) => {
+                        renderSteam(snapshot.val() || []);
+                    });
                 } else {
-                    data = await nexusFetch(config.api);
+                    let data;
+                    if (Array.isArray(config.api)) {
+                        data = await Promise.all(config.api.map(url => nexusFetch(url)));
+                        if (tabId === 'valorant') valorantCache = data[0].data;
+                    } else {
+                        data = await nexusFetch(config.api);
+                    }
+                    config.render(data);
                 }
-                config.render(data);
             } catch (err) {
                 console.error('NexusEngine Error:', err);
-                mount.innerHTML = `<div class="py-32 text-center"><i class="fa-solid fa-circle-exclamation text-epic text-5xl mb-6"></i><h2 class="font-display text-2xl uppercase tracking-tighter">Sync Interrupted</h2><p class="text-white/30 text-[10px] mt-4 uppercase tracking-[0.4em] italic text-center">Neural-link failed. Check internet or refresh.</p></div>`;
+                mount.innerHTML = `<div class="py-32 text-center"><i class="fa-solid fa-circle-exclamation text-epic text-5xl mb-6"></i><h2 class="font-display text-2xl uppercase tracking-tighter text-white">Sync Interrupted</h2><p class="text-white/30 text-[10px] mt-4 uppercase tracking-[0.4em] italic text-center">Neural-link failed. Check connection or refresh.</p></div>`;
             }
         }
 
+        // --- STEAM TRADING FLOOR ---
+        function renderSteam(items) {
+            const mount = document.getElementById('app-view');
+            if (!items || Object.keys(items).length === 0) {
+                mount.innerHTML = `<div class="py-32 text-center uppercase tracking-[0.5em] text-white/20 text-xs italic">Terminal Initializing... <br/> [Backend Worker is fetching first batch]</div>`;
+                return;
+            }
+
+            let html = `
+                <div class="mb-12 flex flex-col md:flex-row justify-between items-end gap-6 animate-in slide-in-from-bottom-8 duration-700">
+                    <div>
+                        <h2 class="font-display text-4xl text-white uppercase tracking-tighter italic">Trading Floor <span class="text-epic">// CS2 Assets</span></h2>
+                        <p class="text-[9px] text-white/30 uppercase tracking-[0.5em] mt-3 font-bold">Real-time Valuation & Margin Analysis</p>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="px-4 py-2 glass-card rounded-xl border-free/20 text-[8px] uppercase tracking-widest text-free font-bold">Live Profit Filter: 30% Off</div>
+                    </div>
+                </div>
+                <div class="glass-card rounded-[3rem] overflow-hidden border-white/5 bg-dark-surface/30">
+                    <table class="w-full text-left text-[10px] uppercase tracking-[0.2em]">
+                        <thead class="bg-white/[0.03] text-white/40 border-b border-white/5">
+                            <tr>
+                                <th class="p-8 font-bold">Asset Name</th>
+                                <th class="p-8 font-bold">Current Price</th>
+                                <th class="p-8 font-bold">Median Value</th>
+                                <th class="p-8 font-bold text-center">Profit Margin</th>
+                                <th class="p-8 font-bold text-right">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-white/5">
+            `;
+
+            Object.values(items).forEach((item, index) => {
+                const lowest = parseFloat(item.lowest_price.replace(/[^0-9.-]+/g,""));
+                const median = parseFloat(item.median_price.replace(/[^0-9.-]+/g,""));
+                const diff = ((median - lowest) / median * 100).toFixed(1);
+                const isDrop = diff >= 30;
+
+                html += `
+                    <tr class="market-row group">
+                        <td class="p-8">
+                            <div class="flex items-center gap-6">
+                                <div class="w-12 h-12 bg-white/5 rounded-xl border border-white/5 flex items-center justify-center group-hover:border-epic transition-colors p-1">
+                                     <img src="${item.icon_url}" class="max-h-full max-w-full object-contain">
+                                </div>
+                                <span class="font-bold text-white/80 group-hover:text-white transition-colors">${item.name}</span>
+                            </div>
+                        </td>
+                        <td class="p-8 font-display text-lg text-white">${item.lowest_price}</td>
+                        <td class="p-8 text-white/40">${item.median_price}</td>
+                        <td class="p-8 text-center">
+                            <span class="${isDrop ? 'bg-drop text-white px-3 py-1 rounded-full text-[9px] animate-pulse shadow-[0_0_15px_#EF4444]' : 'text-neon-blue font-bold'}">
+                                ${isDrop ? 'CRASH: ' : ''}${diff}%
+                            </span>
+                        </td>
+                        <td class="p-8 text-right">
+                            <a href="${item.market_url}" target="_blank" class="px-6 py-2 bg-white/5 hover:bg-epic transition-all rounded-lg font-black text-[9px] popunder-trigger">Snipe Asset</a>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            html += `</tbody></table></div>`;
+            mount.innerHTML = html;
+        }
+
+        // --- VALORANT RENDER ---
         function renderValorant(responses) {
             const weapons = responses[0].data;
             const bundles = responses[1].data;
             const mount = document.getElementById('app-view');
             let html = `<div class="mb-20"><h2 class="font-display text-4xl text-legendary mb-12 uppercase tracking-tighter italic text-center md:text-left">Elite Collections</h2><div class="grid grid-cols-1 md:grid-cols-2 gap-12">`;
             bundles.slice(0, 4).forEach(b => {
-                html += `<div class="relative rounded-[3rem] overflow-hidden aspect-video border border-white/5 group card-glow"><img src="${b.displayIcon}" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-1000"><div class="absolute inset-0 bg-gradient-to-t from-nexus-dark via-transparent to-transparent"></div><div class="absolute bottom-0 left-0 p-10"><h3 class="font-display text-4xl uppercase tracking-tighter">${b.displayName}</h3></div></div>`;
+                html += `<div class="relative rounded-[3rem] overflow-hidden aspect-video border border-white/5 group card-glow"><img src="${b.displayIcon}" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-[2s] text-white"><div class="absolute inset-0 bg-gradient-to-t from-nexus-dark via-transparent to-transparent"></div><div class="absolute bottom-0 left-0 p-10"><h3 class="font-display text-4xl uppercase tracking-tighter text-white">${b.displayName}</h3></div></div>`;
             });
-            html += `</div></div><h2 class="font-display text-4xl text-epic mb-12 uppercase tracking-tighter italic text-center md:text-left">The Arsenal</h2><div class="grid grid-cols-2 md:grid-cols-4 gap-8">`;
+            html += `</div></div><h2 class="font-display text-4xl text-epic mb-12 uppercase tracking-tighter italic text-center md:text-left text-white">The Arsenal</h2><div class="grid grid-cols-2 md:grid-cols-4 gap-8">`;
             weapons.forEach(w => {
-                html += `<div class="glass-card bg-nexus-surface rounded-[2.5rem] p-10 border border-white/5 hover:border-epic/40 transition-all card-glow group flex flex-col items-center text-center"><div class="h-32 flex items-center justify-center mb-8"><img src="${w.displayIcon}" class="max-h-full max-w-full object-contain group-hover:scale-125 transition-transform duration-700 drop-shadow-[0_15px_25px_rgba(139,92,246,0.3)]"></div><h3 class="font-display text-sm uppercase tracking-widest">${w.displayName}</h3><button onclick="openSkinLibrary('${w.uuid}')" class="mt-8 text-[8px] font-black text-white/30 uppercase tracking-[0.4em] hover:text-epic transition-colors">Skin Library →</button></div>`;
+                html += `<div class="glass-card bg-nexus-surface rounded-[2.5rem] p-10 border border-white/5 hover:border-epic/40 transition-all card-glow group flex flex-col items-center text-center"><div class="h-32 flex items-center justify-center mb-8"><img src="${w.displayIcon}" class="max-h-full max-w-full object-contain group-hover:scale-125 transition-transform duration-700 drop-shadow-[0_15px_25px_rgba(139,92,246,0.3)]"></div><h3 class="font-display text-sm uppercase tracking-widest text-white">${w.displayName}</h3><button onclick="openSkinLibrary('${w.uuid}')" class="mt-8 text-[8px] font-black text-white/30 uppercase tracking-[0.4em] hover:text-epic transition-colors">Skin Library →</button></div>`;
             });
             mount.innerHTML = html + `</div>`;
         }
@@ -157,7 +255,7 @@
             const modal = document.createElement('div');
             modal.id = 'skin-modal';
             modal.className = 'fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-10 animate-in fade-in duration-300';
-            modal.innerHTML = `<div class="absolute inset-0 bg-nexus-dark/95 backdrop-blur-3xl" onclick="closeModal()"></div><div class="relative w-full max-w-6xl max-h-full overflow-y-auto glass-card rounded-[3rem] border-white/10 p-8 sm:p-16 animate-in slide-in-from-bottom-8 duration-500"><button onclick="closeModal()" class="absolute top-8 right-8 text-white/40 hover:text-white transition-colors text-2xl"><i class="fa-solid fa-xmark"></i></button><div class="mb-12"><h2 class="font-display text-5xl uppercase tracking-tighter italic text-epic">${weapon.displayName} // <span class="text-white/40">Skin Archives</span></h2></div><div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">${weapon.skins.filter(s => !s.displayName.includes('Standard')).map(skin => `<div class="glass-card bg-white/[0.02] rounded-3xl p-8 border-white/5 hover:border-epic/30 transition-all group"><div class="h-32 flex items-center justify-center mb-6"><img src="${skin.displayIcon}" class="max-h-full max-w-full object-contain group-hover:scale-110 transition-transform duration-500"></div><h3 class="font-display text-xs uppercase tracking-widest text-center text-white/60">${skin.displayName}</h3></div>`).join('')}</div></div>`;
+            modal.innerHTML = `<div class="absolute inset-0 bg-nexus-dark/95 backdrop-blur-3xl" onclick="closeModal()"></div><div class="relative w-full max-w-6xl max-h-full overflow-y-auto glass-card rounded-[3rem] border-white/10 p-8 sm:p-16 animate-in slide-in-from-bottom-8 duration-500"><button onclick="closeModal()" class="absolute top-8 right-8 text-white/40 hover:text-white transition-colors text-2xl"><i class="fa-solid fa-xmark"></i></button><div class="mb-12 text-white"><h2 class="font-display text-5xl uppercase tracking-tighter italic text-epic">${weapon.displayName} // <span class="text-white/40">Skin Archives</span></h2></div><div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">${weapon.skins.filter(s => !s.displayName.includes('Standard')).map(skin => `<div class="glass-card bg-white/[0.02] rounded-3xl p-8 border-white/5 hover:border-epic/30 transition-all group"><div class="h-32 flex items-center justify-center mb-6"><img src="${skin.displayIcon}" class="max-h-full max-w-full object-contain group-hover:scale-110 transition-transform duration-500"></div><h3 class="font-display text-xs uppercase tracking-widest text-center text-white/60">${skin.displayName}</h3></div>`).join('')}</div></div>`;
             document.body.appendChild(modal);
             document.body.style.overflow = 'hidden';
         };
@@ -168,20 +266,13 @@
             document.body.style.overflow = 'auto';
         };
 
+        // --- GIVEAWAYS RENDER ---
         function renderGiveaways(data) {
             const mount = document.getElementById('app-view');
             let html = `<div class="grid grid-cols-1 md:grid-cols-3 gap-10">`;
             data.forEach((d, index) => {
-                // Inject Native Ad container after 6th item
                 if (index === 6) {
-                    html += `
-                        <div class="md:col-span-3 flex justify-center py-10">
-                            <div id="container-5b93a4944853444dddf3758e49112d9e" class="w-full glass-card rounded-[3rem] p-4 border-dashed border-white/10 text-center">
-                                <p class="text-[8px] uppercase tracking-widest text-white/20 mb-4 font-bold">Recommended for you</p>
-                                <div id="native-ad-mount"></div>
-                            </div>
-                        </div>
-                    `;
+                    html += `<div class="md:col-span-3 flex justify-center py-10"><div id="container-5b93a4944853444dddf3758e49112d9e" class="w-full glass-card rounded-[3rem] p-4 border-dashed border-white/10 text-center"><p class="text-[8px] uppercase tracking-widest text-white/20 mb-4 font-bold italic">Recommended Asset Expansion</p><div id="native-ad-mount"></div></div></div>`;
                 }
                 html += `
                     <div class="glass-card bg-nexus-surface rounded-[3rem] overflow-hidden border border-free/10 hover:border-free transition-all duration-700 card-glow flex flex-col group">
@@ -191,21 +282,18 @@
                         </div>
                         <div class="p-10 flex flex-col flex-grow text-left">
                             <div class="flex items-center gap-3 mb-6"><span class="text-[8px] font-bold text-free uppercase tracking-widest border border-free/20 px-3 py-1 rounded-full bg-free/5">${d.platforms}</span></div>
-                            <h3 class="font-display text-2xl uppercase tracking-tighter mb-4 leading-none group-hover:text-free transition-colors">${d.title}</h3>
+                            <h3 class="font-display text-2xl uppercase tracking-tighter mb-4 leading-none group-hover:text-free transition-colors text-white">${d.title}</h3>
                             <p class="text-xs text-white/30 leading-relaxed line-clamp-3 mb-10 tracking-wide">${d.description}</p>
-                            <a href="${d.open_giveaway_url}" target="_blank" class="block w-full py-5 bg-free hover:bg-emerald-400 text-nexus-dark font-black text-center text-[10px] uppercase tracking-[0.3em] rounded-2xl transition-all shadow-2xl">Access Loot Vault</a>
+                            <a href="${d.open_giveaway_url}" target="_blank" class="block w-full py-5 bg-free hover:bg-emerald-400 text-nexus-dark font-black text-center text-[10px] uppercase tracking-[0.3em] rounded-2xl transition-all shadow-2xl popunder-trigger">Access Loot Vault</a>
                         </div>
                     </div>
                 `;
             });
             mount.innerHTML = html + `</div>`;
-            
-            // Execute the native ad script after content is mounted
             const adContainer = document.getElementById('native-ad-mount');
             if (adContainer) {
                 const script = document.createElement('script');
-                script.async = true;
-                script.dataset.cfasync = "false";
+                script.async = true; script.dataset.cfasync = "false";
                 script.src = "https://pl29600984.effectivecpmnetwork.com/5b93a4944853444dddf3758e49112d9e/invoke.js";
                 adContainer.appendChild(script);
             }
@@ -213,7 +301,7 @@
 
         function handlePopunder(e) {
             if (e.target.closest('.popunder-trigger')) {
-                console.log('NexusPop: Trigger authorized...');
+                console.log('NexusPop: Security handshake authorized...');
             }
         }
 
