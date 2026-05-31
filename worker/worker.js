@@ -19,15 +19,26 @@ const ITEMS_TO_TRACK = [
 ];
 
 // --- FIREBASE INITIALIZATION ---
-// Security Fix: Using Environment Variable instead of hardcoded JSON
-const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+async function initFirebase() {
+    try {
+        console.log('Loading Service Account from Environment...');
+        const secret = process.env.FIREBASE_SERVICE_ACCOUNT;
+        if (!secret) throw new Error('Missing FIREBASE_SERVICE_ACCOUNT secret!');
+        
+        const serviceAccount = JSON.parse(secret);
+        admin.initializeApp({
+            credential: admin.credential.cert(serviceAccount),
+            databaseURL: "https://nexusloot-9b305-default-rtdb.firebaseio.com"
+        });
+        console.log('Firebase initialized successfully.');
+        return admin.database();
+    } catch (err) {
+        console.error('Firebase Init Error:', err.message);
+        process.exit(1);
+    }
+}
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://nexusloot-9b305-default-rtdb.firebaseio.com"
-});
-
-const db = admin.database();
+const db = await initFirebase();
 
 // --- SCRAPER ENGINE ---
 async function fetchSteamPrice(itemName) {
@@ -35,17 +46,23 @@ async function fetchSteamPrice(itemName) {
     try {
         const response = await axios.get(url);
         if (response.data.success) {
+            console.log(`Successfully fetched: ${itemName} (${response.data.lowest_price})`);
             return {
                 name: itemName,
-                lowest_price: response.data.lowest_price,
-                median_price: response.data.median_price || response.data.lowest_price,
+                lowest_price: response.data.lowest_price || "0",
+                median_price: response.data.median_price || response.data.lowest_price || "0",
                 icon_url: `https://nexusloot.innovationinnitiative.in/favicon.ico`, 
                 market_url: `https://steamcommunity.com/market/listings/${STEAM_APP_ID}/${encodeURIComponent(itemName)}`,
                 timestamp: Date.now()
             };
         }
+        console.warn(`Steam returned success:false for ${itemName}`);
     } catch (err) {
-        console.error(`Error fetching ${itemName}:`, err.message);
+        if (err.response && err.response.status === 429) {
+            console.error(`RATE LIMITED by Steam for ${itemName}. Status 429.`);
+        } else {
+            console.error(`Error fetching ${itemName}:`, err.message);
+        }
     }
     return null;
 }
@@ -61,15 +78,20 @@ async function updateMarket() {
             const key = itemName.replace(/[.#$\[\]]/g, "_");
             updates[key] = data;
         }
+        // Wait 15 seconds to be extremely safe
         await new Promise(resolve => setTimeout(resolve, 15000));
     }
 
     if (Object.keys(updates).length > 0) {
         await db.ref('steam_market').set(updates);
-        console.log('--- Firebase Sync Successful ---');
+        console.log('--- Firebase Sync Successful. Total items updated:', Object.keys(updates).length, '---');
+    } else {
+        console.error('--- No items were updated. Skipping Firebase write. ---');
     }
 }
 
+// Scheduled run
 cron.schedule('*/30 * * * *', () => updateMarket());
+
+// Initial run
 updateMarket();
-console.log('NexusLoot Worker Active. Monitoring Steam Market...');
