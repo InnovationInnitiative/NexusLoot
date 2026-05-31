@@ -148,12 +148,19 @@
             try {
                 const config = VIEWS[tabId];
                 if (config.type === 'firebase') {
+                    // SECURE LISTENER WITH ERROR LOGGING
                     db.ref('steam_market').on('value', (snapshot) => {
-                        // Crucial fix: Check if we are still on the steam tab before rendering
-                        if (currentTab === 'steam') {
-                            const data = snapshot.val();
-                            renderSteam(data ? Object.values(data) : []);
+                        if (currentTab !== 'steam') return;
+                        const data = snapshot.val();
+                        console.log('Firebase Sync Payload:', data);
+                        if (!data) {
+                            mount.innerHTML = `<div class="py-32 text-center uppercase tracking-[0.5em] text-white/20 text-xs italic">Syncing with Steam Neural-Link... <br/> [Ensure Firebase Rules are set to Public Read]</div>`;
+                        } else {
+                            renderSteam(Object.values(data));
                         }
+                    }, (error) => {
+                        console.error('Firebase Read Error:', error);
+                        mount.innerHTML = `<div class="py-32 text-center"><i class="fa-solid fa-shield-halved text-epic text-5xl mb-6"></i><h2 class="font-display text-2xl uppercase tracking-tighter">Access Denied</h2><p class="text-white/30 text-[10px] mt-4 uppercase tracking-[0.4em] italic text-center">Firebase Security Rules are blocking the terminal. Please check console logs.</p></div>`;
                     });
                 } else {
                     let data;
