@@ -140,6 +140,23 @@
 
         let currentTab = '';
 
+        // ROBUST FETCH ENGINE WITH CORS PROXY FALLBACK
+        async function nexusFetch(url) {
+            try {
+                // Try direct fetch first
+                const response = await fetch(url);
+                if (response.ok) return await response.json();
+                throw new Error('Direct fetch failed');
+            } catch (err) {
+                console.warn(`Direct fetch failed for ${url}, attempting via NexusProxy...`);
+                // Fallback to CORS proxy
+                const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+                const proxyResponse = await fetch(proxyUrl);
+                const proxyData = await proxyResponse.json();
+                return JSON.parse(proxyData.contents);
+            }
+        }
+
         async function switchTab(tabId) {
             if (currentTab === tabId) return;
             currentTab = tabId;
@@ -154,15 +171,14 @@
                 const config = VIEWS[tabId];
                 let data;
                 if (Array.isArray(config.api)) {
-                    data = await Promise.all(config.api.map(url => fetch(url).then(res => res.json())));
+                    data = await Promise.all(config.api.map(url => nexusFetch(url)));
                 } else {
-                    const res = await fetch(config.api);
-                    data = await res.json();
+                    data = await nexusFetch(config.api);
                 }
                 config.render(data);
             } catch (err) {
-                console.error(err);
-                mount.innerHTML = `<div class="py-32 text-center"><i class="fa-solid fa-circle-exclamation text-epic text-5xl mb-6"></i><h2 class="font-display text-2xl uppercase tracking-tighter">Sync Interrupted</h2><p class="text-white/30 text-[10px] mt-4 uppercase tracking-[0.4em] italic text-center">Remote API currently unreachable. Please try again in a few moments.</p></div>`;
+                console.error('NexusEngine Error:', err);
+                mount.innerHTML = `<div class="py-32 text-center animate-in fade-in duration-700"><i class="fa-solid fa-circle-exclamation text-epic text-5xl mb-6 drop-shadow-[0_0_15px_#8B5CF6]"></i><h2 class="font-display text-2xl uppercase tracking-tighter">Sync Interrupted</h2><p class="text-white/30 text-[10px] mt-4 uppercase tracking-[0.4em] italic text-center max-w-md mx-auto">The remote neural-link failed. This is usually due to regional CORS restrictions. Please refresh the terminal.</p></div>`;
             }
         }
 
