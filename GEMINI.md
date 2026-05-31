@@ -26,15 +26,18 @@ Build a highly polished, single-page, multi-game tracker dashboard called "Nexus
 - [x] Integrate GamerPower API (Live Loot & Giveaways).
 - [x] Implement responsive grid layouts and shimmer loading states.
 
-### Phase 3: Monetization & Polish [DONE]
+### Phase 3: Monetization & Polish [IN PROGRESS]
 - [x] Inject Adsterra Top Banner placeholders.
 - [x] Inject Adsterra Native Grid placeholders into item loops.
 - [x] Implement Popunder trigger framework on action buttons.
+- [ ] Connect live Adsterra scripts and verify non-intrusive placement.
+
+### Phase 4: Future Expansion (Roadmap)
+- [ ] **Steam Community Market Tracker:** Replace Fortnite tab with a high-fidelity CS2/Dota skin price tracker featuring live fluctuation indicators (▲/▼).
+- [ ] **Global Daily Gaming News:** 4th tab for trending gaming news to capture high-volume search traffic.
 
 ## 📝 Latest Updates
-- **Initialization:** Created the complete "NexusLoot" dashboard as a single-file `index.html`.
-- **API Integration:** Successfully mapped Fortnite shop, Valorant arsenal, and GamerPower loot drops.
-- **UI/UX:** Added rarity-based coloring, hover glows, and a real-time UTC countdown timer.
+- **Update 9:** Refactored the core engine to landing on "Loot Drop" (Giveaways). Removed the unstable Fortnite API tab. Implemented a robust "nexusFetch" engine with automatic CORS proxy fallbacks for live domain stability. Added high-fidelity Valorant Skin Explorer modal.
 
 ## 🚀 Final Deployment Instructions
 1. **Host:** This file is ready for Vercel. Simply push `index.html` to a repo and connect it.
