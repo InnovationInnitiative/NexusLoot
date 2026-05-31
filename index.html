@@ -8,7 +8,7 @@
     <title>NexusLoot // #1 Live Fortnite Shop, Valorant Skins & Free Game Giveaways</title>
     <meta name="description" content="Check the live Fortnite Item Shop, view all Valorant weapon skins, and claim free Steam, Epic Games & Console loot. Updated real-time with zero delay. The ultimate gamer's daily dashboard.">
     <meta name="keywords" content="Fortnite shop today, Valorant skins live, free Steam keys, Epic Games giveaways, Fortnite countdown, gaming loot tracker, Robux giveaway, free skins 2026">
-    <link rel="canonical" href="https://play.innovationinnitiative.in/">
+    <link rel="canonical" href="https://nexusloot.innovationinnitiative.in/">
 
     <!-- GEO-OPTIMIZATION TAGS -->
     <meta name="geo.region" content="US;GB;IN;CA;AU">
@@ -17,7 +17,7 @@
     <!-- OPEN GRAPH (Social Media Ranking) -->
     <meta property="og:title" content="NexusLoot - Daily Gaming Dashboard">
     <meta property="og:description" content="Live Fortnite Shop & Real-Time Loot Giveaways.">
-    <meta property="og:url" content="https://play.innovationinnitiative.in/">
+    <meta property="og:url" content="https://nexusloot.innovationinnitiative.in/">
     <meta property="og:type" content="website">
 
     <!-- Styles & Dependencies -->
@@ -73,9 +73,9 @@
                         <span class="font-display text-xl tracking-tighter italic uppercase">Nexus<span class="text-epic">Loot</span></span>
                     </div>
                     <div class="flex gap-4 sm:gap-8">
+                        <button onclick="switchTab('giveaways')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent hover:text-white" data-tab="giveaways">Loot Drop</button>
                         <button onclick="switchTab('fortnite')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent hover:text-white" data-tab="fortnite">Fortnite</button>
                         <button onclick="switchTab('valorant')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent hover:text-white" data-tab="valorant">Valorant</button>
-                        <button onclick="switchTab('giveaways')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent hover:text-white" data-tab="giveaways">Loot Drop</button>
                     </div>
                 </div>
             </div>
@@ -133,9 +133,9 @@
     <!-- SCRIPT ENGINE -->
     <script>
         const VIEWS = {
+            giveaways: { api: 'https://www.gamerpower.com/api/giveaways', render: renderGiveaways },
             fortnite: { api: 'https://fortnite-api.com/v2/shop/br', render: renderFortnite },
-            valorant: { api: ['https://valorant-api.com/v1/weapons', 'https://valorant-api.com/v1/bundles'], render: renderValorant },
-            giveaways: { api: 'https://www.gamerpower.com/api/giveaways', render: renderGiveaways }
+            valorant: { api: ['https://valorant-api.com/v1/weapons', 'https://valorant-api.com/v1/bundles'], render: renderValorant }
         };
 
         let currentTab = '';
@@ -162,22 +162,40 @@
                 config.render(data);
             } catch (err) {
                 console.error(err);
-                mount.innerHTML = `<div class="py-32 text-center"><i class="fa-solid fa-circle-exclamation text-epic text-5xl mb-6"></i><h2 class="font-display text-2xl uppercase tracking-tighter">Connection Interrupted</h2><p class="text-white/30 text-[10px] mt-4 uppercase tracking-[0.4em] italic">CORS Restrictions or API Downtime. Please refresh after deploying to live domain.</p></div>`;
+                mount.innerHTML = `<div class="py-32 text-center"><i class="fa-solid fa-circle-exclamation text-epic text-5xl mb-6"></i><h2 class="font-display text-2xl uppercase tracking-tighter">Sync Interrupted</h2><p class="text-white/30 text-[10px] mt-4 uppercase tracking-[0.4em] italic text-center">Remote API currently unreachable. Please try again in a few moments.</p></div>`;
             }
         }
 
         function renderFortnite(data) {
             const mount = document.getElementById('app-view');
-            // Support multiple API response formats
-            const entries = data.data.featured?.entries || data.data.daily?.entries || data.data.entries || [];
+            
+            // Advanced parsing to handle ALL Fortnite shop sections
+            let entries = [];
+            if (data.data.featured) entries = entries.concat(data.data.featured.entries);
+            if (data.data.daily) entries = entries.concat(data.data.daily.entries);
+            if (data.data.specialFeatured) entries = entries.concat(data.data.specialFeatured.entries);
+            
+            // Fallback for newer API structures
+            if (entries.length === 0 && data.data.entries) entries = data.data.entries;
+
+            if (entries.length === 0) {
+                mount.innerHTML = `<div class="py-20 text-center text-white/20 uppercase text-xs tracking-widest italic">Shop Data Refreshing... Check back in 5 mins.</div>`;
+                return;
+            }
+
             let html = `<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">`;
             
             entries.forEach((entry, index) => {
                 if (index > 0 && index % 8 === 0) {
                     html += `<div class="lg:col-span-4 flex justify-center py-6"><div class="w-full max-w-[728px] h-[90px] bg-white/[0.02] rounded-2xl border border-dashed border-white/5 flex items-center justify-center relative overflow-hidden"><!-- ADSTERRA_NATIVE_ZONE_02 --><span class="text-[7px] uppercase tracking-[0.5em] text-white/10">Adsterra Native Recommendation Unit</span><div class="absolute inset-0 shimmer pointer-events-none opacity-30"></div></div></div>`;
                 }
-                const item = entry.items[0];
-                const rarityColor = { epic: 'border-epic/30', legendary: 'border-legendary/30' }[item.rarity.value.toLowerCase()] || 'border-nexus-border';
+                
+                const item = entry.items ? entry.items[0] : null;
+                if (!item) return;
+
+                const rarity = item.rarity ? item.rarity.value.toLowerCase() : 'common';
+                const rarityColor = { epic: 'border-epic/30', legendary: 'border-legendary/30' }[rarity] || 'border-nexus-border';
+                
                 html += `
                     <div class="glass-card bg-nexus-surface rounded-[2.5rem] overflow-hidden border ${rarityColor} transition-all duration-500 group card-glow flex flex-col">
                         <div class="relative aspect-square overflow-hidden bg-black/40">
@@ -186,7 +204,7 @@
                         </div>
                         <div class="p-8 flex flex-col flex-grow">
                             <h3 class="font-display text-md uppercase tracking-tighter truncate mb-1">${item.name}</h3>
-                            <p class="text-[8px] uppercase tracking-[0.3em] text-white/20 font-bold">${item.rarity.value} Asset</p>
+                            <p class="text-[8px] uppercase tracking-[0.3em] text-white/20 font-bold">${rarity.toUpperCase()} ASSET</p>
                             <button class="mt-auto pt-6 text-[9px] uppercase tracking-[0.4em] font-black text-epic hover:text-white transition-colors popunder-trigger">View Detail Log →</button>
                         </div>
                     </div>
@@ -199,11 +217,11 @@
             const weapons = responses[0].data;
             const bundles = responses[1].data;
             const mount = document.getElementById('app-view');
-            let html = `<div class="mb-20"><h2 class="font-display text-4xl text-legendary mb-12 uppercase tracking-tighter italic">Elite Collections</h2><div class="grid grid-cols-1 md:grid-cols-2 gap-12">`;
+            let html = `<div class="mb-20"><h2 class="font-display text-4xl text-legendary mb-12 uppercase tracking-tighter italic text-center md:text-left">Elite Collections</h2><div class="grid grid-cols-1 md:grid-cols-2 gap-12">`;
             bundles.slice(0, 4).forEach(b => {
                 html += `<div class="relative rounded-[3rem] overflow-hidden aspect-video border border-white/5 group card-glow"><img src="${b.displayIcon}" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-[2s]"><div class="absolute inset-0 bg-gradient-to-t from-nexus-dark via-transparent to-transparent"></div><div class="absolute bottom-0 left-0 p-10"><h3 class="font-display text-4xl uppercase tracking-tighter drop-shadow-2xl">${b.displayName}</h3><p class="text-[9px] text-white/40 uppercase tracking-[0.5em] mt-3">Active Marketing Asset // Live</p></div></div>`;
             });
-            html += `</div></div><h2 class="font-display text-4xl text-epic mb-12 uppercase tracking-tighter italic">The Arsenal</h2><div class="grid grid-cols-2 md:grid-cols-4 gap-8">`;
+            html += `</div></div><h2 class="font-display text-4xl text-epic mb-12 uppercase tracking-tighter italic text-center md:text-left">The Arsenal</h2><div class="grid grid-cols-2 md:grid-cols-4 gap-8">`;
             weapons.forEach(w => {
                 html += `<div class="glass-card bg-nexus-surface rounded-[2.5rem] p-10 border border-white/5 hover:border-epic/40 transition-all card-glow group flex flex-col items-center text-center"><div class="h-32 flex items-center justify-center mb-8"><img src="${w.displayIcon}" class="max-h-full max-w-full object-contain group-hover:scale-125 transition-transform duration-700 drop-shadow-[0_15px_25px_rgba(139,92,246,0.3)]"></div><h3 class="font-display text-sm uppercase tracking-widest">${w.displayName}</h3><p class="text-[7px] text-white/20 mt-3 uppercase tracking-[0.3em] font-bold">Standard Utility Base</p><button class="mt-8 text-[8px] font-black text-white/30 uppercase tracking-[0.4em] hover:text-epic transition-colors popunder-trigger">Skin Library →</button></div>`;
             });
@@ -251,7 +269,7 @@
         }
 
         initTimer();
-        switchTab('fortnite');
+        switchTab('giveaways'); // Default to Loot Drop
     </script>
 </body>
 </html>
