@@ -148,8 +148,12 @@
             try {
                 const config = VIEWS[tabId];
                 if (config.type === 'firebase') {
-                    db.ref('steam_market').once('value', (snapshot) => {
-                        renderSteam(snapshot.val() || []);
+                    db.ref('steam_market').on('value', (snapshot) => {
+                        // Crucial fix: Check if we are still on the steam tab before rendering
+                        if (currentTab === 'steam') {
+                            const data = snapshot.val();
+                            renderSteam(data ? Object.values(data) : []);
+                        }
                     });
                 } else {
                     let data;
