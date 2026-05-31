@@ -61,10 +61,17 @@
         <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <!-- AD SLOT A: TOP BANNER -->
             <div class="mb-12 flex flex-col items-center gap-2">
-                <div class="w-full max-w-[728px] min-h-[90px] bg-white/[0.03] border border-dashed border-nexus-border rounded-xl flex items-center justify-center relative group overflow-hidden">
-                    <!-- ADSTERRA_728x90_BANNER_CODE_HERE -->
-                    <span class="text-[8px] uppercase tracking-[0.5em] text-white/20">Nexus Ad System // TOP_ZONE_01</span>
-                    <div class="absolute inset-0 shimmer pointer-events-none opacity-50"></div>
+                <div class="w-full max-w-[728px] min-h-[90px] bg-white/[0.03] rounded-xl flex items-center justify-center relative group overflow-hidden">
+                    <script type="text/javascript">
+                        atOptions = {
+                            'key' : '8017a00a59f4a8ef137f11a0ad5b4039',
+                            'format' : 'iframe',
+                            'height' : 90,
+                            'width' : 728,
+                            'params' : {}
+                        };
+                    </script>
+                    <script type="text/javascript" src="https://www.highperformanceformat.com/8017a00a59f4a8ef137f11a0ad5b4039/invoke.js"></script>
                 </div>
                 <span class="text-[7px] uppercase tracking-widest text-white/10">Sponsored Content</span>
             </div>
@@ -164,7 +171,17 @@
         function renderGiveaways(data) {
             const mount = document.getElementById('app-view');
             let html = `<div class="grid grid-cols-1 md:grid-cols-3 gap-10">`;
-            data.forEach(d => {
+            data.forEach((d, index) => {
+                // Inject Native Ad after 6th item
+                if (index === 6) {
+                    html += `
+                        <div class="md:col-span-3 flex justify-center py-10">
+                            <div id="container-5b93a4944853444dddf3758e49112d9e" class="w-full glass-card rounded-[3rem] p-1 border-dashed border-white/10">
+                                <script async="async" data-cfasync="false" src="https://pl29600984.effectivecpmnetwork.com/5b93a4944853444dddf3758e49112d9e/invoke.js"></script>
+                            </div>
+                        </div>
+                    `;
+                }
                 html += `
                     <div class="glass-card bg-nexus-surface rounded-[3rem] overflow-hidden border border-free/10 hover:border-free transition-all duration-700 card-glow flex flex-col group">
                         <div class="relative aspect-video overflow-hidden">
@@ -191,5 +208,7 @@
 
         switchTab('giveaways');
     </script>
+    <!-- Adsterra Social Bar -->
+    <script src="https://pl29600983.effectivecpmnetwork.com/d9/67/3b/d9673b40062c8e70dbcb40185a13054f.js"></script>
 </body>
 </html>
