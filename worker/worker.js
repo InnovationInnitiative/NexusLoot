@@ -1,6 +1,5 @@
 import axios from 'axios';
 import admin from 'firebase-admin';
-import cron from 'node-cron';
 
 // --- CONFIGURATION ---
 const STEAM_APP_ID = 730; 
@@ -19,25 +18,30 @@ const ITEMS_TO_TRACK = [
 ];
 
 // --- FIREBASE INITIALIZATION ---
-let db;
 async function initFirebase() {
     try {
         console.log('Fetching Service Account from Environment...');
         const secret = process.env.FIREBASE_SERVICE_ACCOUNT;
-        if (!secret) throw new Error('CRITICAL: FIREBASE_SERVICE_ACCOUNT secret is missing or empty!');
         
-        // Clean possible whitespace/formatting issues
-        const cleanSecret = secret.trim();
-        const serviceAccount = JSON.parse(cleanSecret);
+        if (!secret || secret.trim().length === 0) {
+            throw new Error('CRITICAL: FIREBASE_SERVICE_ACCOUNT secret is missing or empty!');
+        }
+        
+        const serviceAccount = JSON.parse(secret.trim());
         
         admin.initializeApp({
             credential: admin.credential.cert(serviceAccount),
             databaseURL: "https://nexusloot-9b305-default-rtdb.firebaseio.com"
         });
+        
         console.log('Firebase handshake successful.');
         return admin.database();
     } catch (err) {
-        console.error('Firebase Error:', err.message);
+        console.error('Firebase Initialization Failed:', err.message);
+        // Special check: If JSON is invalid, log a clearer hint
+        if (err.message.includes('Unexpected token')) {
+            console.error('HINT: Your GitHub Secret is likely not valid JSON. Ensure you pasted the WHOLE file including { }');
+        }
         process.exit(1);
     }
 }
@@ -46,8 +50,14 @@ async function initFirebase() {
 async function fetchSteamPrice(itemName) {
     const url = `https://steamcommunity.com/market/priceoverview/?appid=${STEAM_APP_ID}&currency=${CURRENCY_ID}&market_hash_name=${encodeURIComponent(itemName)}`;
     try {
-        const response = await axios.get(url, { timeout: 10000 });
-        if (response.data.success) {
+        const response = await axios.get(url, { 
+            timeout: 15000,
+            headers: {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+            }
+        });
+
+        if (response.data && response.data.success) {
             console.log(`✓ ${itemName}: ${response.data.lowest_price}`);
             return {
                 name: itemName,
@@ -57,15 +67,22 @@ async function fetchSteamPrice(itemName) {
                 market_url: `https://steamcommunity.com/market/listings/${STEAM_APP_ID}/${encodeURIComponent(itemName)}`,
                 timestamp: Date.now()
             };
+        } else {
+            console.warn(`! Steam returned success:false for ${itemName}`);
         }
     } catch (err) {
-        console.error(`✗ ${itemName} failed: ${err.response?.status === 429 ? 'Steam Rate Limit' : err.message}`);
+        const status = err.response?.status;
+        if (status === 429) {
+            console.error(`!! RATE LIMITED by Steam for ${itemName}. Status 429.`);
+        } else {
+            console.error(`✗ ${itemName} failed: ${err.message}`);
+        }
     }
     return null;
 }
 
-async function updateMarket() {
-    if (!db) db = await initFirebase();
+async function runOnce() {
+    const db = await initFirebase();
     console.log('--- STARTING MARKET SCAN ---');
     const updates = {};
     
@@ -75,22 +92,20 @@ async function updateMarket() {
             const key = itemName.replace(/[.#$\[\]]/g, "_");
             updates[key] = data;
         }
-        await new Promise(r => setTimeout(r, 15000));
+        // Wait 10-15 seconds between items to prevent ban
+        await new Promise(r => setTimeout(r, 12000));
     }
 
     if (Object.keys(updates).length > 0) {
         await db.ref('steam_market').set(updates);
         console.log(`--- SYNC COMPLETE: ${Object.keys(updates).length} ITEMS UPDATED ---`);
     } else {
-        console.warn('--- NO DATA FETCHED. STEAM MAY BE BLOCKING REQUESTS ---');
+        console.warn('--- NO DATA FETCHED. STEAM IS BLOCKING GITHUB ACTIONS IPS ---');
     }
     
-    // In GitHub Actions environment, we exit manually to prevent lingering processes
-    if (process.env.GITHUB_ACTIONS) {
-        console.log('Exiting GitHub Action cycle.');
-        process.exit(0);
-    }
+    console.log('Workflow cycle finished. Exiting.');
+    process.exit(0);
 }
 
-// Execution
-updateMarket();
+// Kick off the run
+runOnce();
