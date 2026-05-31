@@ -3,8 +3,8 @@ import admin from 'firebase-admin';
 import cron from 'node-cron';
 
 // --- CONFIGURATION ---
-const STEAM_APP_ID = 730; // CS2
-const CURRENCY_ID = 1; // USD
+const STEAM_APP_ID = 730; 
+const CURRENCY_ID = 1; 
 const ITEMS_TO_TRACK = [
     "AK-47 | Slate (Field-Tested)",
     "AK-47 | Redline (Field-Tested)",
@@ -19,34 +19,36 @@ const ITEMS_TO_TRACK = [
 ];
 
 // --- FIREBASE INITIALIZATION ---
+let db;
 async function initFirebase() {
     try {
-        console.log('Loading Service Account from Environment...');
+        console.log('Fetching Service Account from Environment...');
         const secret = process.env.FIREBASE_SERVICE_ACCOUNT;
-        if (!secret) throw new Error('Missing FIREBASE_SERVICE_ACCOUNT secret!');
+        if (!secret) throw new Error('CRITICAL: FIREBASE_SERVICE_ACCOUNT secret is missing or empty!');
         
-        const serviceAccount = JSON.parse(secret);
+        // Clean possible whitespace/formatting issues
+        const cleanSecret = secret.trim();
+        const serviceAccount = JSON.parse(cleanSecret);
+        
         admin.initializeApp({
             credential: admin.credential.cert(serviceAccount),
             databaseURL: "https://nexusloot-9b305-default-rtdb.firebaseio.com"
         });
-        console.log('Firebase initialized successfully.');
+        console.log('Firebase handshake successful.');
         return admin.database();
     } catch (err) {
-        console.error('Firebase Init Error:', err.message);
+        console.error('Firebase Error:', err.message);
         process.exit(1);
     }
 }
-
-const db = await initFirebase();
 
 // --- SCRAPER ENGINE ---
 async function fetchSteamPrice(itemName) {
     const url = `https://steamcommunity.com/market/priceoverview/?appid=${STEAM_APP_ID}&currency=${CURRENCY_ID}&market_hash_name=${encodeURIComponent(itemName)}`;
     try {
-        const response = await axios.get(url);
+        const response = await axios.get(url, { timeout: 10000 });
         if (response.data.success) {
-            console.log(`Successfully fetched: ${itemName} (${response.data.lowest_price})`);
+            console.log(`✓ ${itemName}: ${response.data.lowest_price}`);
             return {
                 name: itemName,
                 lowest_price: response.data.lowest_price || "0",
@@ -56,42 +58,39 @@ async function fetchSteamPrice(itemName) {
                 timestamp: Date.now()
             };
         }
-        console.warn(`Steam returned success:false for ${itemName}`);
     } catch (err) {
-        if (err.response && err.response.status === 429) {
-            console.error(`RATE LIMITED by Steam for ${itemName}. Status 429.`);
-        } else {
-            console.error(`Error fetching ${itemName}:`, err.message);
-        }
+        console.error(`✗ ${itemName} failed: ${err.response?.status === 429 ? 'Steam Rate Limit' : err.message}`);
     }
     return null;
 }
 
 async function updateMarket() {
-    console.log('--- Starting Market Update Cycle ---');
+    if (!db) db = await initFirebase();
+    console.log('--- STARTING MARKET SCAN ---');
     const updates = {};
     
     for (const itemName of ITEMS_TO_TRACK) {
-        console.log(`Syncing: ${itemName}...`);
         const data = await fetchSteamPrice(itemName);
         if (data) {
             const key = itemName.replace(/[.#$\[\]]/g, "_");
             updates[key] = data;
         }
-        // Wait 15 seconds to be extremely safe
-        await new Promise(resolve => setTimeout(resolve, 15000));
+        await new Promise(r => setTimeout(r, 15000));
     }
 
     if (Object.keys(updates).length > 0) {
         await db.ref('steam_market').set(updates);
-        console.log('--- Firebase Sync Successful. Total items updated:', Object.keys(updates).length, '---');
+        console.log(`--- SYNC COMPLETE: ${Object.keys(updates).length} ITEMS UPDATED ---`);
     } else {
-        console.error('--- No items were updated. Skipping Firebase write. ---');
+        console.warn('--- NO DATA FETCHED. STEAM MAY BE BLOCKING REQUESTS ---');
+    }
+    
+    // In GitHub Actions environment, we exit manually to prevent lingering processes
+    if (process.env.GITHUB_ACTIONS) {
+        console.log('Exiting GitHub Action cycle.');
+        process.exit(0);
     }
 }
 
-// Scheduled run
-cron.schedule('*/30 * * * *', () => updateMarket());
-
-// Initial run
+// Execution
 updateMarket();
