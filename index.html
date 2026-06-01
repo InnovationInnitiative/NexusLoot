@@ -63,11 +63,12 @@
                         <i class="fa-solid fa-bolt-lightning text-epic text-2xl drop-shadow-[0_0_8px_#8B5CF6]"></i>
                         <span class="font-display text-xl tracking-tighter italic uppercase text-white">Nexus<span class="text-epic">Loot</span></span>
                     </div>
-                    <div class="flex gap-4 sm:gap-8">
-                        <button onclick="switchTab('giveaways')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest py-5 border-b-2 border-transparent hover:text-white" data-tab="giveaways">Loot Drop</button>
-                        <button onclick="switchTab('valorant')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent hover:text-white" data-tab="valorant">Valorant</button>
-                        <button onclick="switchTab('games')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent hover:text-white" data-tab="games">Daily Games</button>
-                        <button onclick="switchTab('sens')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent hover:text-white" data-tab="sens">🖱️ Sens Converter</button>
+                    <div class="flex gap-4 sm:gap-8 overflow-x-auto no-scrollbar pb-2 sm:pb-0">
+                        <button onclick="switchTab('giveaways')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white" data-tab="giveaways">Loot Drop</button>
+                        <button onclick="switchTab('valorant')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white" data-tab="valorant">Valorant</button>
+                        <button onclick="switchTab('games')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white" data-tab="games">Daily Games</button>
+                        <button onclick="switchTab('sens')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white" data-tab="sens">🖱️ Sens Converter</button>
+                        <button onclick="switchTab('tracker')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white" data-tab="tracker">🎒 Loot Tracker</button>
                     </div>
                 </div>
             </div>
@@ -111,6 +112,8 @@
     <script src="games-data.js"></script>
     <script src="games.js"></script>
     <script src="converter.js"></script>
+    <script src="tracker-data.js"></script>
+    <script src="tracker.js"></script>
     <script>
         const VIEWS = {
             giveaways: { api: 'https://www.gamerpower.com/api/giveaways', render: renderGiveaways },
@@ -124,6 +127,11 @@
                 const mount = document.getElementById('app-view');
                 mount.innerHTML = `<div id="converter-mount" class="animate-in fade-in slide-in-from-bottom-4 duration-700"></div>`;
                 if (window.converter) window.converter.init();
+            }},
+            tracker: { render: () => {
+                const mount = document.getElementById('app-view');
+                mount.innerHTML = `<div id="tracker-mount" class="animate-in fade-in slide-in-from-bottom-4 duration-700"></div>`;
+                if (window.lootTracker) window.lootTracker.init();
             }}
         };
 
