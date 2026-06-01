@@ -1,0 +1,14 @@
+{
+  "name": "nexusloot-twitter-bot",
+  "version": "1.0.0",
+  "description": "Automated Twitter Bot for NexusLoot Daily Deals",
+  "main": "bot.js",
+  "type": "module",
+  "scripts": {
+    "start": "node bot.js"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2",
+    "twitter-api-v2": "^1.15.2"
+  }
+}

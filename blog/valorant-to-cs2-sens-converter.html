@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Convert Valorant Sensitivity to CS2 | NexusLoot</title>
+    <meta name="description" content="Learn the exact math to convert your Valorant sensitivity to Counter-Strike 2. Use our free, instant calculator and crosshair generator to keep your muscle memory intact.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Lexend:wght@700;800&display=swap');
+        body { background-color: #020617; color: #f8fafc; font-family: 'Inter', sans-serif; }
+        .prose h2 { font-family: 'Lexend', sans-serif; color: #fff; font-size: 2rem; text-transform: uppercase; margin-top: 3rem; margin-bottom: 1rem; }
+        .prose p { color: rgba(255,255,255,0.7); line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.1rem; }
+        .prose ul { color: rgba(255,255,255,0.7); list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1.5rem; }
+        .prose li { margin-bottom: 0.5rem; }
+        .prose strong { color: #66fcf1; }
+    </style>
+</head>
+<body>
+    <nav class="sticky top-0 z-50 bg-nexus-dark/90 backdrop-blur-md border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <a href="../index.html" class="flex items-center gap-3 cursor-pointer">
+                    <i class="fa-solid fa-bolt-lightning text-epic text-2xl drop-shadow-[0_0_8px_#8B5CF6]"></i>
+                    <span class="font-display text-xl tracking-tighter italic uppercase text-white">Nexus<span class="text-epic">Loot</span> // Blog</span>
+                </a>
+                <a href="index.html" class="text-xs font-bold uppercase tracking-widest text-white/50 hover:text-white transition-colors">← Back to Articles</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-3xl mx-auto px-4 py-16">
+        <div class="mb-12">
+            <div class="flex items-center gap-4 mb-6">
+                <span class="text-[8px] font-bold text-neon-cyan uppercase tracking-widest border border-neon-cyan/20 px-3 py-1 rounded-full bg-neon-cyan/5">Tools & Guides</span>
+                <span class="text-[10px] text-white/30 font-mono">Published: June 1, 2026</span>
+            </div>
+            <h1 class="font-display text-5xl uppercase tracking-tighter italic text-white leading-tight">How to Convert Valorant Sensitivity to CS2 (Perfect 1:1 Aim)</h1>
+        </div>
+
+        <div class="prose">
+            <p>If you're moving from Riot's tactical shooter over to Valve's Source 2 engine, you know that keeping your muscle memory intact is the difference between ranking up and getting hard-stuck. Because both games use entirely different engines, <strong>a sensitivity of 0.5 in Valorant is not 0.5 in CS2.</strong></p>
+
+            <h2>The Magic Multiplier</h2>
+            <p>To convert your Valorant sensitivity directly to Counter-Strike 2 (or Apex Legends), you need to use the magic multiplier: <strong>3.181818</strong>.</p>
+            <ul>
+                <li><strong>The Formula:</strong> <code>Valorant Sens × 3.181818 = CS2 Sens</code></li>
+                <li><strong>Example:</strong> If you play on 0.4 in Valorant, your CS2 sensitivity should be <code>1.2727</code>.</li>
+            </ul>
+            <p>Remember that your mouse DPI stays exactly the same. Only the in-game sensitivity value changes.</p>
+
+            <h2>Use the Free NexusLoot Sens Converter</h2>
+            <p>Instead of doing the math manually every time you switch games, we built a 100% free, client-side calculator right here on NexusLoot. Not only does it do the math instantly, but it also includes a visual <strong>Crosshair Studio</strong>.</p>
+            
+            <div class="bg-[#1f2833] p-8 rounded-3xl border border-white/5 my-8 text-center">
+                <h3 class="font-display text-2xl uppercase tracking-tighter text-white mb-4">Try the Converter Now</h3>
+                <p class="text-white/50 mb-6 text-sm">Instantly convert to CS2, Overwatch 2, Rainbow Six Siege, and more. Generate crosshair codes with one click.</p>
+                <a href="../index.html" class="inline-block py-4 px-8 bg-neon-cyan text-arcade-bg font-black rounded-2xl uppercase tracking-[0.2em] shadow-[0_0_20px_rgba(102,252,241,0.3)] hover:scale-[1.05] transition-all">Launch Sens Converter</a>
+            </div>
+
+            <h2>How to copy Crosshairs from Valorant to CS2?</h2>
+            <p>Transferring a crosshair is slightly harder because the scaling differs between games. However, our <strong>Crosshair Studio</strong> (inside the Sens Converter tab) allows you to visually recreate your crosshair on an HTML canvas.</p>
+            <p>Once you are happy with how it looks, click the <strong>Copy CS2 Cmds</strong> button. It will generate a string of console commands (like <code>cl_crosshairsize</code>, <code>cl_crosshairthickness</code>) that you can paste directly into the CS2 developer console to instantly apply it.</p>
+        </div>
+    </main>
+
+    <footer class="border-t border-white/5 py-16 mt-32 bg-black/40 text-center">
+        <div class="max-w-7xl mx-auto px-4">
+            <h4 class="font-display text-lg mb-4 italic uppercase">NEXUS<span class="text-epic">LOOT</span></h4>
+            <p class="text-[9px] text-white/20 uppercase tracking-[0.2em]">© 2026 Innovation Initiative Hub</p>
+        </div>
+    </footer>
+</body>
+</html>

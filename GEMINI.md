@@ -30,17 +30,21 @@ Build a highly polished, single-page, multi-game tracker dashboard called "Nexus
 - [x] Inject live Adsterra Native Grid into item loops.
 - [x] Integrate Adsterra Social Bar globally.
 
-### Phase 4: High-Traffic Utility Pivot [IN PROGRESS]
+### Phase 4: High-Traffic Utility Pivot [DONE]
 - [x] **Steam Market Cleanup:** Scrapped the unstable Steam Tracker due to API/CORS limitations.
 - [x] **Stable Baseline:** Restored dual-tab architecture (Loot Drop + Valorant).
 - [x] **Daily Games Hub:** Implemented 3-tab "Wordle-style" guessing game (Pokémon, LoL, Wordle).
 - [x] **Sens Converter:** Implemented a client-side Mouse Sensitivity converter and dynamic Crosshair Generator with local profile saving.
+
+### Phase 5: Automated Marketing Engine [IN PROGRESS]
+- [x] **Auto-SEO Blog:** Created the `/blog` architecture and initial SEO article to capture long-tail search traffic.
+- [x] **Twitter/X Bot:** Built a Node.js bot running on GitHub Actions to auto-tweet daily free games from GamerPower.
 - [ ] **Match Center:** Integrate live eSports schedules and results.
 - [ ] **Drops Tracker:** Add a dedicated hub for active Twitch Drop campaigns.
 
 ## 📝 Latest Updates
-- **Update 23:** Scrapped Fortnite Shop integration plan to focus on eSports and Drops trackers.
 - **Update 24:** Implemented the "Sens Converter" tab. This provides an instant math engine for cross-game mouse sensitivity conversions (Valorant, CS2, OW2, etc.) and a live HTML canvas crosshair preview generator. Includes profile saving via `localStorage`.
+- **Update 25:** Transitioned to automated marketing. Built an Auto-SEO Blog structure to capture search traffic for tools like the Sens Converter. Deployed a daily Twitter bot using GitHub Actions to automatically tweet free loot drops to drive daily active users (DAUs).
 
 ## 🚀 Priority 1 (Next Session)
 1.  **eSports Schedule:** Research and implement a lightweight PandaScore or esport.is widget.
