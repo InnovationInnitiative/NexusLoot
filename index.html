@@ -48,6 +48,9 @@
         .market-row:hover { background: rgba(255,255,255,0.02); }
         .price-drop { animation: flash-red 2s infinite; }
         @keyframes flash-red { 0%, 100% { color: #f8fafc; } 50% { color: #EF4444; } }
+        /* Hide scrollbars but allow scrolling */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 <body>
