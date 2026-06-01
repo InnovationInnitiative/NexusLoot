@@ -4,6 +4,8 @@
 
 class MarketTracker {
     constructor() {
+        this.data = typeof MMO_DATA !== 'undefined' ? MMO_DATA : {};
+        this.marketCache = { osrs: null, albion: null };
         this.activeGame = 'osrs'; // 'osrs' or 'albion'
         this.isLoading = false;
         
