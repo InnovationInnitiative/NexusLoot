@@ -13,6 +13,7 @@
     <!-- Styles & Dependencies -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
     
     <script>
         tailwind.config = {
@@ -22,6 +23,11 @@
                         'nexus-dark': '#020617',
                         'nexus-surface': '#0f172a',
                         'nexus-border': '#1e293b',
+                        'arcade-bg': '#0b0c10',
+                        'neon-cyan': '#66fcf1',
+                        'neon-green': '#45a29e',
+                        'neon-amber': '#f5b041',
+                        'neon-red': '#e74c3c',
                         'free': '#10B981',
                         'epic': '#8B5CF6',
                         'legendary': '#F59E0B',
@@ -60,6 +66,7 @@
                     <div class="flex gap-4 sm:gap-8">
                         <button onclick="switchTab('giveaways')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest py-5 border-b-2 border-transparent hover:text-white" data-tab="giveaways">Loot Drop</button>
                         <button onclick="switchTab('valorant')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent hover:text-white" data-tab="valorant">Valorant</button>
+                        <button onclick="switchTab('games')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent hover:text-white" data-tab="games">Daily Games</button>
                     </div>
                 </div>
             </div>
@@ -97,10 +104,17 @@
     </div>
 
     <!-- SCRIPT ENGINE -->
+    <script src="games-data.js"></script>
+    <script src="games.js"></script>
     <script>
         const VIEWS = {
             giveaways: { api: 'https://www.gamerpower.com/api/giveaways', render: renderGiveaways },
-            valorant: { api: ['https://valorant-api.com/v1/weapons', 'https://valorant-api.com/v1/bundles'], render: renderValorant }
+            valorant: { api: ['https://valorant-api.com/v1/weapons', 'https://valorant-api.com/v1/bundles'], render: renderValorant },
+            games: { render: () => {
+                const mount = document.getElementById('app-view');
+                mount.innerHTML = `<div id="game-mount" class="animate-in fade-in slide-in-from-bottom-4 duration-700"></div>`;
+                if (window.gameEngine) window.gameEngine.renderGame();
+            }}
         };
 
         let currentTab = '';
