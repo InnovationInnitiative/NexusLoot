@@ -36,6 +36,9 @@ async function run() {
     console.log("✅ NexusLoot Bot: Tweet sent successfully!");
   } catch (error) {
     console.error("❌ NexusLoot Bot Error:", error);
+    if (error.data) {
+      console.error("🔍 Detailed API Response:", JSON.stringify(error.data, null, 2));
+    }
     process.exit(1);
   }
 }
