@@ -48,32 +48,50 @@ async function initFirebase() {
 
 // --- SCRAPER ENGINE ---
 async function fetchSteamPrice(itemName) {
-    const url = `https://steamcommunity.com/market/priceoverview/?appid=${STEAM_APP_ID}&currency=${CURRENCY_ID}&market_hash_name=${encodeURIComponent(itemName)}`;
+    // 1. Fetch Price & Metadata from Search API (for Image & Current Price)
+    const searchUrl = `https://steamcommunity.com/market/search/render/?query=${encodeURIComponent(itemName)}&start=0&count=1&appid=${STEAM_APP_ID}&norender=1&currency=${CURRENCY_ID}`;
+    const overviewUrl = `https://steamcommunity.com/market/priceoverview/?appid=${STEAM_APP_ID}&currency=${CURRENCY_ID}&market_hash_name=${encodeURIComponent(itemName)}`;
+    
     try {
-        const response = await axios.get(url, { 
+        console.log(`Scanning: ${itemName}`);
+        
+        // Parallel fetch for speed, but Steam might block this. Let's do them sequentially to be safe.
+        const searchRes = await axios.get(searchUrl, { 
             timeout: 15000,
-            headers: {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-            }
+            headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36' }
         });
 
-        if (response.data && response.data.success) {
-            console.log(`✓ ${itemName}: ${response.data.lowest_price}`);
+        await new Promise(r => setTimeout(r, 5000)); // Small gap between API calls
+
+        const overviewRes = await axios.get(overviewUrl, { 
+            timeout: 15000,
+            headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36' }
+        });
+
+        const searchData = searchRes.data.results?.[0];
+        const overviewData = overviewRes.data;
+
+        if (searchData) {
+            const iconUrl = searchData.asset_description?.icon_url 
+                ? `https://community.cloudflare.steamstatic.com/economy/image/${searchData.asset_description.icon_url}/256fx256f`
+                : `https://nexusloot.innovationinnitiative.in/favicon.ico`;
+
+            console.log(`✓ Got Metadata for ${itemName}`);
+
             return {
                 name: itemName,
-                lowest_price: response.data.lowest_price || "0",
-                median_price: response.data.median_price || response.data.lowest_price || "0",
-                icon_url: `https://nexusloot.innovationinnitiative.in/favicon.ico`, 
+                lowest_price: searchData.sell_price_text || overviewData.lowest_price || "0",
+                median_price: overviewData.median_price || searchData.sell_price_text || "0",
+                icon_url: iconUrl,
                 market_url: `https://steamcommunity.com/market/listings/${STEAM_APP_ID}/${encodeURIComponent(itemName)}`,
                 timestamp: Date.now()
             };
         } else {
-            console.warn(`! Steam returned success:false for ${itemName}`);
+            console.warn(`! Search API returned no results for ${itemName}`);
         }
     } catch (err) {
-        const status = err.response?.status;
-        if (status === 429) {
-            console.error(`!! RATE LIMITED by Steam for ${itemName}. Status 429.`);
+        if (err.response?.status === 429) {
+            console.error(`!! RATE LIMITED by Steam for ${itemName}.`);
         } else {
             console.error(`✗ ${itemName} failed: ${err.message}`);
         }
@@ -92,8 +110,8 @@ async function runOnce() {
             const key = itemName.replace(/[.#$\[\]]/g, "_");
             updates[key] = data;
         }
-        // Wait 10-15 seconds between items to prevent ban
-        await new Promise(r => setTimeout(r, 12000));
+        // Increased delay to 20 seconds to be extremely safe with GitHub Actions IPs
+        await new Promise(r => setTimeout(r, 20000));
     }
 
     if (Object.keys(updates).length > 0) {
