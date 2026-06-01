@@ -89,7 +89,7 @@ async function runOnce() {
             };
 
             processedCount++;
-            if (processedCount >= 350) break; // Limit to 350 high-quality items
+            if (processedCount >= 500) break; // Limit to 500 high-quality items
         }
 
         // 3. Complete Sync
