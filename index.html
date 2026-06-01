@@ -68,7 +68,7 @@
                         <button onclick="switchTab('valorant')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white" data-tab="valorant">Valorant</button>
                         <button onclick="switchTab('games')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white" data-tab="games">Daily Games</button>
                         <button onclick="switchTab('sens')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white" data-tab="sens">🖱️ Sens Converter</button>
-                        <button onclick="switchTab('tracker')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white" data-tab="tracker">🎒 Loot Tracker</button>
+                        <button onclick="switchTab('market')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white" data-tab="market">⚖️ MMO Market</button>
                     </div>
                 </div>
             </div>
@@ -128,10 +128,10 @@
                 mount.innerHTML = `<div id="converter-mount" class="animate-in fade-in slide-in-from-bottom-4 duration-700"></div>`;
                 if (window.converter) window.converter.init();
             }},
-            tracker: { render: () => {
+            market: { render: () => {
                 const mount = document.getElementById('app-view');
                 mount.innerHTML = `<div id="tracker-mount" class="animate-in fade-in slide-in-from-bottom-4 duration-700"></div>`;
-                if (window.lootTracker) window.lootTracker.init();
+                if (window.marketTracker) window.marketTracker.init();
             }}
         };
 

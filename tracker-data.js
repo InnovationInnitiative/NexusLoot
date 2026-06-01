@@ -1,38 +1,44 @@
-const RPG_DATA = {
-    dailies: [
-        { id: 'd1', label: 'Complete Daily Commissions/Quests' },
-        { id: 'd2', label: 'Spend Daily Energy/Resin' },
-        { id: 'd3', label: 'Check Daily Vendor Resets' },
-        { id: 'd4', label: 'Clear Daily Elite Bosses' },
-        { id: 'd5', label: 'Claim Login Rewards' }
-    ],
-    weeklies: [
-        { id: 'w1', label: 'Clear Weekly Raids/Trounce Domains (3/3)' },
-        { id: 'w2', label: 'Claim Battle Pass Weekly XP' },
-        { id: 'w3', label: 'Defeat World Bosses' },
-        { id: 'w4', label: 'Complete Weekly Bounties & Requests' }
-    ],
-    materials: {
-        'green_crystal': { name: 'Sliver (Green)', icon: 'fa-gem', color: '#10B981' },
-        'blue_crystal': { name: 'Fragment (Blue)', icon: 'fa-gem', color: '#3B82F6' },
-        'purple_crystal': { name: 'Chunk (Purple)', icon: 'fa-gem', color: '#8B5CF6' },
-        'gold_crystal': { name: 'Gemstone (Gold)', icon: 'fa-gem', color: '#F59E0B' },
-        'boss_token': { name: 'Boss Core', icon: 'fa-skull', color: '#EF4444' },
-        'credits': { name: 'Gold/Credits', icon: 'fa-coins', color: '#FCD34D' }
+/**
+ * MMO Market Data Definitions
+ */
+
+const MMO_DATA = {
+    osrs: {
+        name: "Old School RuneScape",
+        api: "https://prices.runescape.wiki/api/v1/osrs/latest?id=",
+        currency: "GP",
+        icon: "fa-coins",
+        color: "#F59E0B",
+        items: [
+            { id: 13190, name: "Old School Bond", img: "https://oldschool.runescape.wiki/images/Old_school_bond.png" },
+            { id: 20997, name: "Twisted Bow", img: "https://oldschool.runescape.wiki/images/Twisted_bow.png" },
+            { id: 4151, name: "Abyssal Whip", img: "https://oldschool.runescape.wiki/images/Abyssal_whip.png" },
+            { id: 25975, name: "Osmumten's Fang", img: "https://oldschool.runescape.wiki/images/Osmumten%27s_fang.png" },
+            { id: 12926, name: "Toxic Blowpipe", img: "https://oldschool.runescape.wiki/images/Toxic_blowpipe.png" },
+            { id: 1042, name: "Blue Partyhat", img: "https://oldschool.runescape.wiki/images/Blue_partyhat.png" },
+            { id: 21034, name: "Dexterous Scroll", img: "https://oldschool.runescape.wiki/images/Dexterous_prayer_scroll.png" },
+            { id: 561, name: "Nature Rune", img: "https://oldschool.runescape.wiki/images/Nature_rune.png" }
+        ]
     },
-    levelMap: [
-        // Level thresholds and what it costs to ascend *to* the next tier
-        { level: 1, to: 20, req: { 'green_crystal': 1, 'credits': 4000 } },
-        { level: 20, to: 40, req: { 'green_crystal': 3, 'boss_token': 2, 'credits': 20000 } },
-        { level: 40, to: 50, req: { 'blue_crystal': 3, 'boss_token': 4, 'credits': 40000 } },
-        { level: 50, to: 60, req: { 'blue_crystal': 6, 'boss_token': 8, 'credits': 60000 } },
-        { level: 60, to: 70, req: { 'purple_crystal': 3, 'boss_token': 12, 'credits': 80000 } },
-        { level: 70, to: 80, req: { 'purple_crystal': 6, 'boss_token': 20, 'credits': 100000 } },
-        { level: 80, to: 90, req: { 'gold_crystal': 6, 'boss_token': 20, 'credits': 120000 } }
-    ],
-    levels: [1, 20, 40, 50, 60, 70, 80, 90]
+    albion: {
+        name: "Albion Online (West)",
+        api: "https://west.albion-online-data.com/api/v2/stats/Prices/",
+        currency: "Silver",
+        icon: "fa-ring",
+        color: "#3B82F6",
+        items: [
+            { id: "T8_MOUNT_HORSE", name: "T8 Armored Horse", img: "https://render.albiononline.com/v1/item/T8_MOUNT_HORSE.png" },
+            { id: "T8_BAG", name: "Tier 8 Bag", img: "https://render.albiononline.com/v1/item/T8_BAG.png" },
+            { id: "T8_MEAL_STEW", name: "T8 Beef Stew", img: "https://render.albiononline.com/v1/item/T8_MEAL_STEW.png" },
+            { id: "T8_POTION_HEAL", name: "T8 Healing Potion", img: "https://render.albiononline.com/v1/item/T8_POTION_HEAL.png" },
+            { id: "T8_ORE", name: "T8 Runite Ore", img: "https://render.albiononline.com/v1/item/T8_ORE.png" },
+            { id: "T8_WOOD", name: "T8 Chestnut Logs", img: "https://render.albiononline.com/v1/item/T8_WOOD.png" },
+            { id: "T8_HEAD_PLATE_SET1", name: "T8 Soldier Helmet", img: "https://render.albiononline.com/v1/item/T8_HEAD_PLATE_SET1.png" },
+            { id: "T8_MAIN_SWORD", name: "T8 Broadsword", img: "https://render.albiononline.com/v1/item/T8_MAIN_SWORD.png" }
+        ]
+    }
 };
 
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = RPG_DATA;
+    module.exports = MMO_DATA;
 }
