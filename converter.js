@@ -21,6 +21,9 @@ class SensConverter {
             length: 4,
             thickness: 2,
             gap: 2,
+            opacity: 1.0,
+            outline: true,
+            outlineThickness: 1,
             dot: false,
             color: '#00ff00'
         };
@@ -89,7 +92,7 @@ class SensConverter {
                 <!-- Crosshair Section -->
                 <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-12 border-t border-white/5 pt-12">
                     <div class="space-y-6">
-                        <h2 class="text-neon-amber uppercase font-bold text-xs mb-6 tracking-widest">Crosshair Generator</h2>
+                        <h2 class="text-neon-amber uppercase font-bold text-xs mb-6 tracking-widest">Crosshair Studio</h2>
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-[8px] uppercase text-white/40 mb-1">Length: <span id="val-length">${this.crosshair.length}</span></label>
@@ -104,15 +107,35 @@ class SensConverter {
                                 <input type="range" id="ch-gap" min="-10" max="20" value="${this.crosshair.gap}" class="w-full accent-neon-amber">
                             </div>
                             <div>
+                                <label class="block text-[8px] uppercase text-white/40 mb-1">Opacity: <span id="val-opacity">${this.crosshair.opacity}</span></label>
+                                <input type="range" id="ch-opacity" min="0.1" max="1.0" step="0.1" value="${this.crosshair.opacity}" class="w-full accent-neon-amber">
+                            </div>
+                            <div>
+                                <label class="block text-[8px] uppercase text-white/40 mb-1">Outline Thickness: <span id="val-outlinethick">${this.crosshair.outlineThickness}</span></label>
+                                <input type="range" id="ch-outlinethick" min="1" max="5" value="${this.crosshair.outlineThickness}" class="w-full accent-neon-amber">
+                            </div>
+                            <div>
                                 <label class="block text-[8px] uppercase text-white/40 mb-1">Color</label>
                                 <input type="color" id="ch-color" value="${this.crosshair.color}" class="w-full h-8 bg-transparent border-none rounded cursor-pointer">
                             </div>
                         </div>
-                        <div class="flex items-center gap-2 pt-2">
-                            <input type="checkbox" id="ch-dot" ${this.crosshair.dot ? 'checked' : ''} class="w-4 h-4 rounded accent-neon-amber">
-                            <label for="ch-dot" class="text-[10px] uppercase text-white/60">Center Dot</label>
+                        <div class="flex items-center gap-6 pt-2">
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" id="ch-dot" ${this.crosshair.dot ? 'checked' : ''} class="w-4 h-4 rounded accent-neon-amber">
+                                <label for="ch-dot" class="text-[10px] uppercase text-white/60">Center Dot</label>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" id="ch-outline" ${this.crosshair.outline ? 'checked' : ''} class="w-4 h-4 rounded accent-neon-amber">
+                                <label for="ch-outline" class="text-[10px] uppercase text-white/60">Outlines</label>
+                            </div>
                         </div>
-                        <button onclick="window.converter.saveProfile()" class="w-full py-4 bg-neon-cyan text-arcade-bg font-black rounded-2xl uppercase tracking-[0.2em] shadow-[0_0_20px_rgba(102,252,241,0.3)] hover:scale-[1.02] transition-all">Save Profile</button>
+                        <div class="pt-4 space-y-2">
+                            <button onclick="window.converter.saveProfile()" class="w-full py-4 bg-neon-cyan text-arcade-bg font-black rounded-2xl uppercase tracking-[0.2em] shadow-[0_0_20px_rgba(102,252,241,0.3)] hover:scale-[1.02] transition-all">Save Profile</button>
+                            <div class="flex gap-2">
+                                <button onclick="window.converter.exportCS2(event)" class="flex-1 py-3 bg-[#ff8c00]/10 hover:bg-[#ff8c00]/20 text-[#ff8c00] border border-[#ff8c00]/30 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all">Copy CS2 Cmds</button>
+                                <button onclick="window.converter.exportValorant(event)" class="flex-1 py-3 bg-[#ff4655]/10 hover:bg-[#ff4655]/20 text-[#ff4655] border border-[#ff4655]/30 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all">Copy Val Specs</button>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="flex flex-col items-center justify-center">
@@ -137,7 +160,7 @@ class SensConverter {
     }
 
     setupEventListeners() {
-        const ids = ['source-game', 'target-game', 'source-sens', 'mouse-dpi', 'ch-length', 'ch-thickness', 'ch-gap', 'ch-color', 'ch-dot'];
+        const ids = ['source-game', 'target-game', 'source-sens', 'mouse-dpi', 'ch-length', 'ch-thickness', 'ch-gap', 'ch-opacity', 'ch-outlinethick', 'ch-color', 'ch-dot', 'ch-outline'];
         ids.forEach(id => {
             const el = document.getElementById(id);
             if (!el) return;
@@ -155,6 +178,9 @@ class SensConverter {
             length: parseInt(document.getElementById('ch-length').value),
             thickness: parseInt(document.getElementById('ch-thickness').value),
             gap: parseInt(document.getElementById('ch-gap').value),
+            opacity: parseFloat(document.getElementById('ch-opacity').value),
+            outline: document.getElementById('ch-outline').checked,
+            outlineThickness: parseInt(document.getElementById('ch-outlinethick').value),
             dot: document.getElementById('ch-dot').checked,
             color: document.getElementById('ch-color').value
         };
@@ -163,6 +189,8 @@ class SensConverter {
         document.getElementById('val-length').textContent = this.crosshair.length;
         document.getElementById('val-thickness').textContent = this.crosshair.thickness;
         document.getElementById('val-gap').textContent = this.crosshair.gap;
+        document.getElementById('val-opacity').textContent = this.crosshair.opacity;
+        document.getElementById('val-outlinethick').textContent = this.crosshair.outlineThickness;
 
         this.updateConversion();
         this.drawCrosshair();
@@ -177,48 +205,68 @@ class SensConverter {
         if (display) display.textContent = converted.toFixed(4);
     }
 
+    hexToRgba(hex, alpha) {
+        const r = parseInt(hex.slice(1, 3), 16);
+        const g = parseInt(hex.slice(3, 5), 16);
+        const b = parseInt(hex.slice(5, 7), 16);
+        return `rgba(${r},${g},${b},${alpha})`;
+    }
+
     drawCrosshair() {
         const canvas = document.getElementById('crosshair-preview');
         if (!canvas) return;
         const ctx = canvas.getContext('2d');
-        const { length, thickness, gap, dot, color } = this.crosshair;
+        const { length, thickness, gap, opacity, outline, outlineThickness, dot, color } = this.crosshair;
         
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.strokeStyle = color;
-        ctx.lineWidth = thickness;
-        ctx.lineCap = 'butt';
-
+        
         const midX = canvas.width / 2;
         const midY = canvas.height / 2;
 
-        // Top
-        ctx.beginPath();
-        ctx.moveTo(midX, midY - gap - length);
-        ctx.lineTo(midX, midY - gap);
-        ctx.stroke();
+        const drawLines = (ctxToDraw) => {
+            // Top
+            ctxToDraw.beginPath(); ctxToDraw.moveTo(midX, midY - gap - length); ctxToDraw.lineTo(midX, midY - gap); ctxToDraw.stroke();
+            // Bottom
+            ctxToDraw.beginPath(); ctxToDraw.moveTo(midX, midY + gap); ctxToDraw.lineTo(midX, midY + gap + length); ctxToDraw.stroke();
+            // Left
+            ctxToDraw.beginPath(); ctxToDraw.moveTo(midX - gap - length, midY); ctxToDraw.lineTo(midX - gap, midY); ctxToDraw.stroke();
+            // Right
+            ctxToDraw.beginPath(); ctxToDraw.moveTo(midX + gap, midY); ctxToDraw.lineTo(midX + gap + length, midY); ctxToDraw.stroke();
+        };
 
-        // Bottom
-        ctx.beginPath();
-        ctx.moveTo(midX, midY + gap);
-        ctx.lineTo(midX, midY + gap + length);
-        ctx.stroke();
+        // Draw Outlines first if enabled
+        if (outline) {
+            ctx.strokeStyle = `rgba(0, 0, 0, ${opacity})`;
+            ctx.lineWidth = thickness + outlineThickness * 2;
+            ctx.lineCap = 'butt';
+            drawLines(ctx);
+            if (dot) {
+                ctx.fillStyle = `rgba(0, 0, 0, ${opacity})`;
+                const fullThick = thickness + outlineThickness * 2;
+                ctx.fillRect(midX - fullThick/2, midY - fullThick/2, fullThick, fullThick);
+            }
+        }
 
-        // Left
-        ctx.beginPath();
-        ctx.moveTo(midX - gap - length, midY);
-        ctx.lineTo(midX - gap, midY);
-        ctx.stroke();
-
-        // Right
-        ctx.beginPath();
-        ctx.moveTo(midX + gap, midY);
-        ctx.lineTo(midX + gap + length, midY);
-        ctx.stroke();
-
+        // Draw Inner Lines
+        ctx.strokeStyle = this.hexToRgba(color, opacity);
+        ctx.lineWidth = thickness;
+        ctx.lineCap = 'butt';
+        drawLines(ctx);
         if (dot) {
-            ctx.fillStyle = color;
+            ctx.fillStyle = this.hexToRgba(color, opacity);
             ctx.fillRect(midX - thickness/2, midY - thickness/2, thickness, thickness);
         }
+    }
+
+    flashButton(btn, text) {
+        const originalText = btn.textContent;
+        const originalClasses = btn.className;
+        btn.textContent = text;
+        btn.className = `flex-1 py-3 bg-neon-cyan/40 text-white rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all border border-neon-cyan/50`;
+        setTimeout(() => {
+            btn.textContent = originalText;
+            btn.className = originalClasses;
+        }, 1500);
     }
 
     copySens() {
@@ -232,6 +280,36 @@ class SensConverter {
             btn.textContent = originalText;
             btn.classList.remove('text-white', 'bg-neon-green/40');
         }, 1000);
+    }
+
+    exportCS2(e) {
+        const { length, thickness, gap, opacity, outline, outlineThickness, dot, color } = this.crosshair;
+        const r = parseInt(color.slice(1, 3), 16);
+        const g = parseInt(color.slice(3, 5), 16);
+        const b = parseInt(color.slice(5, 7), 16);
+        const alpha = Math.round(opacity * 255);
+        
+        const cmds = `cl_crosshairsize ${length}; cl_crosshairthickness ${thickness}; cl_crosshairgap ${gap}; cl_crosshaircolor 5; cl_crosshaircolor_r ${r}; cl_crosshaircolor_g ${g}; cl_crosshaircolor_b ${b}; cl_crosshairalpha ${alpha}; cl_crosshairusealpha 1; cl_crosshair_drawoutline ${outline ? 1 : 0}; cl_crosshair_outlinethickness ${outlineThickness}; cl_crosshairdot ${dot ? 1 : 0};`;
+        
+        navigator.clipboard.writeText(cmds);
+        this.flashButton(e.target, 'COPIED CS2 CMDS');
+    }
+
+    exportValorant(e) {
+        const { length, thickness, gap, opacity, outline, outlineThickness, dot, color } = this.crosshair;
+        
+        const specs = `Valorant Crosshair Blueprint:
+- Color: ${color}
+- Outlines: ${outline ? 'On' : 'Off'} (Opacity: ${opacity}, Thickness: ${outlineThickness})
+- Center Dot: ${dot ? 'On' : 'Off'} (Opacity: ${opacity}, Thickness: ${thickness})
+- Inner Lines: On
+- Inner Line Opacity: ${opacity}
+- Inner Line Length: ${length}
+- Inner Line Thickness: ${thickness}
+- Inner Line Offset (Gap): ${gap}`;
+
+        navigator.clipboard.writeText(specs);
+        this.flashButton(e.target, 'COPIED VAL SPECS');
     }
 
     saveProfile() {
@@ -258,11 +336,15 @@ class SensConverter {
         document.getElementById('target-game').value = p.targetGame;
         document.getElementById('source-sens').value = p.sourceSens;
         document.getElementById('mouse-dpi').value = p.dpi;
-        document.getElementById('ch-length').value = p.crosshair.length;
-        document.getElementById('ch-thickness').value = p.crosshair.thickness;
-        document.getElementById('ch-gap').value = p.crosshair.gap;
-        document.getElementById('ch-color').value = p.crosshair.color;
-        document.getElementById('ch-dot').checked = p.crosshair.dot;
+        
+        document.getElementById('ch-length').value = p.crosshair.length || 4;
+        document.getElementById('ch-thickness').value = p.crosshair.thickness || 2;
+        document.getElementById('ch-gap').value = p.crosshair.gap || 2;
+        document.getElementById('ch-opacity').value = p.crosshair.opacity || 1.0;
+        document.getElementById('ch-outlinethick').value = p.crosshair.outlineThickness || 1;
+        document.getElementById('ch-color').value = p.crosshair.color || '#00ff00';
+        document.getElementById('ch-dot').checked = !!p.crosshair.dot;
+        document.getElementById('ch-outline').checked = !!p.crosshair.outline;
         
         this.handleUpdate();
     }
