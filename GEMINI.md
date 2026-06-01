@@ -41,15 +41,16 @@ Build a highly polished, single-page, multi-game tracker dashboard called "Nexus
 - **Update 15:** Launched "Open Market" Expansion. The item index grew from 10 to ~50 assets including Rifles, Snipers, and Cases.
 - **Update 16:** Implemented Micro-Batching. The worker now scans a subset of the market every 30 minutes, ensuring the dashboard stays reactive without being rate-limited.
 - **Update 17:** Revamped Steam UI. Added a live search bar, category navigation chips, and clickable table headers for multi-axis sorting (Name, Price, Profit).
+- **Update 18:** Launched "Pro Trading Terminal". Ingested 10,000+ item bulk data feed (Steam + Buff163), added interactive Price History charts (Lightweight Charts), and implemented arbitrage profit analysis.
 
 ## 🚀 Future Enhancements
-1.  **Price History Charts:** Integrate Lightweight Charts to show 7-day price trends for each skin.
+1.  **Market Depth Visualization:** Add buy/sell order book histograms for high-tier skins.
 2.  **User Watchlists:** Persistent local-storage based watchlists for tracking specific "dream" skins.
-3.  **Expanded Index:** Add support for high-tier Knives and Gloves.
+3.  **Cross-Market Sniping:** Integration with direct API links for Skinport and DMarket.
 
 ## 🏁 Final Handover Status
 - **Domain:** `https://nexusloot.innovationinnitiative.in/` (LIVE)
 - **Loot Drop:** Working.
 - **Valorant Arsenal:** Working (with Skin Explorer).
-- **Steam Market:** FULLY OPERATIONAL (Images, Prices, Currencies, Filters).
+- **Steam Market:** PRO TERMINAL OPERATIONAL (Multi-Market Data, Charts, Arbitrage).
 - **Ads:** Active.
