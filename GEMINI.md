@@ -35,7 +35,7 @@ Build a highly polished, single-page, multi-game tracker dashboard called "Nexus
 - [x] **Stable Baseline:** Restored dual-tab architecture (Loot Drop + Valorant).
 - [x] **Daily Games Hub:** Implemented 3-tab "Wordle-style" guessing game (Pokémon, LoL, Wordle).
 - [x] **Sens Converter:** Implemented a client-side Mouse Sensitivity converter and dynamic Crosshair Generator with local profile saving.
-- [x] **MMO Market:** Implemented a live API-driven market tracker for Old School RuneScape (OSRS) and Albion Online.
+- [x] **MMO Market:** Implemented a live API-driven market tracker, explicitly split into dedicated OSRS and Albion Online tabs.
 
 ### Phase 5: Automated Marketing Engine [IN PROGRESS]
 - [x] **Auto-SEO Blog:** Created the `/blog` architecture and 42 SEO articles to capture long-tail search traffic.
@@ -43,8 +43,8 @@ Build a highly polished, single-page, multi-game tracker dashboard called "Nexus
 - [ ] **Drops Tracker:** Add a dedicated hub for active Twitch Drop campaigns.
 
 ## 📝 Latest Updates
-- **Update 25:** Transitioned to automated marketing. Built an Auto-SEO Blog structure with 42 programmatic pages to capture search traffic for tools like the Sens Converter. Deployed a daily Twitter bot using GitHub Actions to automatically tweet free loot drops.
 - **Update 26:** Refactored the planned "Loot Tracker" into a live **MMO Market Tracker**. It fetches real-time GE prices for OSRS (using OSRS Wiki API) and Black Market/City prices for Albion Online (using Albion Data Project), displaying instant Buy/Sell margins.
+- **Update 27:** Split the generic MMO Market tab into two dedicated, game-specific tabs: **⚔️ OSRS Market** and **🛡️ Albion Market**. This improves credibility for hardcore players and allows for targeted external promotion.
 
 ## 🚀 Priority 1 (Next Session)
 1.  **eSports Schedule:** Research and implement a lightweight PandaScore or esport.is widget.

@@ -68,7 +68,8 @@
                         <button onclick="switchTab('valorant')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white" data-tab="valorant">Valorant</button>
                         <button onclick="switchTab('games')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white" data-tab="games">Daily Games</button>
                         <button onclick="switchTab('sens')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white" data-tab="sens">🖱️ Sens Converter</button>
-                        <button onclick="switchTab('market')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white" data-tab="market">⚖️ MMO Market</button>
+                        <button onclick="switchTab('osrs')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white" data-tab="osrs">⚔️ OSRS Market</button>
+                        <button onclick="switchTab('albion')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white" data-tab="albion">🛡️ Albion Market</button>
                     </div>
                 </div>
             </div>
@@ -128,10 +129,15 @@
                 mount.innerHTML = `<div id="converter-mount" class="animate-in fade-in slide-in-from-bottom-4 duration-700"></div>`;
                 if (window.converter) window.converter.init();
             }},
-            market: { render: () => {
+            osrs: { render: () => {
                 const mount = document.getElementById('app-view');
                 mount.innerHTML = `<div id="tracker-mount" class="animate-in fade-in slide-in-from-bottom-4 duration-700"></div>`;
-                if (window.marketTracker) window.marketTracker.init();
+                if (window.marketTracker) window.marketTracker.init('osrs');
+            }},
+            albion: { render: () => {
+                const mount = document.getElementById('app-view');
+                mount.innerHTML = `<div id="tracker-mount" class="animate-in fade-in slide-in-from-bottom-4 duration-700"></div>`;
+                if (window.marketTracker) window.marketTracker.init('albion');
             }}
         };
 

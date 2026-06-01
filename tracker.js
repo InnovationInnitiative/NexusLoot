@@ -28,24 +28,23 @@ class MarketTracker {
         this.sortBy = 'margin'; // 'margin', 'roi', 'volume' (if avail)
     }
 
-    init() {
-        this.renderShell();
-        this.fetchData();
-    }
-
-    switchGame(gameId) {
-        if (this.activeGame === gameId || this.isLoading) return;
+    init(gameId) {
         this.activeGame = gameId;
         this.searchTerm = '';
         this.renderShell();
         
-        if (gameId === 'osrs' && this.osrsMerged.length > 0) {
-            this.renderTable();
-        } else if (gameId === 'albion' && this.albionMerged.length > 0) {
-            this.renderTable();
-        } else {
+        if (!this.marketCache[gameId]) {
             this.fetchData();
+        } else {
+            this.renderTable();
         }
+    }
+
+    forceRefresh() {
+        if (this.isLoading) return;
+        // Don't clear mapping, just the prices cache
+        this.marketCache[this.activeGame] = null;
+        this.fetchData();
     }
 
     async fetchData() {
@@ -168,19 +167,18 @@ class MarketTracker {
         const mount = document.getElementById('tracker-mount');
         if (!mount) return;
 
+        const gameName = this.data[this.activeGame].name;
+
         mount.innerHTML = `
             <div class="game-container animate-in fade-in slide-in-from-bottom-4 duration-700">
                 <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
                     <div>
-                        <h1 class="neon-title text-4xl mb-1">Trade Helper</h1>
-                        <p class="text-white/30 text-[10px] uppercase tracking-[0.3em]">Full Market API Scan</p>
+                        <h1 class="neon-title text-4xl mb-1">${gameName} Market</h1>
+                        <p class="text-white/30 text-[10px] uppercase tracking-[0.3em]">Live Trade Helper & Margin Calculator</p>
                     </div>
                     <div class="flex gap-2">
-                        <button onclick="window.marketTracker.switchGame('osrs')" class="px-6 py-2 rounded-xl text-xs font-bold uppercase tracking-widest transition-all ${this.activeGame === 'osrs' ? 'bg-[#F59E0B]/20 text-[#F59E0B] border border-[#F59E0B]/50' : 'bg-white/5 text-white/40 hover:bg-white/10'}">
-                            OSRS
-                        </button>
-                        <button onclick="window.marketTracker.switchGame('albion')" class="px-6 py-2 rounded-xl text-xs font-bold uppercase tracking-widest transition-all ${this.activeGame === 'albion' ? 'bg-[#3B82F6]/20 text-[#3B82F6] border border-[#3B82F6]/50' : 'bg-white/5 text-white/40 hover:bg-white/10'}">
-                            Albion
+                        <button onclick="window.marketTracker.forceRefresh()" class="px-6 py-2 rounded-xl text-xs font-bold uppercase tracking-widest bg-white/5 text-white/40 hover:bg-white/10 transition-all">
+                            <i class="fa-solid fa-arrows-rotate mr-2"></i> Refresh Data
                         </button>
                     </div>
                 </div>
