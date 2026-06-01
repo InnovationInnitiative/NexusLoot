@@ -180,3 +180,32 @@
     from { transform: scale(0.8); opacity: 0; }
     to { transform: scale(1); opacity: 1; }
 }
+
+/* Range Input Styling */
+input[type=range] {
+    -webkit-appearance: none;
+    background: transparent;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: var(--neon-cyan);
+    margin-top: -6px;
+    cursor: pointer;
+    box-shadow: 0 0 10px var(--neon-cyan);
+}
+
+input[type=range].accent-neon-amber::-webkit-slider-thumb {
+    background: var(--neon-amber);
+    box-shadow: 0 0 10px var(--neon-amber);
+}

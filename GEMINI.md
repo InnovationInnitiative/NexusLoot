@@ -34,13 +34,13 @@ Build a highly polished, single-page, multi-game tracker dashboard called "Nexus
 - [x] **Steam Market Cleanup:** Scrapped the unstable Steam Tracker due to API/CORS limitations.
 - [x] **Stable Baseline:** Restored dual-tab architecture (Loot Drop + Valorant).
 - [x] **Daily Games Hub:** Implemented 3-tab "Wordle-style" guessing game (Pokémon, LoL, Wordle).
+- [x] **Sens Converter:** Implemented a client-side Mouse Sensitivity converter and dynamic Crosshair Generator with local profile saving.
 - [ ] **Match Center:** Integrate live eSports schedules and results.
 - [ ] **Drops Tracker:** Add a dedicated hub for active Twitch Drop campaigns.
 
 ## 📝 Latest Updates
-- **Update 21:** Implemented "Daily Games Hub". Added three standalone guessing games with a deterministic daily target, 3D flip animations, and a neon arcade aesthetic.
-- **Update 22:** Integrated the Games Hub into the main navigation. Restored stability while adding high-engagement client-side features.
 - **Update 23:** Scrapped Fortnite Shop integration plan to focus on eSports and Drops trackers.
+- **Update 24:** Implemented the "Sens Converter" tab. This provides an instant math engine for cross-game mouse sensitivity conversions (Valorant, CS2, OW2, etc.) and a live HTML canvas crosshair preview generator. Includes profile saving via `localStorage`.
 
 ## 🚀 Priority 1 (Next Session)
 1.  **eSports Schedule:** Research and implement a lightweight PandaScore or esport.is widget.

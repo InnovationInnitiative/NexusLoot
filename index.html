@@ -67,6 +67,7 @@
                         <button onclick="switchTab('giveaways')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest py-5 border-b-2 border-transparent hover:text-white" data-tab="giveaways">Loot Drop</button>
                         <button onclick="switchTab('valorant')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent hover:text-white" data-tab="valorant">Valorant</button>
                         <button onclick="switchTab('games')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent hover:text-white" data-tab="games">Daily Games</button>
+                        <button onclick="switchTab('sens')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent hover:text-white" data-tab="sens">🖱️ Sens Converter</button>
                     </div>
                 </div>
             </div>
@@ -106,6 +107,7 @@
     <!-- SCRIPT ENGINE -->
     <script src="games-data.js"></script>
     <script src="games.js"></script>
+    <script src="converter.js"></script>
     <script>
         const VIEWS = {
             giveaways: { api: 'https://www.gamerpower.com/api/giveaways', render: renderGiveaways },
@@ -114,6 +116,11 @@
                 const mount = document.getElementById('app-view');
                 mount.innerHTML = `<div id="game-mount" class="animate-in fade-in slide-in-from-bottom-4 duration-700"></div>`;
                 if (window.gameEngine) window.gameEngine.renderGame();
+            }},
+            sens: { render: () => {
+                const mount = document.getElementById('app-view');
+                mount.innerHTML = `<div id="converter-mount" class="animate-in fade-in slide-in-from-bottom-4 duration-700"></div>`;
+                if (window.converter) window.converter.init();
             }}
         };
 
