@@ -122,16 +122,17 @@
         const VIEWS = {
             giveaways: { api: 'https://www.gamerpower.com/api/giveaways', render: renderGiveaways },
             valorant: { api: ['https://valorant-api.com/v1/weapons', 'https://valorant-api.com/v1/bundles'], render: renderValorant },
-            steam: { type: 'firebase', render: renderSteam }
+            steam: { type: 'instant', render: renderSteam }
         };
 
         let currentTab = '';
         let valorantCache = null;
-        let steamData = []; // Store raw firebase data for re-rendering
+        let steamData = []; 
+        let assetMap = null; // High-quality image cache
         
         // --- CURRENCY, FILTER & SORT STATE ---
         let selectedCurrency = 'USD';
-        let profitThreshold = 30;
+        let profitThreshold = 10; // Lower default for pro arbitrage
         let steamSearchQuery = '';
         let selectedCategory = 'All';
         let sortConfig = { key: 'profit', direction: 'desc' };
@@ -143,7 +144,6 @@
                 const data = await res.json();
                 if (data && data.rates) {
                     exchangeRates = data.rates;
-                    console.log('Currency Rates Updated:', exchangeRates);
                 }
             } catch (err) {
                 console.error('ExchangeRate API Error:', err);
@@ -151,14 +151,57 @@
         }
         fetchExchangeRates();
 
-        function formatCurrency(usdAmount, currency) {
-            const rate = exchangeRates[currency] || 1;
-            const amount = usdAmount * rate;
-            return new Intl.NumberFormat('en-US', {
-                style: 'currency',
-                currency: currency,
-                minimumFractionDigits: 2
-            }).format(amount);
+        async function initSteamMarket() {
+            try {
+                // 1. Fetch High-Quality Asset DB (Images & Categories)
+                if (!assetMap) {
+                    const assetRes = await fetch('https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/api/en/all.json');
+                    const assets = await assetRes.json();
+                    assetMap = new Map();
+                    assets.forEach(a => assetMap.set(a.name, a));
+                }
+
+                // 2. Fetch Prices (Steam & Buff163)
+                const [steamRes, buffRes] = await Promise.all([
+                    nexusFetch('https://prices.csgotrader.app/latest/steam.json'),
+                    nexusFetch('https://prices.csgotrader.app/latest/buff163.json')
+                ]);
+
+                // 3. Merge & Transform
+                const items = [];
+                Object.keys(steamRes).slice(0, 800).forEach(name => {
+                    const sPrice = steamRes[name];
+                    const bPrice = buffRes[name];
+                    const meta = assetMap.get(name);
+
+                    if (sPrice && bPrice && sPrice > 0.5) {
+                        let category = "Other";
+                        if (name.includes("Case")) category = "Case";
+                        else if (name.includes("AK-47") || name.includes("M4A4") || name.includes("M4A1-S")) category = "Rifle";
+                        else if (name.includes("AWP") || name.includes("SSG 08")) category = "Sniper";
+                        else if (name.includes("Glock-18") || name.includes("USP-S") || name.includes("Desert Eagle")) category = "Pistol";
+                        else if (name.includes("★") || name.includes("Knife")) category = "Knife";
+                        else if (name.includes("Gloves")) category = "Gloves";
+
+                        items.push({
+                            name,
+                            category,
+                            steam_price: sPrice,
+                            buff_price: bPrice,
+                            profit_percent: (((sPrice * 0.85) - bPrice) / bPrice * 100).toFixed(1),
+                            icon_url: meta ? meta.image : 'https://nexusloot.innovationinnitiative.in/favicon.ico',
+                            market_url: `https://steamcommunity.com/market/listings/730/${encodeURIComponent(name)}`
+                        });
+                    }
+                });
+
+                steamData = items;
+                if (currentTab === 'steam') renderSteam(steamData);
+            } catch (err) {
+                console.error('Steam Terminal Fault:', err);
+                const mount = document.getElementById('app-view');
+                mount.innerHTML = `<div class="py-32 text-center text-epic font-display text-xl uppercase tracking-widest">Neural Link Offline // <span class="text-white/20">CORS Handshake Failed</span></div>`;
+            }
         }
 
         async function nexusFetch(url) {
@@ -184,16 +227,8 @@
 
             try {
                 const config = VIEWS[tabId];
-                if (config.type === 'firebase') {
-                    db.ref('steam_market').on('value', (snapshot) => {
-                        if (currentTab !== 'steam') return;
-                        const data = snapshot.val();
-                        steamData = data ? Object.values(data) : [];
-                        renderSteam(steamData);
-                    }, (error) => {
-                        console.error('Firebase Read Error:', error);
-                        mount.innerHTML = `<div class="py-32 text-center"><i class="fa-solid fa-shield-halved text-epic text-5xl mb-6"></i><h2 class="font-display text-2xl uppercase tracking-tighter">Access Denied</h2><p class="text-white/30 text-[10px] mt-4 uppercase tracking-[0.4em] italic text-center">Firebase Security Rules are blocking the terminal.</p></div>`;
-                    });
+                if (config.type === 'instant') {
+                    initSteamMarket();
                 } else {
                     let data;
                     if (Array.isArray(config.api)) {
