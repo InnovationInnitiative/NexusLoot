@@ -66,7 +66,7 @@
                     </div>
                     <div class="flex gap-4 sm:gap-8">
                         <button onclick="switchTab('giveaways')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest py-5 border-b-2 border-transparent hover:text-white" data-tab="giveaways">Loot Drop</button>
-                        <button onclick="switchTab('steam')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest py-5 border-b-2 border-transparent hover:text-white" data-tab="steam">Steam Market</button>
+                        <button onclick="switchTab('terminal')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest py-5 border-b-2 border-transparent hover:text-white" data-tab="terminal">Omni-Terminal</button>
                         <button onclick="switchTab('valorant')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent hover:text-white" data-tab="valorant">Valorant</button>
                     </div>
                 </div>
@@ -99,56 +99,21 @@
         <footer class="border-t border-nexus-border py-16 mt-32 bg-black/40 text-center">
             <div class="max-w-7xl mx-auto px-4">
                 <h4 class="font-display text-lg mb-4 italic uppercase">NEXUS<span class="text-epic">LOOT</span></h4>
-                <p class="text-[9px] text-white/20 uppercase tracking-[0.2em]">© 2026 Innovation Initiative Hub // Full-Stack Gaming Index</p>
+                <p class="text-[9px] text-white/20 uppercase tracking-[0.2em]">© 2026 Innovation Initiative Hub // Omni-Game Traffic Terminal</p>
             </div>
         </footer>
     </div>
 
     <!-- SCRIPT ENGINE -->
     <script>
-        // FIREBASE INITIALIZATION
-        const firebaseConfig = {
-            apiKey: "AIzaSyCkVuNPu4799F9HZzX3Yxc-AY9C07oTgOo",
-            authDomain: "nexusloot-9b305.firebaseapp.com",
-            databaseURL: "https://nexusloot-9b305-default-rtdb.firebaseio.com",
-            projectId: "nexusloot-9b305",
-            storageBucket: "nexusloot-9b305.firebasestorage.app",
-            messagingSenderId: "426862990535",
-            appId: "1:426862990535:web:3a606f3b5e414fb1ea1ae2"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
-
         const VIEWS = {
             giveaways: { api: 'https://www.gamerpower.com/api/giveaways', render: renderGiveaways },
             valorant: { api: ['https://valorant-api.com/v1/weapons', 'https://valorant-api.com/v1/bundles'], render: renderValorant },
-            steam: { type: 'firebase', render: renderSteam }
+            terminal: { api: 'https://fortnite-api.com/v2/shop/br', render: renderTerminal }
         };
 
         let currentTab = '';
         let valorantCache = null;
-        let steamData = []; 
-        
-        // --- CURRENCY, FILTER & SORT STATE ---
-        let selectedCurrency = 'USD';
-        let profitThreshold = 10; 
-        let steamSearchQuery = '';
-        let selectedCategory = 'All';
-        let sortConfig = { key: 'profit', direction: 'desc' };
-        let exchangeRates = { USD: 1, INR: 83.5, EUR: 0.92, GBP: 0.79, BRL: 5.15 };
-
-        async function fetchExchangeRates() {
-            try {
-                const res = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
-                const data = await res.json();
-                if (data && data.rates) {
-                    exchangeRates = data.rates;
-                }
-            } catch (err) {
-                console.error('ExchangeRate API Error:', err);
-            }
-        }
-        fetchExchangeRates();
 
         async function nexusFetch(url) {
             try {
@@ -173,304 +138,224 @@
 
             try {
                 const config = VIEWS[tabId];
-                if (config.type === 'firebase') {
-                    // --- RELIABLE FIREBASE SYNC ---
-                    db.ref('steam_market').on('value', (snapshot) => {
-                        if (currentTab !== 'steam') return;
-                        const data = snapshot.val();
-                        steamData = data ? Object.values(data) : [];
-                        renderSteam(steamData);
-                    }, (error) => {
-                        console.error('Firebase Error:', error);
-                        mount.innerHTML = `<div class="py-32 text-center text-epic uppercase font-display tracking-widest">Neural Link Offline // Firebase Permission Fault</div>`;
-                    });
+                let data;
+                if (Array.isArray(config.api)) {
+                    data = await Promise.all(config.api.map(url => nexusFetch(url)));
+                    if (tabId === 'valorant') valorantCache = data[0].data;
                 } else {
-                    let data;
-                    if (Array.isArray(config.api)) {
-                        data = await Promise.all(config.api.map(url => nexusFetch(url)));
-                        if (tabId === 'valorant') valorantCache = data[0].data;
-                    } else {
-                        data = await nexusFetch(config.api);
-                    }
-                    config.render(data);
+                    data = await nexusFetch(config.api);
                 }
+                config.render(data);
             } catch (err) {
                 console.error('NexusEngine Error:', err);
                 mount.innerHTML = `<div class="py-32 text-center"><i class="fa-solid fa-circle-exclamation text-epic text-5xl mb-6"></i><h2 class="font-display text-2xl uppercase tracking-tighter text-white">Sync Interrupted</h2><p class="text-white/30 text-[10px] mt-4 uppercase tracking-[0.4em] italic text-center">Neural-link failed.</p></div>`;
             }
         }
 
-        // --- STEAM TRADING FLOOR ---
-        window.updateSteamFilter = (value) => {
-            profitThreshold = parseInt(value);
-            const display = document.getElementById('threshold-display');
-            if (display) display.innerText = `${profitThreshold}%`;
-            renderSteam(steamData);
-        };
+        // --- TERMINAL RENDER (Fortnite Shop + eSports + Drops) ---
+        function renderTerminal(fortniteData) {
+            const mount = document.getElementById('app-view');
+            
+            let html = `
+                <div class="mb-20 animate-in fade-in slide-in-from-bottom-8 duration-700">
+                    <div class="flex flex-col lg:flex-row justify-between items-end gap-8 mb-12">
+                        <div>
+                            <h2 class="font-display text-5xl text-white uppercase tracking-tighter italic">Omni <span class="text-epic">Terminal</span></h2>
+                            <p class="text-[9px] text-white/30 uppercase tracking-[0.5em] mt-3 font-bold italic">Global Shop Rotations & Pro Circuit Telemetry</p>
+                        </div>
+                    </div>
 
-        window.updateCurrency = (value) => {
-            selectedCurrency = value;
-            renderSteam(steamData);
-        };
+                    <!-- SUB-TABS -->
+                    <div class="flex gap-4 mb-12 overflow-x-auto no-scrollbar">
+                        <button onclick="document.getElementById('fortnite-section').scrollIntoView({behavior:'smooth'})" class="whitespace-nowrap px-8 py-4 glass-card rounded-2xl border-white/5 text-[10px] font-black uppercase tracking-widest text-epic hover:bg-epic/10 transition-all"><i class="fa-solid fa-cart-shopping mr-3"></i> Fortnite Shop</button>
+                        <button onclick="document.getElementById('esports-section').scrollIntoView({behavior:'smooth'})" class="whitespace-nowrap px-8 py-4 glass-card rounded-2xl border-white/5 text-[10px] font-black uppercase tracking-widest text-free hover:bg-free/10 transition-all"><i class="fa-solid fa-trophy mr-3"></i> Pro Matches</button>
+                        <button onclick="document.getElementById('drops-section').scrollIntoView({behavior:'smooth'})" class="whitespace-nowrap px-8 py-4 glass-card rounded-2xl border-white/5 text-[10px] font-black uppercase tracking-widest text-legendary hover:bg-legendary/10 transition-all"><i class="fa-brands fa-twitch mr-3"></i> Twitch Drops</button>
+                    </div>
 
-        window.updateSteamSearch = (query) => {
-            steamSearchQuery = query.toLowerCase();
-            renderSteam(steamData);
-        };
+                    <!-- FORTNITE SECTION -->
+                    <div id="fortnite-section" class="mb-24">
+                        <div class="flex items-center gap-4 mb-10">
+                            <div class="h-px flex-grow bg-white/5"></div>
+                            <h3 class="text-xs font-black uppercase tracking-[0.5em] text-white/40">Fortnite Daily Rotation</h3>
+                            <div class="h-px flex-grow bg-white/5"></div>
+                        </div>
+                        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+            `;
 
-        window.updateCategory = (cat) => {
-            selectedCategory = cat;
-            renderSteam(steamData);
-        };
+            const entries = fortniteData.data?.featured?.entries || fortniteData.data?.daily?.entries || [];
+            entries.slice(0, 10).forEach(entry => {
+                const item = entry.items[0];
+                html += `
+                    <div class="glass-card bg-nexus-surface rounded-3xl overflow-hidden border border-white/5 group hover:border-epic/40 transition-all duration-500">
+                        <div class="relative aspect-square overflow-hidden bg-gradient-to-br from-epic/10 to-transparent">
+                            <img src="${item.images.featured || item.images.icon}" class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-700">
+                            <div class="absolute bottom-4 right-4 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-lg text-[9px] font-black text-white flex items-center gap-2">
+                                <i class="fa-solid fa-v"></i> ${entry.finalPrice}
+                            </div>
+                        </div>
+                        <div class="p-5">
+                            <h4 class="text-[10px] font-bold text-white uppercase truncate">${item.name}</h4>
+                            <p class="text-[7px] text-white/30 uppercase mt-1 tracking-widest font-black">${item.rarity.value}</p>
+                        </div>
+                    </div>
+                `;
+            });
 
-        window.setSort = (key) => {
-            if (sortConfig.key === key) {
-                sortConfig.direction = sortConfig.direction === 'asc' ? 'desc' : 'asc';
-            } else {
-                sortConfig.key = key;
-                sortConfig.direction = 'desc';
-            }
-            renderSteam(steamData);
-        };
+            html += `
+                        </div>
+                    </div>
 
-        window.openChart = (itemName, currentPrice) => {
-            const modal = document.createElement('div');
-            modal.id = 'chart-modal';
-            modal.className = 'fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-10 animate-in fade-in duration-300';
-            modal.innerHTML = `
-                <div class="absolute inset-0 bg-nexus-dark/95 backdrop-blur-3xl" onclick="closeChart()"></div>
-                <div class="relative w-full max-w-5xl glass-card rounded-[3rem] border-white/10 p-10 animate-in slide-in-from-bottom-8 duration-500 overflow-hidden">
-                    <button onclick="closeChart()" class="absolute top-8 right-8 text-white/40 hover:text-white transition-colors text-2xl z-50"><i class="fa-solid fa-xmark"></i></button>
-                    <div class="mb-10">
-                        <h2 class="font-display text-4xl uppercase tracking-tighter italic text-white">${itemName} <span class="text-epic text-sm ml-4 font-black tracking-widest">// Valuation History</span></h2>
-                        <div class="flex items-center gap-6 mt-4">
-                            <div class="bg-epic/10 border border-epic/20 px-4 py-2 rounded-xl">
-                                <span class="text-[8px] text-white/40 block uppercase font-black">Live Market Price</span>
-                                <span class="text-xl font-display text-white">${formatCurrency(currentPrice, selectedCurrency)}</span>
+                    <!-- ESPORTS SECTION (Live/Upcoming Placeholder) -->
+                    <div id="esports-section" class="mb-24">
+                         <div class="flex items-center gap-4 mb-10">
+                            <div class="h-px flex-grow bg-white/5"></div>
+                            <h3 class="text-xs font-black uppercase tracking-[0.5em] text-free/60">Pro Match Circuit</h3>
+                            <div class="h-px flex-grow bg-white/5"></div>
+                        </div>
+                        <div class="glass-card bg-dark-surface/30 rounded-[3rem] p-10 border-white/5">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div class="p-8 border border-white/5 rounded-3xl bg-white/[0.02] flex items-center justify-between group hover:border-free/40 transition-all">
+                                    <div class="flex items-center gap-6">
+                                        <div class="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center font-display italic text-white">NAVI</div>
+                                        <span class="text-white/20 font-black italic">VS</span>
+                                        <div class="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center font-display italic text-white">G2</div>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-[8px] font-black text-free uppercase tracking-widest mb-1 animate-pulse">● LIVE NOW</div>
+                                        <div class="text-xs font-bold text-white tracking-widest">1 : 0</div>
+                                    </div>
+                                </div>
+                                <div class="p-8 border border-white/5 rounded-3xl bg-white/[0.02] flex items-center justify-between group hover:border-epic/40 transition-all opacity-50">
+                                    <div class="flex items-center gap-6">
+                                        <div class="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center font-display italic text-white">Faze</div>
+                                        <span class="text-white/20 font-black italic">VS</span>
+                                        <div class="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center font-display italic text-white">VIT</div>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-[8px] font-black text-white/20 uppercase tracking-widest mb-1">Upcoming</div>
+                                        <div class="text-[10px] font-bold text-white tracking-widest italic">18:30 UTC</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-center mt-10 text-[8px] font-black text-white/10 uppercase tracking-[0.4em]">Real-time PandaScore integration pending neural handshake</p>
+                        </div>
+                    </div>
+
+                    <!-- TWITCH DROPS SECTION -->
+                    <div id="drops-section">
+                        <div class="flex items-center gap-4 mb-10">
+                            <div class="h-px flex-grow bg-white/5"></div>
+                            <h3 class="text-xs font-black uppercase tracking-[0.5em] text-legendary/60">Active Twitch Drops</h3>
+                            <div class="h-px flex-grow bg-white/5"></div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="glass-card bg-nexus-surface p-8 rounded-[2.5rem] border-white/5 flex items-center gap-8 group hover:border-legendary/40 transition-all">
+                                <div class="w-24 h-24 bg-white/5 rounded-3xl overflow-hidden flex-shrink-0">
+                                    <img src="https://static-cdn.jtvnw.net/ttv-boxart/263490_IGDB-285x380.jpg" class="w-full h-full object-cover">
+                                </div>
+                                <div>
+                                    <h4 class="font-display text-xl text-white uppercase italic">Rust <span class="text-legendary">Global Drops</span></h4>
+                                    <p class="text-[9px] text-white/30 uppercase tracking-widest mt-2 font-black">Ends in 2 days // 4 Skins Available</p>
+                                    <a href="https://twitch.tv/drops/campaigns" target="_blank" class="inline-block mt-6 text-[8px] font-black text-legendary uppercase tracking-[0.3em] hover:text-white transition-colors">Claim on Twitch →</a>
+                                </div>
+                            </div>
+                            <div class="glass-card bg-nexus-surface p-8 rounded-[2.5rem] border-white/5 flex items-center gap-8 group hover:border-epic/40 transition-all">
+                                <div class="w-24 h-24 bg-white/5 rounded-3xl overflow-hidden flex-shrink-0">
+                                    <img src="https://static-cdn.jtvnw.net/ttv-boxart/511224-285x380.jpg" class="w-full h-full object-cover">
+                                </div>
+                                <div>
+                                    <h4 class="font-display text-xl text-white uppercase italic">Apex <span class="text-epic">Legends</span></h4>
+                                    <p class="text-[9px] text-white/30 uppercase tracking-widest mt-2 font-black">ALGS Playoffs // Rare Holospray</p>
+                                    <a href="https://twitch.tv/drops/campaigns" target="_blank" class="inline-block mt-6 text-[8px] font-black text-epic uppercase tracking-[0.3em] hover:text-white transition-colors">Claim on Twitch →</a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div id="chart-container" class="w-full h-[400px]"></div>
-                    <div class="mt-8 flex justify-between items-center text-[8px] text-white/20 uppercase font-black tracking-[0.3em]">
-                        <span>Powered by NexusEngine // 7D Telemetry</span>
-                        <span>[ Interactive TradingView Terminal ]</span>
-                    </div>
                 </div>
             `;
+
+            mount.innerHTML = html;
+        }
+
+        // --- VALORANT RENDER ---
+        function renderValorant(responses) {
+            const weapons = responses[0].data;
+            const bundles = responses[1].data;
+            const mount = document.getElementById('app-view');
+            let html = `<div class="mb-20"><h2 class="font-display text-4xl text-legendary mb-12 uppercase tracking-tighter italic text-center md:text-left">Elite Collections</h2><div class="grid grid-cols-1 md:grid-cols-2 gap-12">`;
+            bundles.slice(0, 4).forEach(b => {
+                html += `<div class="relative rounded-[3rem] overflow-hidden aspect-video border border-white/5 group card-glow"><img src="${b.displayIcon}" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-[2s] text-white"><div class="absolute inset-0 bg-gradient-to-t from-nexus-dark via-transparent to-transparent"></div><div class="absolute bottom-0 left-0 p-10"><h3 class="font-display text-4xl uppercase tracking-tighter text-white">${b.displayName}</h3></div></div>`;
+            });
+            html += `</div></div><h2 class="font-display text-4xl text-epic mb-12 uppercase tracking-tighter italic text-center md:text-left text-white">The Arsenal</h2><div class="grid grid-cols-2 md:grid-cols-4 gap-8">`;
+            weapons.forEach(w => {
+                html += `<div class="glass-card bg-nexus-surface rounded-[2.5rem] p-10 border border-white/5 hover:border-epic/40 transition-all card-glow group flex flex-col items-center text-center"><div class="h-32 flex items-center justify-center mb-8"><img src="${w.displayIcon}" class="max-h-full max-w-full object-contain group-hover:scale-125 transition-transform duration-700 drop-shadow-[0_15px_25px_rgba(139,92,246,0.3)]"></div><h3 class="font-display text-sm uppercase tracking-widest text-white">${w.displayName}</h3><button onclick="openSkinLibrary('${w.uuid}')" class="mt-8 text-[8px] font-black text-white/30 uppercase tracking-[0.4em] hover:text-epic transition-colors">Skin Library →</button></div>`;
+            });
+            mount.innerHTML = html + `</div>`;
+        }
+
+        window.openSkinLibrary = (weaponUuid) => {
+            const weapon = valorantCache.find(w => w.uuid === weaponUuid);
+            if (!weapon) return;
+            const modal = document.createElement('div');
+            modal.id = 'skin-modal';
+            modal.className = 'fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-10 animate-in fade-in duration-300';
+            modal.innerHTML = `<div class="absolute inset-0 bg-nexus-dark/95 backdrop-blur-3xl" onclick="closeModal()"></div><div class="relative w-full max-w-6xl max-h-full overflow-y-auto glass-card rounded-[3rem] border-white/10 p-8 sm:p-16 animate-in slide-in-from-bottom-8 duration-500"><button onclick="closeModal()" class="absolute top-8 right-8 text-white/40 hover:text-white transition-colors text-2xl"><i class="fa-solid fa-xmark"></i></button><div class="mb-12 text-white"><h2 class="font-display text-5xl uppercase tracking-tighter italic text-epic">${weapon.displayName} // <span class="text-white/40">Skin Archives</span></h2></div><div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">${weapon.skins.filter(s => !s.displayName.includes('Standard')).map(skin => `<div class="glass-card bg-white/[0.02] rounded-3xl p-8 border-white/5 hover:border-epic/30 transition-all group"><div class="h-32 flex items-center justify-center mb-6"><img src="${skin.displayIcon}" class="max-h-full max-w-full object-contain group-hover:scale-110 transition-transform duration-500"></div><h3 class="font-display text-xs uppercase tracking-widest text-center text-white/60">${skin.displayName}</h3></div>`).join('')}</div></div>`;
             document.body.appendChild(modal);
             document.body.style.overflow = 'hidden';
-
-            // --- CHART INITIALIZATION ---
-            const chart = LightweightCharts.createChart(document.getElementById('chart-container'), {
-                layout: { background: { color: 'transparent' }, textColor: 'rgba(255, 255, 255, 0.4)', fontSize: 10 },
-                grid: { vertLines: { color: 'rgba(255, 255, 255, 0.05)' }, horzLines: { color: 'rgba(255, 255, 255, 0.05)' } },
-                crosshair: { mode: LightweightCharts.CrosshairMode.Normal },
-                rightPriceScale: { borderColor: 'rgba(255, 255, 255, 0.1)' },
-                timeScale: { borderColor: 'rgba(255, 255, 255, 0.1)' },
-            });
-
-            const areaSeries = chart.addAreaSeries({
-                lineColor: '#8B5CF6',
-                topColor: 'rgba(139, 92, 246, 0.4)',
-                bottomColor: 'rgba(139, 92, 246, 0.0)',
-                lineWidth: 3,
-            });
-
-            // Generate synthetic 7-day data based on current price for visual impact
-            // (Real historical data requires per-item fetch which hits limits, this is the "standout" visual)
-            const data = [];
-            const now = new Date();
-            for (let i = 20; i >= 0; i--) {
-                const time = new Date(now.getTime() - i * 8 * 3600 * 1000);
-                const variance = (Math.random() - 0.5) * (currentPrice * 0.05);
-                data.push({ time: time.getTime() / 1000, value: currentPrice + variance });
-            }
-            areaSeries.setData(data);
-            chart.timeScale().fitContent();
         };
 
-        window.closeChart = () => {
-            const modal = document.getElementById('chart-modal');
+        window.closeModal = () => {
+            const modal = document.getElementById('skin-modal');
             if (modal) modal.remove();
             document.body.style.overflow = 'auto';
         };
 
-        function renderSteam(items) {
+        // --- GIVEAWAYS RENDER ---
+        function renderGiveaways(data) {
             const mount = document.getElementById('app-view');
-            if (!items || items.length === 0) {
-                mount.innerHTML = `<div class="py-32 text-center uppercase tracking-[0.5em] text-white/20 text-xs italic">Syncing with Steam Neural-Link... <br/> [Backend Worker is fetching data]</div>`;
-                return;
-            }
-
-            // 1. STATS CALCULATION
-            const totalAssets = items.length;
-            const avgVolume = items.reduce((acc, curr) => acc + (parseInt(curr.volume?.replace(/,/g,'')) || 0), 0) / totalAssets;
-
-            // 2. FILTERING
-            let filtered = items.filter(item => {
-                const matchesSearch = item.name.toLowerCase().includes(steamSearchQuery);
-                const matchesCat = selectedCategory === 'All' || item.category === selectedCategory;
-                return matchesSearch && matchesCat;
-            });
-
-            // 3. SORTING
-            filtered.sort((a, b) => {
-                let valA, valB;
-                const lowA = parseFloat(a.lowest_price?.replace(/[^0-9.-]+/g,"") || 0);
-                const lowB = parseFloat(b.lowest_price?.replace(/[^0-9.-]+/g,"") || 0);
-                const volA = parseInt(a.volume?.replace(/,/g,'') || 0);
-                const volB = parseInt(b.volume?.replace(/,/g,'') || 0);
-
-                if (sortConfig.key === 'name') {
-                    valA = a.name; valB = b.name;
-                } else if (sortConfig.key === 'price') {
-                    valA = lowA; valB = lowB;
-                } else if (sortConfig.key === 'volume') {
-                    valA = volA; valB = volB;
-                } else if (sortConfig.key === 'profit') {
-                    const medA = parseFloat(a.median_price?.replace(/[^0-9.-]+/g,"") || lowA);
-                    const medB = parseFloat(b.median_price?.replace(/[^0-9.-]+/g,"") || lowB);
-                    valA = medA > 0 ? (medA - lowA) / medA : -1;
-                    valB = medB > 0 ? (medB - lowB) / medB : -1;
+            let html = `<div class="grid grid-cols-1 md:grid-cols-3 gap-10">`;
+            data.forEach((d, index) => {
+                if (index === 6) {
+                    html += `<div class="md:col-span-3 flex justify-center py-10"><div id="container-5b93a4944853444dddf3758e49112d9e" class="w-full glass-card rounded-[3rem] p-4 border-dashed border-white/10 text-center"><p class="text-[8px] uppercase tracking-widest text-white/20 mb-4 font-bold italic">Recommended Asset Expansion</p><div id="native-ad-mount"></div></div></div>`;
                 }
-
-                if (valA < valB) return sortConfig.direction === 'asc' ? -1 : 1;
-                if (valA > valB) return sortConfig.direction === 'asc' ? 1 : -1;
-                return 0;
-            });
-
-            const categories = ['All', 'Case', 'Rifle', 'Sniper', 'Pistol', 'SMG', 'Knife'];
-
-            let html = `
-                <div class="mb-12 flex flex-col gap-10 animate-in fade-in slide-in-from-bottom-8 duration-700">
-                    <!-- Market Dashboard -->
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div class="glass-card bg-nexus-surface/40 p-8 rounded-[2.5rem] border-white/5 relative overflow-hidden group">
-                            <div class="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity"><i class="fa-solid fa-chart-line text-4xl"></i></div>
-                            <h4 class="text-[8px] uppercase tracking-[0.4em] text-white/30 mb-2 font-black">Market Assets Indexed</h4>
-                            <div class="text-4xl font-display uppercase tracking-tighter text-white italic">${totalAssets}<span class="text-epic text-sm ml-2 tracking-widest">Online</span></div>
-                        </div>
-                        <div class="glass-card bg-nexus-surface/40 p-8 rounded-[2.5rem] border-white/5 relative overflow-hidden group">
-                            <div class="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity"><i class="fa-solid fa-fire text-4xl"></i></div>
-                            <h4 class="text-[8px] uppercase tracking-[0.4em] text-white/30 mb-2 font-black">Average Liquidity</h4>
-                            <div class="text-4xl font-display uppercase tracking-tighter text-free italic">${new Intl.NumberFormat().format(Math.floor(avgVolume))}<span class="text-white/20 text-sm ml-2 tracking-widest">Orders</span></div>
-                        </div>
-                        <div class="glass-card bg-nexus-surface/40 p-8 rounded-[2.5rem] border-white/5 relative overflow-hidden group">
-                            <div class="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity"><i class="fa-solid fa-bolt text-4xl"></i></div>
-                            <h4 class="text-[8px] uppercase tracking-[0.4em] text-white/30 mb-2 font-black">System Status</h4>
-                            <div class="text-4xl font-display uppercase tracking-tighter text-epic italic">ACTIVE<span class="text-white/20 text-sm ml-2 tracking-widest">Real-time</span></div>
-                        </div>
-                    </div>
-
-                    <div class="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-8 mt-4">
-                        <div>
-                            <h2 class="font-display text-5xl text-white uppercase tracking-tighter italic">Trending <span class="text-epic">Market</span></h2>
-                            <p class="text-[9px] text-white/30 uppercase tracking-[0.5em] mt-3 font-bold italic">Deep-link search into Steam's High-Liquidity Pool</p>
-                        </div>
-                        
-                        <div class="flex flex-wrap gap-4 w-full lg:w-auto justify-end items-center">
-                            <div class="glass-card px-4 py-3 rounded-2xl border-white/5">
-                                <select onchange="updateCurrency(this.value)" class="bg-transparent text-[10px] font-black uppercase tracking-widest text-white outline-none cursor-pointer">
-                                    <option value="USD" ${selectedCurrency === 'USD' ? 'selected' : ''} class="bg-nexus-dark">USD ($)</option>
-                                    <option value="INR" ${selectedCurrency === 'INR' ? 'selected' : ''} class="bg-nexus-dark">INR (₹)</option>
-                                    <option value="EUR" ${selectedCurrency === 'EUR' ? 'selected' : ''} class="bg-nexus-dark">EUR (€)</option>
-                                    <option value="GBP" ${selectedCurrency === 'GBP' ? 'selected' : ''} class="bg-nexus-dark">GBP (£)</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Market Controls -->
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        <div class="relative group">
-                            <i class="fa-solid fa-magnifying-glass absolute left-6 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-epic transition-colors"></i>
-                            <input type="text" placeholder="Search Skins or Cases..." oninput="updateSteamSearch(this.value)" value="${steamSearchQuery}" 
-                                class="w-full bg-nexus-surface/50 border border-white/5 rounded-2xl py-4 pl-14 pr-6 text-xs text-white placeholder:text-white/10 outline-none focus:border-epic/50 transition-all">
-                        </div>
-                        
-                        <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-2 lg:pb-0">
-                            ${categories.map(cat => `
-                                <button onclick="updateCategory('${cat}')" class="px-6 py-3 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all ${selectedCategory === cat ? 'bg-epic text-white shadow-[0_0_20px_rgba(139,92,246,0.4)]' : 'bg-white/5 text-white/40 hover:bg-white/10'}">${cat}</button>
-                            `).join('')}
-                        </div>
-
-                        <div class="glass-card px-6 py-4 rounded-2xl border-white/5 flex items-center justify-between gap-6">
-                            <span class="text-[8px] uppercase tracking-widest text-white/40 font-black">Snipe Sensitivity</span>
-                            <div class="flex items-center gap-4 flex-grow">
-                                <input type="range" min="5" max="50" value="${profitThreshold}" oninput="updateSteamFilter(this.value)" class="accent-epic h-1 flex-grow">
-                                <span id="threshold-display" class="text-[10px] font-bold text-epic w-8">${profitThreshold}%</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="glass-card rounded-[3.5rem] overflow-hidden border-white/5 bg-dark-surface/30 backdrop-blur-3xl">
-                    <table class="w-full text-left text-[10px] uppercase tracking-[0.2em]">
-                        <thead class="bg-white/[0.03] text-white/40 border-b border-white/5">
-                            <tr>
-                                <th class="p-10 font-bold cursor-pointer hover:text-white transition-colors" onclick="setSort('name')">Asset ${sortConfig.key === 'name' ? (sortConfig.direction === 'asc' ? '↑' : '↓') : ''}</th>
-                                <th class="p-10 font-bold cursor-pointer hover:text-white transition-colors text-center" onclick="setSort('price')">Price ${sortConfig.key === 'price' ? (sortConfig.direction === 'asc' ? '↑' : '↓') : ''}</th>
-                                <th class="p-10 font-bold cursor-pointer hover:text-white transition-colors text-center" onclick="setSort('volume')">Activity ${sortConfig.key === 'volume' ? (sortConfig.direction === 'asc' ? '↑' : '↓') : ''}</th>
-                                <th class="p-10 font-bold cursor-pointer hover:text-white transition-colors text-center" onclick="setSort('profit')">Profit ${sortConfig.key === 'profit' ? (sortConfig.direction === 'asc' ? '↑' : '↓') : ''}</th>
-                                <th class="p-10 font-bold text-right">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-white/5">
-            `;
-
-            filtered.forEach((item) => {
-                const steamPrice = parseFloat(item.steam_price) || 0;
-                const buffPrice = parseFloat(item.buff_price) || 0;
-                const profit = item.profit_percent;
-                const isProfitable = steamPrice > 0 && parseFloat(profit) >= profitThreshold;
-
                 html += `
-                    <tr class="market-row group cursor-pointer" onclick="openChart('${item.name.replace(/'/g, "\\'")}', ${steamPrice})">
-                        <td class="p-10">
-                            <div class="flex items-center gap-8">
-                                <div class="w-20 h-20 flex-shrink-0 bg-gradient-to-br from-white/5 to-transparent rounded-3xl border border-white/5 flex items-center justify-center group-hover:border-epic/40 transition-all p-3 overflow-hidden shadow-2xl">
-                                     <img src="${item.icon_url}" class="max-h-full max-w-full object-contain drop-shadow-[0_10px_10px_rgba(0,0,0,0.5)] group-hover:scale-125 transition-transform duration-700" onerror="this.src='https://nexusloot.innovationinnitiative.in/favicon.ico'">
-                                </div>
-                                <div class="flex flex-col gap-2">
-                                    <div class="flex items-center gap-3">
-                                        <span class="font-bold text-white group-hover:text-epic transition-colors text-xs tracking-normal">${item.name}</span>
-                                        ${isProfitable ? '<span class="bg-free/10 text-free text-[6px] font-black px-2 py-0.5 rounded-full border border-free/20 shadow-[0_0_10px_rgba(16,185,129,0.2)] uppercase">Opportunity</span>' : ''}
-                                    </div>
-                                    <span class="text-[8px] text-white/20 font-black tracking-widest">${item.category}</span>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="p-10 text-center">
-                            <div class="flex flex-col items-center gap-1">
-                                <span class="font-display text-xl text-white whitespace-nowrap">${formatCurrency(steamPrice, selectedCurrency)}</span>
-                                <span class="text-[7px] text-white/20 uppercase font-black tracking-widest italic">Steam Market</span>
-                            </div>
-                        </td>
-                        <td class="p-10 text-center">
-                            <div class="flex flex-col items-center gap-1">
-                                <span class="font-display text-lg text-white/40 whitespace-nowrap">${formatCurrency(buffPrice, selectedCurrency)}</span>
-                                <span class="text-[7px] text-white/20 uppercase font-black tracking-widest italic">Buff163 Reference</span>
-                            </div>
-                        </td>
-                        <td class="p-10 text-center">
-                            <span class="${isProfitable ? 'bg-free/20 text-free border border-free/20 px-5 py-2.5 rounded-xl text-[10px] font-black shadow-[0_0_20px_rgba(16,185,129,0.2)]' : 'text-white/10 italic text-[9px]'}">
-                                ${profit}% ${isProfitable ? 'PROFIT' : ''}
-                            </span>
-                        </td>
-                        <td class="p-10 text-right min-w-[200px]" onclick="event.stopPropagation()">
-                            <a href="${item.market_url}" target="_blank" class="inline-block px-8 py-4 bg-white/5 hover:bg-epic text-white transition-all rounded-2xl font-black text-[10px] uppercase tracking-widest popunder-trigger whitespace-nowrap shadow-xl">Invest Now</a>
-                        </td>
-                    </tr>
+                    <div class="glass-card bg-nexus-surface rounded-[3rem] overflow-hidden border border-free/10 hover:border-free transition-all duration-700 card-glow flex flex-col group">
+                        <div class="relative aspect-video overflow-hidden">
+                            <img src="${d.thumbnail}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000">
+                            <div class="absolute top-6 left-6 bg-free text-nexus-dark text-[9px] font-black px-4 py-1.5 rounded-full uppercase tracking-widest shadow-2xl">Loot Available</div>
+                        </div>
+                        <div class="p-10 flex flex-col flex-grow text-left">
+                            <div class="flex items-center gap-3 mb-6"><span class="text-[8px] font-bold text-free uppercase tracking-widest border border-free/20 px-3 py-1 rounded-full bg-free/5">${d.platforms}</span></div>
+                            <h3 class="font-display text-2xl uppercase tracking-tighter mb-4 leading-none group-hover:text-free transition-colors text-white">${d.title}</h3>
+                            <p class="text-xs text-white/30 leading-relaxed line-clamp-3 mb-10 tracking-wide">${d.description}</p>
+                            <a href="${d.open_giveaway_url}" target="_blank" class="block w-full py-5 bg-free hover:bg-emerald-400 text-nexus-dark font-black text-center text-[10px] uppercase tracking-[0.3em] rounded-2xl transition-all shadow-2xl popunder-trigger">Access Loot Vault</a>
+                        </div>
+                    </div>
                 `;
             });
-
-            if (filtered.length === 0) {
-                html += `<tr><td colspan="5" class="py-48 text-center text-white/20 text-xs uppercase tracking-[1em] italic">Sector Unoccupied // Awaiting Telemetry</td></tr>`;
+            mount.innerHTML = html + `</div>`;
+            const adContainer = document.getElementById('native-ad-mount');
+            if (adContainer) {
+                const script = document.createElement('script');
+                script.async = true; script.dataset.cfasync = "false";
+                script.src = "https://pl29600984.effectivecpmnetwork.com/5b93a4944853444dddf3758e49112d9e/invoke.js";
+                adContainer.appendChild(script);
             }
-
-            html += `</tbody></table></div>`;
-            mount.innerHTML = html;
         }
+
+        function handlePopunder(e) {
+            if (e.target.closest('.popunder-trigger')) {
+                console.log('NexusPop: Security handshake authorized...');
+            }
+        }
+
+        switchTab('giveaways');
+    </script>
+    <!-- Adsterra Social Bar -->
+    <script src="https://pl29600983.effectivecpmnetwork.com/d9/67/3b/d9673b40062c8e70dbcb40185a13054f.js"></script>
+</body>
+</html>
+
 
         // --- VALORANT RENDER ---
         function renderValorant(responses) {
