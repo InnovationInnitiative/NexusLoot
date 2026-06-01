@@ -143,13 +143,17 @@
 
             try {
                 const config = VIEWS[tabId];
-                let data;
-                if (Array.isArray(config.api)) {
-                    data = await Promise.all(config.api.map(url => nexusFetch(url)));
-                    if (tabId === 'valorant') valorantCache = data[0].data;
-                } else {
-                    data = await nexusFetch(config.api);
+                let data = null;
+                
+                if (config.api) {
+                    if (Array.isArray(config.api)) {
+                        data = await Promise.all(config.api.map(url => nexusFetch(url)));
+                        if (tabId === 'valorant') valorantCache = data[0].data;
+                    } else {
+                        data = await nexusFetch(config.api);
+                    }
                 }
+                
                 config.render(data);
             } catch (err) {
                 console.error('NexusEngine Error:', err);
