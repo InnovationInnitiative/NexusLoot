@@ -5,183 +5,96 @@ import admin from 'firebase-admin';
 const STEAM_APP_ID = 730; 
 const CURRENCY_ID = 1; 
 
-const ALL_ITEMS = [
-    // --- CASES ---
-    { name: "Prisma Case", category: "Case" },
-    { name: "Fracture Case", category: "Case" },
-    { name: "Recoil Case", category: "Case" },
-    { name: "Revolution Case", category: "Case" },
-    { name: "Dreams & Nightmares Case", category: "Case" },
-    { name: "Snakebite Case", category: "Case" },
-    { name: "Operation Phoenix Weapon Case", category: "Case" },
-    { name: "Clutch Case", category: "Case" },
-    { name: "Danger Zone Case", category: "Case" },
-    { name: "Horizon Case", category: "Case" },
-    { name: "Spectrum 2 Case", category: "Case" },
-    { name: "Gamma 2 Case", category: "Case" },
-    { name: "Chroma 3 Case", category: "Case" },
-    { name: "Revolver Case", category: "Case" },
-    { name: "Shadow Case", category: "Case" },
-    { name: "Falchion Case", category: "Case" },
-
-    // --- RIFLES ---
-    { name: "AK-47 | Slate (Field-Tested)", category: "Rifle" },
-    { name: "AK-47 | Redline (Field-Tested)", category: "Rifle" },
-    { name: "AK-47 | Ice Coaled (Minimal Wear)", category: "Rifle" },
-    { name: "AK-47 | Nightwish (Field-Tested)", category: "Rifle" },
-    { name: "AK-47 | Asiimov (Field-Tested)", category: "Rifle" },
-    { name: "M4A4 | Spider Lily (Minimal Wear)", category: "Rifle" },
-    { name: "M4A4 | Etch Lord (Minimal Wear)", category: "Rifle" },
-    { name: "M4A4 | Desolate Space (Field-Tested)", category: "Rifle" },
-    { name: "M4A1-S | Decimator (Field-Tested)", category: "Rifle" },
-    { name: "M4A1-S | Nightmare (Field-Tested)", category: "Rifle" },
-    { name: "M4A1-S | Leaden Glass (Minimal Wear)", category: "Rifle" },
-    { name: "AWP | Atheris (Minimal Wear)", category: "Sniper" },
-    { name: "AWP | Mortis (Minimal Wear)", category: "Sniper" },
-    { name: "AWP | Neo-Noir (Field-Tested)", category: "Sniper" },
-    { name: "AWP | PAW (Minimal Wear)", category: "Sniper" },
-    { name: "AWP | Exoskeleton (Minimal Wear)", category: "Sniper" },
-
-    // --- PISTOLS ---
-    { name: "Desert Eagle | Mecha Industries (Field-Tested)", category: "Pistol" },
-    { name: "Desert Eagle | Code Red (Field-Tested)", category: "Pistol" },
-    { name: "Desert Eagle | Light Rail (Minimal Wear)", category: "Pistol" },
-    { name: "Glock-18 | Water Elemental (Field-Tested)", category: "Pistol" },
-    { name: "Glock-18 | Vogue (Field-Tested)", category: "Pistol" },
-    { name: "USP-S | Cyrex (Field-Tested)", category: "Pistol" },
-    { name: "USP-S | Neo-Noir (Field-Tested)", category: "Pistol" },
-    { name: "USP-S | Blueprint (Minimal Wear)", category: "Pistol" },
-    { name: "USP-S | Cortex (Field-Tested)", category: "Pistol" },
-    { name: "P250 | See Ya Later (Field-Tested)", category: "Pistol" },
-
-    // --- SMGs / OTHER ---
-    { name: "MP9 | Food Chain (Field-Tested)", category: "SMG" },
-    { name: "MP9 | Mount Fuji (Minimal Wear)", category: "SMG" },
-    { name: "MAC-10 | Disco Tech (Field-Tested)", category: "SMG" },
-    { name: "P90 | Nostalgia (Field-Tested)", category: "SMG" },
-    { name: "SSG 08 | Dragonfire (Field-Tested)", category: "Sniper" },
-    { name: "SSG 08 | Turbo Peek (Field-Tested)", category: "Sniper" }
-];
+// --- ASSET MAPPING (Community Database for 100% Reliable Images) ---
+const ASSET_DB_URL = "https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/api/en/all.json";
 
 // --- FIREBASE INITIALIZATION ---
 async function initFirebase() {
     try {
         console.log('Fetching Service Account from Environment...');
         const secret = process.env.FIREBASE_SERVICE_ACCOUNT;
-        
-        if (!secret || secret.trim().length === 0) {
-            throw new Error('CRITICAL: FIREBASE_SERVICE_ACCOUNT secret is missing or empty!');
-        }
-        
+        if (!secret) throw new Error('CRITICAL: FIREBASE_SERVICE_ACCOUNT missing!');
         const serviceAccount = JSON.parse(secret.trim());
-        
         admin.initializeApp({
             credential: admin.credential.cert(serviceAccount),
             databaseURL: "https://nexusloot-9b305-default-rtdb.firebaseio.com"
         });
-        
-        console.log('Firebase handshake successful.');
         return admin.database();
     } catch (err) {
-        console.error('Firebase Initialization Failed:', err.message);
-        // Special check: If JSON is invalid, log a clearer hint
-        if (err.message.includes('Unexpected token')) {
-            console.error('HINT: Your GitHub Secret is likely not valid JSON. Ensure you pasted the WHOLE file including { }');
-        }
+        console.error('Firebase Init Failed:', err.message);
         process.exit(1);
     }
 }
 
-// --- SCRAPER ENGINE ---
-async function fetchSteamPrice(item) {
-    const itemName = item.name;
-    const itemCategory = item.category;
-
-    // 1. Fetch Price & Metadata from Search API (for Image & Current Price)
-    const searchUrl = `https://steamcommunity.com/market/search/render/?query=${encodeURIComponent(itemName)}&start=0&count=1&appid=${STEAM_APP_ID}&norender=1&currency=${CURRENCY_ID}`;
-    const overviewUrl = `https://steamcommunity.com/market/priceoverview/?appid=${STEAM_APP_ID}&currency=${CURRENCY_ID}&market_hash_name=${encodeURIComponent(itemName)}`;
-    
-    try {
-        console.log(`Scanning [${itemCategory}]: ${itemName}`);
-        
-        const searchRes = await axios.get(searchUrl, { 
-            timeout: 15000,
-            headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36' }
-        });
-
-        await new Promise(r => setTimeout(r, 6000)); // Safer gap
-
-        const overviewRes = await axios.get(overviewUrl, { 
-            timeout: 15000,
-            headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36' }
-        });
-
-        const searchData = searchRes.data.results?.[0];
-        const overviewData = overviewRes.data;
-
-        if (searchData) {
-            const iconUrl = searchData.asset_description?.icon_url 
-                ? `https://community.cloudflare.steamstatic.com/economy/image/${searchData.asset_description.icon_url}/256fx256f`
-                : `https://nexusloot.innovationinnitiative.in/favicon.ico`;
-
-            console.log(`✓ Got Metadata for ${itemName}`);
-
-            return {
-                name: itemName,
-                category: itemCategory,
-                lowest_price: searchData.sell_price_text || overviewData.lowest_price || "0",
-                median_price: overviewData.median_price || searchData.sell_price_text || "0",
-                icon_url: iconUrl,
-                market_url: `https://steamcommunity.com/market/listings/${STEAM_APP_ID}/${encodeURIComponent(itemName)}`,
-                timestamp: Date.now()
-            };
-        } else {
-            console.warn(`! Search API returned no results for ${itemName}`);
-        }
-    } catch (err) {
-        if (err.response?.status === 429) {
-            console.error(`!! RATE LIMITED by Steam for ${itemName}.`);
-        } else {
-            console.error(`✗ ${itemName} failed: ${err.message}`);
-        }
-    }
-    return null;
-}
-
+// --- CORE ENGINE ---
 async function runOnce() {
     const db = await initFirebase();
-    console.log('--- STARTING MARKET SCAN (MICRO-BATCH) ---');
-    
-    // --- MICRO-BATCHING LOGIC ---
-    // Instead of scanning all 50, we scan 12 items per run based on the current hour.
-    // This allows for high-frequency runs (every 30 mins) without hitting global IP bans.
-    const BATCH_SIZE = 12;
-    const currentHour = new Date().getHours();
-    const startIndex = (currentHour * 2) % ALL_ITEMS.length; // Simple rotation logic
-    const batchItems = ALL_ITEMS.slice(startIndex, startIndex + BATCH_SIZE);
-    
-    // If we reach end of array, wrap around
-    if (batchItems.length < BATCH_SIZE) {
-        const remaining = BATCH_SIZE - batchItems.length;
-        batchItems.push(...ALL_ITEMS.slice(0, remaining));
-    }
+    console.log('--- STARTING OPEN MARKET SYNC ---');
 
-    console.log(`Queueing ${batchItems.length} items starting from index ${startIndex}`);
-    
-    const updates = {};
-    for (const item of batchItems) {
-        const data = await fetchSteamPrice(item);
-        if (data) {
-            const key = item.name.replace(/[.#$\[\]]/g, "_");
-            // Use update() to merge with existing data in Firebase instead of set()
-            await db.ref(`steam_market/${key}`).update(data);
-            console.log(`-> Sync'd ${item.name} to Cloud Node`);
+    try {
+        // 1. Fetch High-Quality Image Database
+        console.log('Fetching community asset database...');
+        const assetRes = await axios.get(ASSET_DB_URL);
+        const assetMap = new Map();
+        assetRes.data.forEach(item => assetMap.set(item.name, item.image));
+        console.log(`Loaded ${assetMap.size} asset definitions.`);
+
+        // 2. Fetch Top 50 Trending Items (Official Steam Search)
+        // This gets us 50 items in ONE call, ensuring the market is always "Hot"
+        const trendingUrl = `https://steamcommunity.com/market/search/render/?query=&start=0&count=50&search_descriptions=0&sort_column=popular&sort_dir=desc&norender=1&appid=${STEAM_APP_ID}&currency=${CURRENCY_ID}`;
+        
+        console.log('Scanning Steam Community Hot-List...');
+        const steamRes = await axios.get(trendingUrl, {
+            headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36' }
+        });
+
+        const trendingItems = steamRes.data.results;
+        if (!trendingItems || trendingItems.length === 0) {
+            throw new Error('Steam returned empty trending list. Rate limit?');
         }
-        // Very conservative delay for GitHub IPs
-        await new Promise(r => setTimeout(r, 25000));
+
+        const updates = {};
+        console.log(`Processing ${trendingItems.length} trending assets...`);
+
+        for (const item of trendingItems) {
+            const name = item.hash_name || item.name;
+            
+            // Determine Category from Name
+            let category = "Other";
+            if (name.includes("Case")) category = "Case";
+            else if (name.includes("AK-47") || name.includes("M4A4") || name.includes("M4A1-S")) category = "Rifle";
+            else if (name.includes("AWP") || name.includes("SSG 08")) category = "Sniper";
+            else if (name.includes("Glock-18") || name.includes("USP-S") || name.includes("Desert Eagle")) category = "Pistol";
+            else if (name.includes("MP9") || name.includes("MAC-10")) category = "SMG";
+            else if (name.includes("Knife") || name.includes("★")) category = "Knife";
+
+            // Price & Volume Parsing
+            const lowest = item.sell_price_text || "0";
+            const volume = item.sell_listings || "0";
+            
+            const key = name.replace(/[.#$\[\]]/g, "_");
+            updates[key] = {
+                name: name,
+                category: category,
+                lowest_price: lowest,
+                median_price: lowest, // Fallback
+                volume: volume,
+                icon_url: assetMap.get(name) || `https://community.cloudflare.steamstatic.com/economy/image/${item.asset_description.icon_url}/256fx256f`,
+                market_url: `https://steamcommunity.com/market/listings/${STEAM_APP_ID}/${encodeURIComponent(name)}`,
+                is_trending: true,
+                timestamp: Date.now()
+            };
+        }
+
+        // 3. Batch Update Firebase
+        await db.ref('steam_market').set(updates);
+        console.log(`--- SYNC COMPLETE: ${Object.keys(updates).length} ASSETS ONLINE ---`);
+
+    } catch (err) {
+        console.error('❌ Sync Failed:', err.message);
     }
 
-    console.log('Workflow cycle finished. Exiting.');
+    console.log('Workflow finished.');
     process.exit(0);
 }
 
