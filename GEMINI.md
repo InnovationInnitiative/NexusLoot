@@ -32,20 +32,20 @@ Build a highly polished, single-page, multi-game tracker dashboard called "Nexus
 
 ### Phase 4: Full-Stack Steam Tracker [DONE]
 - [x] **Database Setup:** Initialized Firebase Realtime Database.
-- [x] **Backend Worker:** Upgraded to fetch real item images (Steam Search API) and multi-API price verification.
-- [x] **Frontend Integration:** Real-time listener with dynamic currency conversion (USD, INR, EUR, etc.).
-- [x] **Advanced Filters:** User-controlled profit margin threshold slider (5% - 50%).
-- [x] **Security:** Resolved "Access Denied" by configuring Public Read rules.
+- [x] **Backend Worker:** Upgraded to high-reactivity "Micro-Batching" engine with ~50 liquid assets.
+- [x] **Frontend Integration:** Open Market UX with live search, category chips, and clickable sort columns.
+- [x] **Advanced Filters:** Profit sensitivity slider and global currency conversion (INR, EUR, etc.).
+- [x] **Stability:** Sequential API calls and 25s delays to prevent Steam IP bans.
 
 ## 📝 Latest Updates
-- **Update 12:** Implemented Full-Stack Currency Engine. Users can now view Steam prices in INR (Rupees) and other currencies with live exchange rates.
-- **Update 13:** Fixed broken images. The backend worker now pulls official asset icons directly from Steam Community servers.
-- **Update 14:** Added dynamic "Snipe Threshold" filter. Users can adjust the profit margin sensitivity in real-time.
+- **Update 15:** Launched "Open Market" Expansion. The item index grew from 10 to ~50 assets including Rifles, Snipers, and Cases.
+- **Update 16:** Implemented Micro-Batching. The worker now scans a subset of the market every 30 minutes, ensuring the dashboard stays reactive without being rate-limited.
+- **Update 17:** Revamped Steam UI. Added a live search bar, category navigation chips, and clickable table headers for multi-axis sorting (Name, Price, Profit).
 
 ## 🚀 Future Enhancements
-1.  **Portfolio Tracking:** Allow users to "watch" specific items and get browser notifications on price drops.
-2.  **Auto-Buy Handshake:** Integration with third-party marketplaces for one-click sniping.
-3.  **Expanded Index:** Support for Dota 2 and Rust market assets.
+1.  **Price History Charts:** Integrate Lightweight Charts to show 7-day price trends for each skin.
+2.  **User Watchlists:** Persistent local-storage based watchlists for tracking specific "dream" skins.
+3.  **Expanded Index:** Add support for high-tier Knives and Gloves.
 
 ## 🏁 Final Handover Status
 - **Domain:** `https://nexusloot.innovationinnitiative.in/` (LIVE)

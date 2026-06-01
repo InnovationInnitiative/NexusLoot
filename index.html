@@ -123,12 +123,15 @@
 
         let currentTab = '';
         let valorantCache = null;
-        let steamData = null; // Store raw firebase data for re-rendering
+        let steamData = []; // Store raw firebase data for re-rendering
         
-        // --- CURRENCY & FILTER STATE ---
+        // --- CURRENCY, FILTER & SORT STATE ---
         let selectedCurrency = 'USD';
         let profitThreshold = 30;
-        let exchangeRates = { USD: 1, INR: 83.5, EUR: 0.92, GBP: 0.79, BRL: 5.15 }; // Fallback rates
+        let steamSearchQuery = '';
+        let selectedCategory = 'All';
+        let sortConfig = { key: 'profit', direction: 'desc' };
+        let exchangeRates = { USD: 1, INR: 83.5, EUR: 0.92, GBP: 0.79, BRL: 5.15 };
 
         async function fetchExchangeRates() {
             try {
@@ -206,12 +209,33 @@
         // --- STEAM TRADING FLOOR ---
         window.updateSteamFilter = (value) => {
             profitThreshold = parseInt(value);
-            document.getElementById('threshold-display').innerText = `${profitThreshold}%`;
+            const display = document.getElementById('threshold-display');
+            if (display) display.innerText = `${profitThreshold}%`;
             renderSteam(steamData);
         };
 
         window.updateCurrency = (value) => {
             selectedCurrency = value;
+            renderSteam(steamData);
+        };
+
+        window.updateSteamSearch = (query) => {
+            steamSearchQuery = query.toLowerCase();
+            renderSteam(steamData);
+        };
+
+        window.updateCategory = (cat) => {
+            selectedCategory = cat;
+            renderSteam(steamData);
+        };
+
+        window.setSort = (key) => {
+            if (sortConfig.key === key) {
+                sortConfig.direction = sortConfig.direction === 'asc' ? 'desc' : 'asc';
+            } else {
+                sortConfig.key = key;
+                sortConfig.direction = 'desc';
+            }
             renderSteam(steamData);
         };
 
@@ -222,30 +246,79 @@
                 return;
             }
 
+            // 1. FILTERING
+            let filtered = items.filter(item => {
+                const matchesSearch = item.name.toLowerCase().includes(steamSearchQuery);
+                const matchesCat = selectedCategory === 'All' || item.category === selectedCategory;
+                return matchesSearch && matchesCat;
+            });
+
+            // 2. SORTING
+            filtered.sort((a, b) => {
+                let valA, valB;
+                const lowA = parseFloat(a.lowest_price?.replace(/[^0-9.-]+/g,"") || 0);
+                const lowB = parseFloat(b.lowest_price?.replace(/[^0-9.-]+/g,"") || 0);
+                const medA = parseFloat(a.median_price?.replace(/[^0-9.-]+/g,"") || lowA);
+                const medB = parseFloat(b.median_price?.replace(/[^0-9.-]+/g,"") || lowB);
+
+                if (sortConfig.key === 'name') {
+                    valA = a.name; valB = b.name;
+                } else if (sortConfig.key === 'price') {
+                    valA = lowA; valB = lowB;
+                } else if (sortConfig.key === 'profit') {
+                    valA = medA > 0 ? (medA - lowA) / medA : -1;
+                    valB = medB > 0 ? (medB - lowB) / medB : -1;
+                }
+
+                if (valA < valB) return sortConfig.direction === 'asc' ? -1 : 1;
+                if (valA > valB) return sortConfig.direction === 'asc' ? 1 : -1;
+                return 0;
+            });
+
+            const categories = ['All', 'Case', 'Rifle', 'Sniper', 'Pistol', 'SMG'];
+
             let html = `
-                <div class="mb-12 flex flex-col lg:flex-row justify-between items-end gap-8 animate-in slide-in-from-bottom-8 duration-700">
-                    <div class="w-full lg:w-auto">
-                        <h2 class="font-display text-4xl text-white uppercase tracking-tighter italic">Trading Floor <span class="text-epic">// CS2 Assets</span></h2>
-                        <p class="text-[9px] text-white/30 uppercase tracking-[0.5em] mt-3 font-bold">Real-time Valuation & Margin Analysis</p>
+                <div class="mb-12 flex flex-col gap-10 animate-in fade-in slide-in-from-bottom-8 duration-700">
+                    <div class="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-8">
+                        <div>
+                            <h2 class="font-display text-5xl text-white uppercase tracking-tighter italic">Open Market <span class="text-epic">// Asset Index</span></h2>
+                            <p class="text-[9px] text-white/30 uppercase tracking-[0.5em] mt-3 font-bold">Real-time Trading Floor & Arbitrage Terminal</p>
+                        </div>
+                        
+                        <div class="flex flex-wrap gap-4 w-full lg:w-auto justify-end items-center">
+                            <!-- Currency -->
+                            <div class="glass-card px-4 py-3 rounded-2xl border-white/5">
+                                <select onchange="updateCurrency(this.value)" class="bg-transparent text-[10px] font-black uppercase tracking-widest text-white outline-none cursor-pointer">
+                                    <option value="USD" ${selectedCurrency === 'USD' ? 'selected' : ''} class="bg-nexus-dark">USD ($)</option>
+                                    <option value="INR" ${selectedCurrency === 'INR' ? 'selected' : ''} class="bg-nexus-dark">INR (₹)</option>
+                                    <option value="EUR" ${selectedCurrency === 'EUR' ? 'selected' : ''} class="bg-nexus-dark">EUR (€)</option>
+                                    <option value="GBP" ${selectedCurrency === 'GBP' ? 'selected' : ''} class="bg-nexus-dark">GBP (£)</option>
+                                    <option value="BRL" ${selectedCurrency === 'BRL' ? 'selected' : ''} class="bg-nexus-dark">BRL (R$)</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
-                    
-                    <div class="flex flex-wrap gap-4 w-full lg:w-auto justify-end items-center">
-                        <!-- Profit Filter -->
-                        <div class="glass-card px-6 py-3 rounded-2xl border-white/5 flex items-center gap-4">
-                            <span class="text-[8px] uppercase tracking-widest text-white/40 font-black">Profit Margin:</span>
-                            <input type="range" min="5" max="50" value="${profitThreshold}" oninput="updateSteamFilter(this.value)" class="accent-epic h-1 w-24">
-                            <span id="threshold-display" class="text-[10px] font-bold text-epic w-8">${profitThreshold}%</span>
+
+                    <!-- Market Controls -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="relative group">
+                            <i class="fa-solid fa-magnifying-glass absolute left-6 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-epic transition-colors"></i>
+                            <input type="text" placeholder="Search Skins or Cases..." oninput="updateSteamSearch(this.value)" value="${steamSearchQuery}" 
+                                class="w-full bg-nexus-surface/50 border border-white/5 rounded-2xl py-4 pl-14 pr-6 text-xs text-white placeholder:text-white/10 outline-none focus:border-epic/50 transition-all">
+                        </div>
+                        
+                        <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-2 lg:pb-0">
+                            ${categories.map(cat => `
+                                <button onclick="updateCategory('${cat}')" class="px-6 py-3 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all ${selectedCategory === cat ? 'bg-epic text-white shadow-[0_0_20px_rgba(139,92,246,0.4)]' : 'bg-white/5 text-white/40 hover:bg-white/10'}">${cat}</button>
+                            `).join('')}
                         </div>
 
-                        <!-- Currency Selector -->
-                        <div class="glass-card px-4 py-3 rounded-2xl border-white/5">
-                            <select onchange="updateCurrency(this.value)" class="bg-transparent text-[10px] font-black uppercase tracking-widest text-white outline-none cursor-pointer">
-                                <option value="USD" ${selectedCurrency === 'USD' ? 'selected' : ''} class="bg-nexus-dark">USD ($)</option>
-                                <option value="INR" ${selectedCurrency === 'INR' ? 'selected' : ''} class="bg-nexus-dark">INR (₹)</option>
-                                <option value="EUR" ${selectedCurrency === 'EUR' ? 'selected' : ''} class="bg-nexus-dark">EUR (€)</option>
-                                <option value="GBP" ${selectedCurrency === 'GBP' ? 'selected' : ''} class="bg-nexus-dark">GBP (£)</option>
-                                <option value="BRL" ${selectedCurrency === 'BRL' ? 'selected' : ''} class="bg-nexus-dark">BRL (R$)</option>
-                            </select>
+                        <div class="glass-card px-6 py-4 rounded-2xl border-white/5 flex items-center justify-between gap-6">
+                            <span class="text-[8px] uppercase tracking-widest text-white/40 font-black">Profit Sensitivity</span>
+                            <div class="flex items-center gap-4 flex-grow">
+                                <input type="range" min="5" max="50" value="${profitThreshold}" oninput="updateSteamFilter(this.value)" class="accent-epic h-1 flex-grow">
+                                <span id="threshold-display" class="text-[10px] font-bold text-epic w-8">${profitThreshold}%</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -254,24 +327,21 @@
                     <table class="w-full text-left text-[10px] uppercase tracking-[0.2em]">
                         <thead class="bg-white/[0.03] text-white/40 border-b border-white/5">
                             <tr>
-                                <th class="p-8 font-bold">Asset Name</th>
-                                <th class="p-8 font-bold">Current Price</th>
-                                <th class="p-8 font-bold">Median Value</th>
-                                <th class="p-8 font-bold text-center">Potential Profit</th>
+                                <th class="p-8 font-bold cursor-pointer hover:text-white transition-colors" onclick="setSort('name')">Asset Name ${sortConfig.key === 'name' ? (sortConfig.direction === 'asc' ? '↑' : '↓') : ''}</th>
+                                <th class="p-8 font-bold cursor-pointer hover:text-white transition-colors text-center" onclick="setSort('price')">Market Price ${sortConfig.key === 'price' ? (sortConfig.direction === 'asc' ? '↑' : '↓') : ''}</th>
+                                <th class="p-8 font-bold text-center">Median Value</th>
+                                <th class="p-8 font-bold cursor-pointer hover:text-white transition-colors text-center" onclick="setSort('profit')">Potential Profit ${sortConfig.key === 'profit' ? (sortConfig.direction === 'asc' ? '↑' : '↓') : ''}</th>
                                 <th class="p-8 font-bold text-right">Action</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-white/5">
             `;
 
-            items.forEach((item) => {
+            filtered.forEach((item) => {
                 const lowestRaw = item.lowest_price ? item.lowest_price.replace(/[^0-9.-]+/g,"") : "0";
                 const medianRaw = item.median_price ? item.median_price.replace(/[^0-9.-]+/g,"") : lowestRaw;
-                
                 const lowest = parseFloat(lowestRaw) || 0;
                 const median = parseFloat(medianRaw) || 0;
-                
-                // Only calculate profit if we have real data (non-zero lowest price)
                 const diff = (lowest > 0 && median > 0) ? ((median - lowest) / median * 100).toFixed(1) : "0.0";
                 const isProfitable = lowest > 0 && diff >= profitThreshold;
 
@@ -282,13 +352,16 @@
                                 <div class="w-12 h-12 flex-shrink-0 bg-white/5 rounded-xl border border-white/5 flex items-center justify-center group-hover:border-epic transition-all p-1.5 overflow-hidden">
                                      <img src="${item.icon_url}" class="max-h-full max-w-full object-contain group-hover:scale-110 transition-transform duration-500" onerror="this.src='https://nexusloot.innovationinnitiative.in/favicon.ico'">
                                 </div>
-                                <span class="font-bold text-white/80 group-hover:text-white transition-colors line-clamp-1">${item.name}</span>
+                                <div class="flex flex-col gap-1">
+                                    <span class="font-bold text-white/80 group-hover:text-white transition-colors line-clamp-1">${item.name}</span>
+                                    <span class="text-[7px] text-white/20 font-black">${item.category}</span>
+                                </div>
                             </div>
                         </td>
-                        <td class="p-8 font-display text-lg text-white whitespace-nowrap">
-                            ${lowest > 0 ? formatCurrency(lowest, selectedCurrency) : '<span class="text-white/10 text-xs">LIMIT REACHED</span>'}
+                        <td class="p-8 font-display text-lg text-white whitespace-nowrap text-center">
+                            ${lowest > 0 ? formatCurrency(lowest, selectedCurrency) : '<span class="text-white/10 text-[8px] italic">SYNCING...</span>'}
                         </td>
-                        <td class="p-8 text-white/40 whitespace-nowrap">
+                        <td class="p-8 text-white/40 whitespace-nowrap text-center">
                             ${median > 0 ? formatCurrency(median, selectedCurrency) : '--'}
                         </td>
                         <td class="p-8 text-center">
@@ -302,6 +375,10 @@
                     </tr>
                 `;
             });
+
+            if (filtered.length === 0) {
+                html += `<tr><td colspan="5" class="py-32 text-center text-white/20 text-[10px] uppercase tracking-[0.5em] italic">No compatible assets found in current sector</td></tr>`;
+            }
 
             html += `</tbody></table></div>`;
             mount.innerHTML = html;
