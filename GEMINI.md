@@ -45,16 +45,19 @@ Build a highly polished, single-page, multi-game tracker dashboard called "Nexus
 ## 📝 Latest Updates
 - **Update 26:** Refactored the planned "Loot Tracker" into a live **MMO Market Tracker**. It fetches real-time GE prices for OSRS (using OSRS Wiki API) and Black Market/City prices for Albion Online (using Albion Data Project), displaying instant Buy/Sell margins.
 - **Update 27:** Split the generic MMO Market tab into two dedicated, game-specific tabs: **⚔️ OSRS Market** and **🛡️ Albion Market**. This improves credibility for hardcore players and allows for targeted external promotion.
+- **Update 28:** Resolved critical UI mounting bugs ("Sync Interrupted") on the new separated market tabs by fixing navigation passing arguments and restoring missing state references in the `MarketTracker` constructor.
 
 ## 🚀 Priority 1 (Next Session)
 1.  **eSports Schedule:** Research and implement a lightweight PandaScore or esport.is widget.
 2.  **Drops Tracker:** Map out Twitch Drop API requirements for the next module.
-3.  **Adsterra Check:** Review social bar impressions on the new 3-tab layout.
+3.  **Adsterra Check:** Review social bar impressions on the new 5-tab layout.
 
 ## 🏁 Final Handover Status
 - **Domain:** `https://nexusloot.innovationinnitiative.in/` (LIVE)
 - **Loot Drop:** 100% Operational (GamerPower API).
 - **Valorant Arsenal:** 100% Operational (Valorant-API.com).
-- **Steam Market:** DEPRECATED (Moved to Modular Expansion).
-- **Stability:** HIGH (All CORS/API issues resolved).
-- **Ads:** Active.
+- **Daily Games:** 100% Operational (Pokémon, LoL, Wordle).
+- **Sens Converter:** 100% Operational (Cross-game math + Crosshair Studio).
+- **MMO Market:** 100% Operational (Split OSRS and Albion Live Trackers).
+- **Automated Marketing:** Twitter Bot deployed via GitHub Actions; Auto-SEO Blog live with 42 indexed pages.
+- **Stability:** HIGH (All API fetch and rendering bugs resolved).
