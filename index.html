@@ -59,7 +59,6 @@
                     </div>
                     <div class="flex gap-4 sm:gap-8">
                         <button onclick="switchTab('giveaways')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest py-5 border-b-2 border-transparent hover:text-white" data-tab="giveaways">Loot Drop</button>
-                        <button onclick="switchTab('terminal')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest py-5 border-b-2 border-transparent hover:text-white" data-tab="terminal">Omni-Terminal</button>
                         <button onclick="switchTab('valorant')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent hover:text-white" data-tab="valorant">Valorant</button>
                     </div>
                 </div>
@@ -101,8 +100,7 @@
     <script>
         const VIEWS = {
             giveaways: { api: 'https://www.gamerpower.com/api/giveaways', render: renderGiveaways },
-            valorant: { api: ['https://valorant-api.com/v1/weapons', 'https://valorant-api.com/v1/bundles'], render: renderValorant },
-            terminal: { api: 'https://fortnite-api.com/v2/shop/br', render: renderTerminal }
+            valorant: { api: ['https://valorant-api.com/v1/weapons', 'https://valorant-api.com/v1/bundles'], render: renderValorant }
         };
 
         let currentTab = '';
@@ -143,129 +141,6 @@
                 console.error('NexusEngine Error:', err);
                 mount.innerHTML = `<div class="py-32 text-center"><i class="fa-solid fa-circle-exclamation text-epic text-5xl mb-6"></i><h2 class="font-display text-2xl uppercase tracking-tighter text-white">Sync Interrupted</h2><p class="text-white/30 text-[10px] mt-4 uppercase tracking-[0.4em] italic text-center">Neural-link failed.</p></div>`;
             }
-        }
-
-        // --- TERMINAL RENDER (Fortnite Shop + eSports + Drops) ---
-        function renderTerminal(fortniteData) {
-            const mount = document.getElementById('app-view');
-            
-            let html = `
-                <div class="mb-20 animate-in fade-in slide-in-from-bottom-8 duration-700">
-                    <div class="flex flex-col lg:flex-row justify-between items-end gap-8 mb-12">
-                        <div>
-                            <h2 class="font-display text-5xl text-white uppercase tracking-tighter italic">Omni <span class="text-epic">Terminal</span></h2>
-                            <p class="text-[9px] text-white/30 uppercase tracking-[0.5em] mt-3 font-bold italic">Global Shop Rotations & Pro Circuit Telemetry</p>
-                        </div>
-                    </div>
-
-                    <!-- SUB-TABS -->
-                    <div class="flex gap-4 mb-12 overflow-x-auto no-scrollbar">
-                        <button onclick="document.getElementById('fortnite-section').scrollIntoView({behavior:'smooth'})" class="whitespace-nowrap px-8 py-4 glass-card bg-white/[0.02] rounded-2xl border border-white/5 text-[10px] font-black uppercase tracking-widest text-epic hover:bg-epic/10 transition-all"><i class="fa-solid fa-cart-shopping mr-3"></i> Fortnite Shop</button>
-                        <button onclick="document.getElementById('esports-section').scrollIntoView({behavior:'smooth'})" class="whitespace-nowrap px-8 py-4 glass-card bg-white/[0.02] rounded-2xl border border-white/5 text-[10px] font-black uppercase tracking-widest text-free hover:bg-free/10 transition-all"><i class="fa-solid fa-trophy mr-3"></i> Pro Matches</button>
-                        <button onclick="document.getElementById('drops-section').scrollIntoView({behavior:'smooth'})" class="whitespace-nowrap px-8 py-4 glass-card bg-white/[0.02] rounded-2xl border border-white/5 text-[10px] font-black uppercase tracking-widest text-legendary hover:bg-legendary/10 transition-all"><i class="fa-brands fa-twitch mr-3"></i> Twitch Drops</button>
-                    </div>
-
-                    <!-- FORTNITE SECTION -->
-                    <div id="fortnite-section" class="mb-24">
-                        <div class="flex items-center gap-4 mb-10">
-                            <div class="h-px flex-grow bg-white/5"></div>
-                            <h3 class="text-xs font-black uppercase tracking-[0.5em] text-white/40">Fortnite Daily Rotation</h3>
-                            <div class="h-px flex-grow bg-white/5"></div>
-                        </div>
-                        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-            `;
-
-            const entries = fortniteData.data?.featured?.entries || fortniteData.data?.daily?.entries || [];
-            entries.slice(0, 10).forEach(entry => {
-                const item = entry.items[0];
-                html += `
-                    <div class="glass-card bg-nexus-surface rounded-3xl overflow-hidden border border-white/5 group hover:border-epic/40 transition-all duration-500">
-                        <div class="relative aspect-square overflow-hidden bg-gradient-to-br from-epic/10 to-transparent">
-                            <img src="${item.images.featured || item.images.icon}" class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-700">
-                            <div class="absolute bottom-4 right-4 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-lg text-[9px] font-black text-white flex items-center gap-2">
-                                <i class="fa-solid fa-v"></i> ${entry.finalPrice}
-                            </div>
-                        </div>
-                        <div class="p-5">
-                            <h4 class="text-[10px] font-bold text-white uppercase truncate">${item.name}</h4>
-                            <p class="text-[7px] text-white/30 uppercase mt-1 tracking-widest font-black">${item.rarity.value}</p>
-                        </div>
-                    </div>
-                `;
-            });
-
-            html += `
-                        </div>
-                    </div>
-
-                    <!-- ESPORTS SECTION -->
-                    <div id="esports-section" class="mb-24">
-                         <div class="flex items-center gap-4 mb-10">
-                            <div class="h-px flex-grow bg-white/5"></div>
-                            <h3 class="text-xs font-black uppercase tracking-[0.5em] text-free/60">Pro Match Circuit</h3>
-                            <div class="h-px flex-grow bg-white/5"></div>
-                        </div>
-                        <div class="bg-white/[0.02] rounded-[3rem] p-10 border border-white/5">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                <div class="p-8 border border-white/5 rounded-3xl bg-white/[0.02] flex items-center justify-between group hover:border-free/40 transition-all">
-                                    <div class="flex items-center gap-6">
-                                        <div class="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center font-display italic text-white">NAVI</div>
-                                        <span class="text-white/20 font-black italic">VS</span>
-                                        <div class="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center font-display italic text-white">G2</div>
-                                    </div>
-                                    <div class="text-right">
-                                        <div class="text-[8px] font-black text-free uppercase tracking-widest mb-1 animate-pulse">● LIVE NOW</div>
-                                        <div class="text-xs font-bold text-white tracking-widest">1 : 0</div>
-                                    </div>
-                                </div>
-                                <div class="p-8 border border-white/5 rounded-3xl bg-white/[0.02] flex items-center justify-between group hover:border-epic/40 transition-all opacity-50">
-                                    <div class="flex items-center gap-6">
-                                        <div class="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center font-display italic text-white">Faze</div>
-                                        <span class="text-white/20 font-black italic">VS</span>
-                                        <div class="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center font-display italic text-white">VIT</div>
-                                    </div>
-                                    <div class="text-right">
-                                        <div class="text-[8px] font-black text-white/20 uppercase tracking-widest mb-1">Upcoming</div>
-                                        <div class="text-[10px] font-bold text-white tracking-widest italic">18:30 UTC</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- TWITCH DROPS SECTION -->
-                    <div id="drops-section">
-                        <div class="flex items-center gap-4 mb-10">
-                            <div class="h-px flex-grow bg-white/5"></div>
-                            <h3 class="text-xs font-black uppercase tracking-[0.5em] text-legendary/60">Active Twitch Drops</h3>
-                            <div class="h-px flex-grow bg-white/5"></div>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            <div class="bg-white/[0.02] p-8 rounded-[2.5rem] border border-white/5 flex items-center gap-8 group hover:border-legendary/40 transition-all">
-                                <div class="w-24 h-24 bg-white/5 rounded-3xl overflow-hidden flex-shrink-0">
-                                    <img src="https://static-cdn.jtvnw.net/ttv-boxart/263490_IGDB-285x380.jpg" class="w-full h-full object-cover">
-                                </div>
-                                <div>
-                                    <h4 class="font-display text-xl text-white uppercase italic">Rust <span class="text-legendary">Global Drops</span></h4>
-                                    <p class="text-[9px] text-white/30 uppercase tracking-widest mt-2 font-black">Ends in 2 days // 4 Skins Available</p>
-                                    <a href="https://twitch.tv/drops/campaigns" target="_blank" class="inline-block mt-6 text-[8px] font-black text-legendary uppercase tracking-[0.3em] hover:text-white transition-colors">Claim on Twitch →</a>
-                                </div>
-                            </div>
-                            <div class="bg-white/[0.02] p-8 rounded-[2.5rem] border border-white/5 flex items-center gap-8 group hover:border-epic/40 transition-all">
-                                <div class="w-24 h-24 bg-white/5 rounded-3xl overflow-hidden flex-shrink-0">
-                                    <img src="https://static-cdn.jtvnw.net/ttv-boxart/511224-285x380.jpg" class="w-full h-full object-cover">
-                                </div>
-                                <div>
-                                    <h4 class="font-display text-xl text-white uppercase italic">Apex <span class="text-epic">Legends</span></h4>
-                                    <p class="text-[9px] text-white/30 uppercase tracking-widest mt-2 font-black">ALGS Playoffs // Rare Holospray</p>
-                                    <a href="https://twitch.tv/drops/campaigns" target="_blank" class="inline-block mt-6 text-[8px] font-black text-epic uppercase tracking-[0.3em] hover:text-white transition-colors">Claim on Twitch →</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-            mount.innerHTML = html;
         }
 
         // --- VALORANT RENDER ---
