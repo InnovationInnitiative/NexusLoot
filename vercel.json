@@ -1,0 +1,10 @@
+{
+  "rewrites": [
+    { "source": "/freegame", "destination": "/index.html" },
+    { "source": "/valorant", "destination": "/index.html" },
+    { "source": "/games", "destination": "/index.html" },
+    { "source": "/sens", "destination": "/index.html" },
+    { "source": "/osrs", "destination": "/index.html" },
+    { "source": "/albion", "destination": "/index.html" }
+  ]
+}

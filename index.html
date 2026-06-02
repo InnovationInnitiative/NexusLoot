@@ -70,6 +70,7 @@
                         <button onclick="switchTab('sens')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white" data-tab="sens">🖱️ Sens Converter</button>
                         <button onclick="switchTab('osrs')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white" data-tab="osrs">⚔️ OSRS Market</button>
                         <button onclick="switchTab('albion')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white" data-tab="albion">🛡️ Albion Market</button>
+                        <a href="/blog/" class="text-[10px] sm:text-xs font-bold uppercase tracking-widest py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white flex items-center gap-1"><i class="fa-solid fa-book-open text-[10px]"></i> Blog</a>
                     </div>
                 </div>
             </div>
@@ -117,24 +118,24 @@
     <script src="tracker.js"></script>
     <script>
         const VIEWS = {
-            giveaways: { api: 'https://www.gamerpower.com/api/giveaways', render: renderGiveaways },
-            valorant: { api: ['https://valorant-api.com/v1/weapons', 'https://valorant-api.com/v1/bundles'], render: renderValorant },
-            games: { render: () => {
+            giveaways: { path: '/freegame', api: 'https://www.gamerpower.com/api/giveaways', render: renderGiveaways },
+            valorant: { path: '/valorant', api: ['https://valorant-api.com/v1/weapons', 'https://valorant-api.com/v1/bundles'], render: renderValorant },
+            games: { path: '/games', render: () => {
                 const mount = document.getElementById('app-view');
                 mount.innerHTML = `<div id="game-mount" class="animate-in fade-in slide-in-from-bottom-4 duration-700"></div>`;
                 if (window.gameEngine) window.gameEngine.renderGame();
             }},
-            sens: { render: () => {
+            sens: { path: '/sens', render: () => {
                 const mount = document.getElementById('app-view');
                 mount.innerHTML = `<div id="converter-mount" class="animate-in fade-in slide-in-from-bottom-4 duration-700"></div>`;
                 if (window.converter) window.converter.init();
             }},
-            osrs: { render: () => {
+            osrs: { path: '/osrs', render: () => {
                 const mount = document.getElementById('app-view');
                 mount.innerHTML = `<div id="tracker-mount" class="animate-in fade-in slide-in-from-bottom-4 duration-700"></div>`;
                 if (window.marketTracker) window.marketTracker.init('osrs');
             }},
-            albion: { render: () => {
+            albion: { path: '/albion', render: () => {
                 const mount = document.getElementById('app-view');
                 mount.innerHTML = `<div id="tracker-mount" class="animate-in fade-in slide-in-from-bottom-4 duration-700"></div>`;
                 if (window.marketTracker) window.marketTracker.init('albion');
@@ -157,18 +158,22 @@
             }
         }
 
-        async function switchTab(tabId) {
+        async function switchTab(tabId, pushState = true) {
             if (currentTab === tabId) return;
             currentTab = tabId;
-            
+
+            const config = VIEWS[tabId];
+            if (pushState && config.path) {
+                history.pushState({ tabId }, '', config.path);
+            }
+
             document.querySelectorAll('.tab-link').forEach(l => l.classList.toggle('tab-active', l.dataset.tab === tabId));
             const mount = document.getElementById('app-view');
             mount.innerHTML = `<div class="grid grid-cols-2 md:grid-cols-4 gap-8">${Array(8).fill(0).map(() => `<div class="h-80 bg-white/[0.02] rounded-3xl shimmer border border-white/5"></div>`).join('')}</div>`;
 
             try {
-                const config = VIEWS[tabId];
                 let data = null;
-                
+
                 if (config.api) {
                     if (Array.isArray(config.api)) {
                         data = await Promise.all(config.api.map(url => nexusFetch(url)));
@@ -177,7 +182,7 @@
                         data = await nexusFetch(config.api);
                     }
                 }
-                
+
                 config.render(data);
             } catch (err) {
                 console.error('NexusEngine Error:', err);
@@ -257,7 +262,22 @@
             }
         }
 
-        switchTab('giveaways');
+        // --- ROUTING ENGINE ---
+        window.addEventListener('popstate', (e) => {
+            if (e.state && e.state.tabId) {
+                switchTab(e.state.tabId, false);
+            } else {
+                initRouting();
+            }
+        });
+
+        function initRouting() {
+            const path = window.location.pathname;
+            const tabId = Object.keys(VIEWS).find(key => VIEWS[key].path === path) || 'giveaways';
+            switchTab(tabId, false);
+        }
+
+        initRouting();
     </script>
     <!-- Adsterra Social Bar -->
     <script src="https://pl29600983.effectivecpmnetwork.com/d9/67/3b/d9673b40062c8e70dbcb40185a13054f.js"></script>

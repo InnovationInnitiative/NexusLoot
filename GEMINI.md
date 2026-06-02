@@ -37,15 +37,18 @@ Build a highly polished, single-page, multi-game tracker dashboard called "Nexus
 - [x] **Sens Converter:** Implemented a client-side Mouse Sensitivity converter and dynamic Crosshair Generator with local profile saving.
 - [x] **MMO Market:** Implemented a live API-driven market tracker, explicitly split into dedicated OSRS and Albion Online tabs.
 
-### Phase 5: Automated Marketing Engine [IN PROGRESS]
+### Phase 5: Automated Marketing Engine [DONE]
 - [x] **Auto-SEO Blog:** Created the `/blog` architecture and 42 SEO articles to capture long-tail search traffic.
 - [x] **Twitter/X Bot:** Built a Node.js bot running on GitHub Actions to auto-tweet daily free games from GamerPower.
+- [x] **SEO Routing:** Implemented client-side routing with clean URLs (`/freegame`, `/albion`, etc.) and Vercel rewrites.
+- [x] **Blog Visibility:** Exposed the blog in the main navigation for better indexing and user access.
 - [ ] **Drops Tracker:** Add a dedicated hub for active Twitch Drop campaigns.
 
 ## 📝 Latest Updates
 - **Update 26:** Refactored the planned "Loot Tracker" into a live **MMO Market Tracker**. It fetches real-time GE prices for OSRS (using OSRS Wiki API) and Black Market/City prices for Albion Online (using Albion Data Project), displaying instant Buy/Sell margins.
 - **Update 27:** Split the generic MMO Market tab into two dedicated, game-specific tabs: **⚔️ OSRS Market** and **🛡️ Albion Market**. This improves credibility for hardcore players and allows for targeted external promotion.
 - **Update 28:** Resolved critical UI mounting bugs ("Sync Interrupted") on the new separated market tabs by fixing navigation passing arguments and restoring missing state references in the `MarketTracker` constructor.
+- **Update 29:** Implemented **Clean URLs & SEO Routing**. Dedicated paths like `/albion` and `/freegame` now load specific tabs directly. Added a "Blog" link to the main navigation to improve indexability of the SEO articles.
 
 ## 🚀 Priority 1 (Next Session)
 1.  **eSports Schedule:** Research and implement a lightweight PandaScore or esport.is widget.
