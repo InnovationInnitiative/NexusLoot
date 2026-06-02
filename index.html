@@ -66,10 +66,12 @@
                     <div class="flex gap-4 sm:gap-8 overflow-x-auto no-scrollbar pb-2 sm:pb-0">
                         <button onclick="switchTab('giveaways')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white" data-tab="giveaways">Loot Drop</button>
                         <button onclick="switchTab('valorant')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white" data-tab="valorant">Valorant</button>
-                        <button onclick="switchTab('games')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white" data-tab="games">Daily Games</button>
-                        <button onclick="switchTab('sens')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white" data-tab="sens">🖱️ Sens Converter</button>
-                        <button onclick="switchTab('osrs')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white" data-tab="osrs">⚔️ OSRS Market</button>
-                        <button onclick="switchTab('albion')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white" data-tab="albion">🛡️ Albion Market</button>
+                        <button onclick="switchTab('pokeguess')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white" data-tab="pokeguess">🎯 Poké-Guess</button>
+                        <button onclick="switchTab('lolguess')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white" data-tab="lolguess">⚔️ LoL-Guess</button>
+                        <button onclick="switchTab('wordle')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white" data-tab="wordle">⌨️ Wordle</button>
+                        <button onclick="switchTab('sens')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white" data-tab="sens">🖱️ Sens</button>
+                        <button onclick="switchTab('osrs')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white" data-tab="osrs">⚔️ OSRS</button>
+                        <button onclick="switchTab('albion')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white" data-tab="albion">🛡️ Albion</button>
                         <a href="/blog/" class="text-[10px] sm:text-xs font-bold uppercase tracking-widest py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white flex items-center gap-1"><i class="fa-solid fa-book-open text-[10px]"></i> Blog</a>
                     </div>
                 </div>
@@ -120,10 +122,20 @@
         const VIEWS = {
             giveaways: { path: '/freegame', api: 'https://www.gamerpower.com/api/giveaways', render: renderGiveaways },
             valorant: { path: '/valorant', api: ['https://valorant-api.com/v1/weapons', 'https://valorant-api.com/v1/bundles'], render: renderValorant },
-            games: { path: '/games', render: () => {
+            pokeguess: { path: '/pokeguess', render: () => {
                 const mount = document.getElementById('app-view');
                 mount.innerHTML = `<div id="game-mount" class="animate-in fade-in slide-in-from-bottom-4 duration-700"></div>`;
-                if (window.gameEngine) window.gameEngine.renderGame();
+                if (window.gameEngine) window.gameEngine.switchGame('pokemon');
+            }},
+            lolguess: { path: '/lolguess', render: () => {
+                const mount = document.getElementById('app-view');
+                mount.innerHTML = `<div id="game-mount" class="animate-in fade-in slide-in-from-bottom-4 duration-700"></div>`;
+                if (window.gameEngine) window.gameEngine.switchGame('league');
+            }},
+            wordle: { path: '/wordle', render: () => {
+                const mount = document.getElementById('app-view');
+                mount.innerHTML = `<div id="game-mount" class="animate-in fade-in slide-in-from-bottom-4 duration-700"></div>`;
+                if (window.gameEngine) window.gameEngine.switchGame('wordle');
             }},
             sens: { path: '/sens', render: () => {
                 const mount = document.getElementById('app-view');

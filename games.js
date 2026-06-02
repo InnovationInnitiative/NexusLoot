@@ -58,9 +58,47 @@ class GamesEngine {
             <h2 class="neon-title text-3xl mb-4">Daily Victory!</h2>
             <p class="text-white/60 mb-6">You solved today's ${game} challenge.</p>
             <div class="text-5xl font-black text-white mb-8">${this.streaks[game]} DAY STREAK</div>
-            <button onclick="this.parentElement.remove()" class="px-8 py-3 bg-neon-cyan text-arcade-bg font-black rounded-xl uppercase tracking-widest">Keep Playing</button>
+            <div class="flex gap-4 justify-center">
+                <button onclick="window.gameEngine.copyResults('${game}')" class="px-8 py-3 bg-neon-cyan text-arcade-bg font-black rounded-xl uppercase tracking-widest flex items-center gap-2">
+                    <i class="fa-solid fa-share-nodes"></i> Share Score
+                </button>
+                <button onclick="this.parentElement.parentElement.remove()" class="px-8 py-3 bg-white/5 text-white/60 font-black rounded-xl uppercase tracking-widest">Close</button>
+            </div>
         `;
         document.body.appendChild(alert);
+    }
+
+    copyResults(game) {
+        const target = this.targets[game];
+        const guesses = this.gameState[game].guesses;
+        let grid = `NexusLoot ${game.toUpperCase()} // ${new Date().toLocaleDateString()}\n`;
+        grid += `Streak: ${this.streaks[game]} 🔥\n\n`;
+
+        if (game === 'wordle') {
+            guesses.forEach(guess => {
+                let row = '';
+                guess.split('').forEach((char, c) => {
+                    if (char === target[c]) row += '🟩';
+                    else if (target.includes(char)) row += '🟨';
+                    else row += '⬛';
+                });
+                grid += row + '\n';
+            });
+        } else {
+            // For attribute games, reverse so oldest is first for chronological sharing
+            [...guesses].reverse().forEach(g => {
+                if (g.name === target.name) grid += '🟩🟩🟩🟩🟩\n';
+                else grid += '⬛⬛🟨⬛⬛\n'; // Simplified representation for attribute games
+            });
+        }
+
+        grid += `\nPlay at: https://nexusloot.innovationinnitiative.in/${game === 'pokemon' ? 'pokeguess' : game === 'league' ? 'lolguess' : 'wordle'}`;
+        
+        navigator.clipboard.writeText(grid);
+        const btn = event.target.closest('button');
+        const original = btn.innerHTML;
+        btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
+        setTimeout(() => btn.innerHTML = original, 2000);
     }
 
     switchGame(game) {
@@ -74,11 +112,6 @@ class GamesEngine {
 
         let html = `
             <div class="game-container">
-                <div class="flex justify-center gap-4 mb-10 border-b border-white/5">
-                    <div onclick="gameEngine.switchGame('pokemon')" class="game-tab ${this.activeGame === 'pokemon' ? 'active' : ''}">🎯 Poké-Guess</div>
-                    <div onclick="gameEngine.switchGame('league')" class="game-tab ${this.activeGame === 'league' ? 'active' : ''}">⚔️ League-Guess</div>
-                    <div onclick="gameEngine.switchGame('wordle')" class="game-tab ${this.activeGame === 'wordle' ? 'active' : ''}">⌨️ Game Wordle</div>
-                </div>
         `;
 
         if (this.activeGame === 'wordle') {
