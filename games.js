@@ -24,7 +24,15 @@ class GamesEngine {
 
     calculateDailyTargets() {
         const seed = this.getDailySeed();
-        this.targets.pokemon = POKEMON_DATA[seed % POKEMON_DATA.length];
+        const dateStr = new Date().toISOString().split('T')[0];
+
+        // --- MARKETING OVERRIDE: June 3, 2026 ---
+        if (dateStr === '2026-06-03') {
+            this.targets.pokemon = POKEMON_DATA.find(p => p.name === 'Gengar');
+        } else {
+            this.targets.pokemon = POKEMON_DATA[seed % POKEMON_DATA.length];
+        }
+
         this.targets.league = LOL_DATA[seed % LOL_DATA.length];
         this.targets.wordle = WORDLE_WORDS[seed % WORDLE_WORDS.length].toUpperCase();
         console.log("Targets synchronized for today.");
@@ -58,17 +66,25 @@ class GamesEngine {
             <h2 class="neon-title text-3xl mb-4">Daily Victory!</h2>
             <p class="text-white/60 mb-6">You solved today's ${game} challenge.</p>
             <div class="text-5xl font-black text-white mb-8">${this.streaks[game]} DAY STREAK</div>
-            <div class="flex gap-4 justify-center">
-                <button onclick="window.gameEngine.copyResults('${game}')" class="px-8 py-3 bg-neon-cyan text-arcade-bg font-black rounded-xl uppercase tracking-widest flex items-center gap-2">
-                    <i class="fa-solid fa-share-nodes"></i> Share Score
+            <div class="flex flex-col gap-3">
+                <div class="flex gap-3 justify-center">
+                    <button onclick="window.gameEngine.shareToX('${game}')" class="flex-1 px-6 py-4 bg-[#1DA1F2] text-white font-black rounded-2xl uppercase tracking-widest flex items-center justify-center gap-2 hover:scale-105 transition-transform">
+                        <i class="fa-brands fa-x-twitter text-lg"></i> Post to X
+                    </button>
+                    <button onclick="window.gameEngine.shareToFB('${game}')" class="flex-1 px-6 py-4 bg-[#1877F2] text-white font-black rounded-2xl uppercase tracking-widest flex items-center justify-center gap-2 hover:scale-105 transition-transform">
+                        <i class="fa-brands fa-facebook text-lg"></i> Share
+                    </button>
+                </div>
+                <button onclick="window.gameEngine.copyResults('${game}')" class="w-full px-6 py-3 bg-white/5 text-white/40 font-black rounded-xl uppercase tracking-widest flex items-center justify-center gap-2 hover:text-white transition-colors">
+                    <i class="fa-solid fa-copy"></i> Copy Raw Text
                 </button>
-                <button onclick="this.parentElement.parentElement.remove()" class="px-8 py-3 bg-white/5 text-white/60 font-black rounded-xl uppercase tracking-widest">Close</button>
+                <button onclick="this.parentElement.parentElement.remove()" class="mt-4 text-[10px] text-white/20 uppercase tracking-widest hover:text-white transition-colors">Dismiss</button>
             </div>
         `;
         document.body.appendChild(alert);
     }
 
-    copyResults(game) {
+    getShareText(game) {
         const target = this.targets[game];
         const guesses = this.gameState[game].guesses;
         let grid = `NexusLoot ${game.toUpperCase()} // ${new Date().toLocaleDateString()}\n`;
@@ -85,16 +101,32 @@ class GamesEngine {
                 grid += row + '\n';
             });
         } else {
-            // For attribute games, reverse so oldest is first for chronological sharing
             [...guesses].reverse().forEach(g => {
                 if (g.name === target.name) grid += '🟩🟩🟩🟩🟩\n';
-                else grid += '⬛⬛🟨⬛⬛\n'; // Simplified representation for attribute games
+                else grid += '⬛⬛🟨⬛⬛\n';
             });
         }
 
         grid += `\nPlay at: https://nexusloot.innovationinnitiative.in/${game === 'pokemon' ? 'pokeguess' : game === 'league' ? 'lolguess' : 'wordle'}`;
-        
-        navigator.clipboard.writeText(grid);
+        return grid;
+    }
+
+    shareToX(game) {
+        const text = this.getShareText(game);
+        const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
+        window.open(url, '_blank');
+    }
+
+    shareToFB(game) {
+        // Facebook doesn't allow pre-populated text via URL as easily as X, but we can share the link
+        const gameUrl = `https://nexusloot.innovationinnitiative.in/${game === 'pokemon' ? 'pokeguess' : game === 'league' ? 'lolguess' : 'wordle'}`;
+        const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(gameUrl)}`;
+        window.open(url, '_blank');
+    }
+
+    copyResults(game) {
+        const text = this.getShareText(game);
+        navigator.clipboard.writeText(text);
         const btn = event.target.closest('button');
         const original = btn.innerHTML;
         btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';

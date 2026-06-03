@@ -46,13 +46,15 @@ Build a highly polished, single-page, multi-game tracker dashboard called "Nexus
 - [ ] **Drops Tracker:** Add a dedicated hub for active Twitch Drop campaigns.
 
 ## 📝 Latest Updates
+- **Update 32:** **Viral Social Sharing.** Replaced the basic "Copy to Clipboard" button with a multi-platform Social Share interface. Users can now post their scores directly to X (Twitter) or Facebook with pre-populated emoji grids and links. Added a temporary marketing override for the Poké-Guess target (Gengar) for June 3rd promotion.
 - **Update 31:** **Specialized Game Tabs & Viral Growth.** Split the "Daily Games" hub into individual tabs (`/pokeguess`, `/lolguess`, `/wordle`) for better targeted promotion. Added a **"Share Result"** button that generates emoji grids (Wordle-style) to encourage viral sharing on social media and Discord.
 - **Update 30:** Expanded the **Neural Archives (Blog)** to 47 articles. Added new high-traffic "Intelligence Reports" for OSRS Flipping, Albion Black Market, Valorant Skin Economy, and Daily Games Strategy.
 
 ## 🚀 Priority 1 (Next Session)
-1.  **eSports Schedule:** Research and implement a lightweight PandaScore or esport.is widget.
-2.  **Drops Tracker:** Map out Twitch Drop API requirements for the next module.
-3.  **Adsterra Check:** Review social bar impressions on the new 5-tab layout.
+1.  **Revert Override:** **CRITICAL:** Revert the manual Poké-Guess override in `games.js` (line 30) after June 3, 2026.
+2.  **eSports Schedule:** Research and implement a lightweight PandaScore or esport.is widget.
+3.  **Drops Tracker:** Map out Twitch Drop API requirements for the next module.
+4.  **Adsterra Check:** Review social bar impressions on the new 5-tab layout.
 
 ## 🏁 Final Handover Status
 - **Domain:** `https://nexusloot.innovationinnitiative.in/` (LIVE)
