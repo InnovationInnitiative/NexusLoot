@@ -85,30 +85,30 @@ class GamesEngine {
     }
 
     getShareText(game) {
-        const target = this.targets[game];
         const guesses = this.gameState[game].guesses;
-        let grid = `NexusLoot ${game.toUpperCase()} // ${new Date().toLocaleDateString()}\n`;
-        grid += `Streak: ${this.streaks[game]} 🔥\n\n`;
+        const count = guesses.length;
+        let rank = '';
 
         if (game === 'wordle') {
-            guesses.forEach(guess => {
-                let row = '';
-                guess.split('').forEach((char, c) => {
-                    if (char === target[c]) row += '🟩';
-                    else if (target.includes(char)) row += '🟨';
-                    else row += '⬛';
-                });
-                grid += row + '\n';
-            });
+            if (count === 1) rank = 'Mind Reader 🧠';
+            else if (count <= 3) rank = 'Scholar 📚';
+            else if (count <= 5) rank = 'Survivor 🛡️';
+            else rank = 'Clutch King 👑';
         } else {
-            [...guesses].reverse().forEach(g => {
-                if (g.name === target.name) grid += '🟩🟩🟩🟩🟩\n';
-                else grid += '⬛⬛🟨⬛⬛\n';
-            });
+            if (count <= 2) rank = 'Legendary Scout 🏆';
+            else if (count <= 5) rank = 'Expert Tracker 🕵️';
+            else if (count <= 10) rank = 'Pro Trainer 🎮';
+            else rank = 'Persistent Hunter ⚔️';
         }
 
-        grid += `\nPlay at: https://nexusloot.innovationinnitiative.in/${game === 'pokemon' ? 'pokeguess' : game === 'league' ? 'lolguess' : 'wordle'}`;
-        return grid;
+        let text = `NexusLoot ${game.toUpperCase()} // ${new Date().toLocaleDateString()}\n`;
+        text += `Rank: ${rank}\n`;
+        text += `Solved in ${count} ${count === 1 ? 'guess' : 'guesses'}! 🔥\n`;
+        text += `Streak: ${this.streaks[game]} Days\n\n`;
+        text += `Can you beat my record?\n`;
+        text += `Play here: https://nexusloot.innovationinnitiative.in/${game === 'pokemon' ? 'pokeguess' : game === 'league' ? 'lolguess' : 'wordle'}`;
+        
+        return text;
     }
 
     shareToX(game) {
