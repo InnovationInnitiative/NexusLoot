@@ -111,39 +111,53 @@ class MarketTracker {
         const res = await fetch(url);
         const json = await res.json();
 
-        const aggregated = {};
+        // item_id -> { 
+        //   bestBuy: { price: Infinity, city: '' }, 
+        //   bestSell: { price: 0, city: '' } 
+        // }
+        const routes = {};
+
         json.forEach(entry => {
-            if (!aggregated[entry.item_id]) {
-                aggregated[entry.item_id] = { high: 0, low: Infinity, name: entry.item_id.replace(/_/g, ' ') };
+            if (!routes[entry.item_id]) {
+                routes[entry.item_id] = { 
+                    bestBuy: { price: Infinity, city: 'N/A' }, 
+                    bestSell: { price: 0, city: 'N/A' },
+                    name: entry.item_id.replace(/_/g, ' ')
+                };
             }
-            if (entry.buy_price_max > aggregated[entry.item_id].high) {
-                aggregated[entry.item_id].high = entry.buy_price_max;
+
+            // To BUY: We want the lowest Sell Order (sell_price_min)
+            if (entry.sell_price_min > 0 && entry.sell_price_min < routes[entry.item_id].bestBuy.price) {
+                routes[entry.item_id].bestBuy = { price: entry.sell_price_min, city: entry.city };
             }
-            if (entry.sell_price_min > 0 && entry.sell_price_min < aggregated[entry.item_id].low) {
-                aggregated[entry.item_id].low = entry.sell_price_min;
+
+            // To SELL: We want the highest Buy Order (buy_price_max)
+            if (entry.buy_price_max > 0 && entry.buy_price_max > routes[entry.item_id].bestSell.price) {
+                routes[entry.item_id].bestSell = { price: entry.buy_price_max, city: entry.city };
             }
         });
 
         this.albionMerged = [];
-        for (const [id, data] of Object.entries(aggregated)) {
-            if (data.high > 0 && data.low !== Infinity) {
-                // In Albion: low sell order is what you BUY at (cost), high buy order is what you SELL at (revenue).
-                // Wait, typical flipping: Buy via Buy Order (pay high buy_price_max), Sell via Sell Order (receive low sell_price_min).
-                const buyOrder = data.high;
-                const sellOrder = data.low;
-                const margin = sellOrder - buyOrder; // Revenue - Cost
-                const roi = buyOrder > 0 ? (margin / buyOrder) * 100 : 0;
+        for (const [id, data] of Object.entries(routes)) {
+            if (data.bestBuy.price !== Infinity && data.bestSell.price > 0) {
+                const margin = data.bestSell.price - data.bestBuy.price;
+                const roi = (margin / data.bestBuy.price) * 100;
 
-                this.albionMerged.push({
-                    id: id,
-                    name: data.name,
-                    icon: `https://render.albiononline.com/v1/item/${id}.png`,
-                    buyOrder: buyOrder, // Cost to setup buy order
-                    sellOrder: sellOrder, // Revenue from sell order
-                    margin: margin,
-                    roi: roi,
-                    limit: 'N/A'
-                });
+                // Only show profitable routes
+                if (margin > 0) {
+                    this.albionMerged.push({
+                        id: id,
+                        name: data.name,
+                        icon: `https://render.albiononline.com/v1/item/${id}.png`,
+                        buyOrder: data.bestBuy.price, // Our cost at source
+                        sellOrder: data.bestSell.price, // Our revenue at destination
+                        source: data.bestBuy.city,
+                        dest: data.bestSell.city,
+                        margin: margin,
+                        roi: roi,
+                        limit: `${data.bestBuy.city} → ${data.bestSell.city}`
+                    });
+                }
             }
         }
         this.renderTable();
@@ -271,6 +285,14 @@ class MarketTracker {
             const cost = this.activeGame === 'osrs' ? item.high : item.buyOrder;
             const rev = this.activeGame === 'osrs' ? item.low : item.sellOrder;
 
+            const limitDisplay = this.activeGame === 'osrs' ? item.limit : `
+                <div class="flex items-center gap-2">
+                    <span class="text-white/80">${item.source}</span>
+                    <i class="fa-solid fa-arrow-right text-[10px] text-neon-cyan"></i>
+                    <span class="text-neon-cyan font-bold">${item.dest}</span>
+                </div>
+            `;
+
             return `
                 <tr class="border-t border-white/5 hover:bg-white/[0.02] transition-colors">
                     <td class="p-4">
@@ -285,7 +307,7 @@ class MarketTracker {
                     <td class="p-4 font-mono text-neon-green">${this.formatNumber(rev)}</td>
                     <td class="p-4 font-mono text-neon-cyan font-bold">${this.formatNumber(item.margin)}</td>
                     <td class="p-4 font-mono text-white/60">${item.roi.toFixed(1)}%</td>
-                    <td class="p-4 font-mono text-white/40">${item.limit}</td>
+                    <td class="p-4 font-mono text-white/40">${limitDisplay}</td>
                 </tr>
             `;
         }).join('');

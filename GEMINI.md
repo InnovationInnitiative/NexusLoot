@@ -46,9 +46,9 @@ Build a highly polished, single-page, multi-game tracker dashboard called "Nexus
 - [ ] **Drops Tracker:** Add a dedicated hub for active Twitch Drop campaigns.
 
 ## 📝 Latest Updates
+- **Update 34:** **Albion Transport Engine.** Transformed the Albion Market tracker into a specialized "Transport Helper". The engine now compares all major Royal Cities and the Caerleon Black Market in real-time to identify the most profitable city-to-city trade runs. Added dynamic "Source → Destination" routing to the UI.
 - **Update 33:** **Aggressive SEO Expansion.** Expanded the Neural Archives to 51 articles, specifically adding high-traffic clickbait topics targeting GTA 6 access, Epic Games mystery leaks, Valorant Night Market hacks, and OSRS market crashes. Reverted the manual Poké-Guess override as the Gengar promotion period has concluded.
-- **Update 32:** **Viral Social Sharing.** Replaced the basic "Copy to Clipboard" button with a multi-platform Social Share interface. Users can now post their scores directly to X (Twitter) or Facebook with pre-populated emoji grids and links.
-- **Update 31:** **Specialized Game Tabs & Viral Growth.** Split the "Daily Games" hub into individual tabs (`/pokeguess`, `/lolguess`, `/wordle`) for better targeted promotion.
+- **Update 32:** **Viral Social Sharing.** Replaced the basic "Copy to Clipboard" button with a multi-platform Social Share interface.
 
 ## 🚀 Priority 1 (Next Session)
 1.  **eSports Schedule:** Research and implement a lightweight PandaScore or esport.is widget.
