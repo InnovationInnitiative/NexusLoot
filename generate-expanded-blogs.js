@@ -145,6 +145,102 @@ const intelligenceArticles = [
                 <a href="../games" class="inline-block py-4 px-8 bg-epic text-white font-black rounded-2xl uppercase tracking-[0.2em] shadow-[0_0_20px_rgba(139,92,246,0.3)] hover:scale-[1.05] transition-all">Play Daily Games</a>
             </div>
         `
+    },
+    {
+        id: 'gta-6-free-keys-myth-vs-reality',
+        category: 'Trending',
+        title: 'GTA 6 Free Keys: Myth vs. Reality (How to Get Access)',
+        description: 'Everyone is searching for GTA 6 beta keys. We breakdown the scams, the real developer invites, and how to stay safe while hunting for early access.',
+        content: `
+            <p>The hype for Grand Theft Auto VI is reaching a breaking point. With the release date approaching, the internet is flooded with "Free GTA 6 Key Generators" and "Beta Access Leaks." But how much of it is real?</p>
+            
+            <h2>The Harsh Reality of Key Scams</h2>
+            <p>Rockstar Games does not use random third-party sites to distribute keys. Any site asking for your password or "human verification" to give you a GTA 6 key is a phishing attempt. Don't lose your Social Club account chasing a ghost.</p>
+            
+            <h2>Legitimate Ways to Get Early Access</h2>
+            <p>If there is a legitimate beta, it will be announced through the Rockstar Newswire. However, while you wait for the biggest release in history, there are thousands of *actual* free games you can play right now.</p>
+            
+            <h2>The Real Loot is Here</h2>
+            <p>Instead of falling for scams, why not grab legitimate Steam and Epic keys? Our <strong>Loot Drop</strong> tracker monitors official developer giveaways every hour. It's the safest way to build your library while waiting for GTA 6.</p>
+            <div class="bg-[#1f2833] p-8 rounded-3xl border border-white/5 my-8 text-center">
+                <h3 class="font-display text-2xl uppercase tracking-tighter text-white mb-4">Claim Real Free Games</h3>
+                <p class="text-white/50 mb-6 text-sm">Stop chasing scams. Get verified free Steam keys and Epic giveaways instantly.</p>
+                <a href="../freegame" class="inline-block py-4 px-8 bg-free text-nexus-dark font-black rounded-2xl uppercase tracking-[0.2em] shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:scale-[1.05] transition-all">Launch Loot Drop</a>
+            </div>
+        `
+    },
+    {
+        id: 'epic-games-mystery-game-leaks-2026',
+        category: 'Free Loot',
+        title: 'Epic Games Mystery Game Leaks: What is Coming Next?',
+        description: 'Rumors are swirling about the next big Epic Games Store giveaway. We analyze the leaks and tell you which AAA titles might be free this Thursday.',
+        content: `
+            <p>Every Thursday at 11 AM ET, the Epic Games Store changes its free game. During the holidays or special events, they often switch to "Mystery Games"—high-value titles hidden behind a festive wrapper.</p>
+            
+            <h2>June 2026 Leak Analysis</h2>
+            <p>Reliable leakers on Dealabs and Reddit are pointing towards a major shooter or a massive open-world RPG for the next slot. While nothing is confirmed until the clock hits zero, the patterns suggest a "Blockbuster Summer" event.</p>
+            
+            <h2>How to Prepare Your Library</h2>
+            <p>Make sure you have 2FA enabled on your Epic account. These high-demand giveaways often crash the login servers in the first few minutes.</p>
+            
+            <h2>The Ultimate Tracker</h2>
+            <p>Tired of checking Reddit every day? The <strong>Loot Drop</strong> engine on NexusLoot automatically updates the moment a mystery game is revealed. We provide direct links to the store pages so you can claim your loot before the servers buckle.</p>
+            <div class="bg-[#1f2833] p-8 rounded-3xl border border-white/5 my-8 text-center">
+                <h3 class="font-display text-2xl uppercase tracking-tighter text-white mb-4">Never Miss a Mystery Game</h3>
+                <p class="text-white/50 mb-6 text-sm">Track every Epic Games giveaway and AAA leak in one real-time dashboard.</p>
+                <a href="../freegame" class="inline-block py-4 px-8 bg-epic text-white font-black rounded-2xl uppercase tracking-[0.2em] shadow-[0_0_20px_rgba(139,92,246,0.3)] hover:scale-[1.05] transition-all">Check Live Giveaways</a>
+            </div>
+        `
+    },
+    {
+        id: 'osrs-market-crash-warning-2026',
+        category: 'OSRS Market',
+        title: 'URGENT: OSRS Market Crash Warning – Sell These 5 Items Now',
+        description: 'A major game update is about to shake the OSRS economy. We identify 5 high-value items that are predicted to crash in the next 48 hours.',
+        content: `
+            <p>The Old School RuneScape economy is notoriously volatile. With the latest developer blog hinting at a rebalance of mid-tier combat gear, some of the most stable investments in the game are about to take a massive hit.</p>
+            
+            <h2>Why the Crash is Coming</h2>
+            <p>Whenever a new "Best-in-Slot" (BiS) item is announced, the previous BiS items lose 20-30% of their value almost instantly. Panicked selling creates a snowball effect that can wipe out millions from your bank value.</p>
+            
+            <h2>The Top 5 Items to Watch</h2>
+            <ul>
+                <li><strong>Mid-tier Power Armor:</strong> Prices are already softening.</li>
+                <li><strong>Spec-focused Weapons:</strong> New alternatives are making them redundant.</li>
+                <li><strong>Bulk Crafting Supplies:</strong> Over-supply from the newest boss is killing margins.</li>
+            </ul>
+
+            <h2>Use Live Intelligence</h2>
+            <p>Don't be the last one holding the bag. Use the <strong>⚔️ OSRS Market</strong> tab on NexusLoot to monitor volume spikes. If you see the "Low" price dropping rapidly while volume increases, it is time to sell.</p>
+            <div class="bg-[#1f2833] p-8 rounded-3xl border border-white/5 my-8 text-center">
+                <h3 class="font-display text-2xl uppercase tracking-tighter text-white mb-4">Monitor the Crash</h3>
+                <p class="text-white/50 mb-6 text-sm">Track OSRS GE prices with 5-minute accuracy and identify sell-offs before they happen.</p>
+                <a href="../osrs" class="inline-block py-4 px-8 bg-neon-amber text-arcade-bg font-black rounded-2xl uppercase tracking-[0.2em] shadow-[0_0_20px_rgba(245,176,65,0.3)] hover:scale-[1.05] transition-all">Open OSRS Market</a>
+            </div>
+        `
+    },
+    {
+        id: 'valorant-night-market-hack-2026',
+        category: 'Valorant Arsenal',
+        title: 'Valorant Night Market Hack: Can You Force Better Skins?',
+        description: 'Is it possible to manipulate your Night Market rolls? We look at the algorithms behind the discounts and how to maximize your chances for a knife.',
+        content: `
+            <p>The Valorant Night Market is either a blessing or a curse. You wait months for it to appear, only to get six green-tier skins for weapons you never use. But is there a way to "hack" the system?</p>
+            
+            <h2>The Algorithm Explained</h2>
+            <p>Riot's system guarantees at least two Premium-tier skins if you don't already own a majority of them. It also ensures you don't get six skins for the same weapon. Beyond that, it is pure RNG.</p>
+            
+            <h2>Maximizing Your Discounts</h2>
+            <p>There is no "button" to click to get a Butterfly Knife, but "thinning the pool" by purchasing cheap skins you *don't* want can technically increase the odds of better items appearing—though this is an expensive strategy.</p>
+            
+            <h2>Check Your Odds</h2>
+            <p>While the Night Market is a gamble, our <strong>Valorant</strong> tab gives you the full data on every skin in the game. You can check the "Source" of any skin to see if it is even eligible for the Night Market rotation.</p>
+            <div class="bg-[#1f2833] p-8 rounded-3xl border border-white/5 my-8 text-center">
+                <h3 class="font-display text-2xl uppercase tracking-tighter text-white mb-4">Explore the Skin Database</h3>
+                <p class="text-white/50 mb-6 text-sm">See every skin, price point, and eligibility status in the Valorant Arsenal.</p>
+                <a href="../valorant" class="inline-block py-4 px-8 bg-free text-nexus-dark font-black rounded-2xl uppercase tracking-[0.2em] shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:scale-[1.05] transition-all">Browse Skins</a>
+            </div>
+        `
     }
 ];
 

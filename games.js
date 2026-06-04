@@ -26,12 +26,7 @@ class GamesEngine {
         const seed = this.getDailySeed();
         const dateStr = new Date().toISOString().split('T')[0];
 
-        // --- MARKETING OVERRIDE: June 3, 2026 ---
-        if (dateStr === '2026-06-03') {
-            this.targets.pokemon = POKEMON_DATA.find(p => p.name === 'Gengar');
-        } else {
-            this.targets.pokemon = POKEMON_DATA[seed % POKEMON_DATA.length];
-        }
+        this.targets.pokemon = POKEMON_DATA[seed % POKEMON_DATA.length];
 
         this.targets.league = LOL_DATA[seed % LOL_DATA.length];
         this.targets.wordle = WORDLE_WORDS[seed % WORDLE_WORDS.length].toUpperCase();
