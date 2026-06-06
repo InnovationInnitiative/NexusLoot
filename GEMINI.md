@@ -39,13 +39,14 @@ Build a highly polished, single-page, multi-game tracker dashboard called "Nexus
 - [x] **MMO Market:** Implemented a live API-driven market tracker, explicitly split into dedicated OSRS and Albion Online tabs.
 
 ### Phase 5: Automated Marketing Engine [DONE]
-- [x] **Auto-SEO Blog:** Created the `/blog` architecture and 51 SEO articles to capture long-tail search traffic (OSRS, Albion, Valorant, Free Games, and Sensitivity).
+- [x] **Auto-SEO Blog:** Created the `/blog` architecture and 61 SEO articles to capture long-tail search traffic (OSRS, Albion, Valorant, Free Games, Sensitivity, and Trending Leaks).
 - [x] **Twitter/X Bot:** Built a Node.js bot running on GitHub Actions to auto-tweet daily free games from GamerPower.
 - [x] **SEO Routing:** Implemented client-side routing with clean URLs (`/pokeguess`, `/lolguess`, `/wordle`, etc.) and Vercel rewrites.
 - [x] **Blog Visibility:** Exposed the blog in the main navigation for better indexing and user access.
 - [ ] **Drops Tracker:** Add a dedicated hub for active Twitch Drop campaigns.
 
 ## 📝 Latest Updates
+- **Update 35:** **Expanded Clickbait Library.** Injected 10 new high-traffic articles into the Neural Archives (Total: 61). New topics include Silksong 2026 release leaks, GTA 6 early access myths, Steam Summer Sale AAA deals, and Valorant Agent 28 "Nexus" datamines.
 - **Update 34:** **Albion Transport Engine.** Transformed the Albion Market tracker into a specialized "Transport Helper". The engine now compares all major Royal Cities and the Caerleon Black Market in real-time to identify the most profitable city-to-city trade runs. Added dynamic "Source → Destination" routing to the UI.
 - **Update 33:** **Aggressive SEO Expansion.** Expanded the Neural Archives to 51 articles, specifically adding high-traffic clickbait topics targeting GTA 6 access, Epic Games mystery leaks, Valorant Night Market hacks, and OSRS market crashes. Reverted the manual Poké-Guess override as the Gengar promotion period has concluded.
 - **Update 32:** **Viral Social Sharing.** Replaced the basic "Copy to Clipboard" button with a multi-platform Social Share interface.

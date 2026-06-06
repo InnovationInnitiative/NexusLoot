@@ -241,6 +241,252 @@ const intelligenceArticles = [
                 <a href="../valorant" class="inline-block py-4 px-8 bg-free text-nexus-dark font-black rounded-2xl uppercase tracking-[0.2em] shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:scale-[1.05] transition-all">Browse Skins</a>
             </div>
         `
+    },
+    {
+        id: 'hollow-knight-silksong-release-date-leak-2026',
+        category: 'Trending',
+        title: 'Silksong Release Date Leak: Is It Finally Coming in 2026?',
+        description: 'The wait for Silksong has become a meme, but new leaks from a Korean rating board suggest a late 2026 release window. Here is everything we know.',
+        content: `
+            <p>Hollow Knight: Silksong is the most anticipated indie game in history. After years of silence from Team Cherry, the community has gone through every stage of grief. However, June 2026 has brought the most credible leaks yet.</p>
+            
+            <h2>The Rating Board Leak</h2>
+            <p>A new listing appeared on a major ratings board this week, typically a sign that a game is in its final stages of certification. If true, Hornet's journey through Pharloom could be in our hands by November.</p>
+            
+            <h2>What to Expect from Gameplay</h2>
+            <p>Unlike the Knight, Hornet is faster, more agile, and uses "tools" instead of just charms. The crafting system is rumored to be much deeper, allowing for dozens of unique playstyles.</p>
+            
+            <h2>Wait for the Drop</h2>
+            <p>While we wait for the official announcement, why not play some other masterpieces? Our <strong>Loot Drop</strong> tracker frequently lists high-quality metroidvanias and indie gems for free. Don't go hollow while you wait.</p>
+            <div class="bg-[#1f2833] p-8 rounded-3xl border border-white/5 my-8 text-center">
+                <h3 class="font-display text-2xl uppercase tracking-tighter text-white mb-4">Discover Indie Gems</h3>
+                <p class="text-white/50 mb-6 text-sm">Track free indie games and Steam keys while waiting for Silksong.</p>
+                <a href="../freegame" class="inline-block py-4 px-8 bg-epic text-white font-black rounded-2xl uppercase tracking-[0.2em] shadow-[0_0_20px_rgba(139,92,246,0.3)] hover:scale-[1.05] transition-all">Explore Loot Drop</a>
+            </div>
+        `
+    },
+    {
+        id: 'steam-summer-sale-2026-guide',
+        category: 'Free Loot',
+        title: 'Steam Summer Sale 2026: How to Get AAA Games for $1',
+        description: 'The Steam Summer Sale is almost here. Learn the "Regional Swap" myths, the best bundle stacking tips, and how to use NexusLoot to track price lows.',
+        content: `
+            <p>The 2026 Steam Summer Sale is predicted to be the biggest yet. With publishers looking to clear backlogs before the next generation of hardware drops, we are expecting 90% discounts on some massive titles.</p>
+            
+            <h2>The "Wishlist" Strategy</h2>
+            <p>Valve's algorithm prioritizes games on your wishlist. However, the best deals are often hidden in "Complete Your Collection" bundles that don't always show up on the front page.</p>
+            
+            <h2>Hidden Gems for Under $5</h2>
+            <p>We are tracking several titles that are expected to hit their historical low. Games like Cyberpunk 2077 and Elden Ring are rumored to be part of a "Classic Masterpieces" sale category.</p>
+            
+            <h2>Free is Better than Cheap</h2>
+            <p>Why pay $1 when you can pay $0? The <strong>Loot Drop</strong> engine monitors platforms that give away Steam keys for free during the sale to compete for your attention. Check our tracker daily during the event.</p>
+            <div class="bg-[#1f2833] p-8 rounded-3xl border border-white/5 my-8 text-center">
+                <h3 class="font-display text-2xl uppercase tracking-tighter text-white mb-4">Track Sale Giveaways</h3>
+                <p class="text-white/50 mb-6 text-sm">Get real-time alerts for free Steam keys and Epic Games Store mystery titles.</p>
+                <a href="../freegame" class="inline-block py-4 px-8 bg-epic text-white font-black rounded-2xl uppercase tracking-[0.2em] shadow-[0_0_20px_rgba(139,92,246,0.3)] hover:scale-[1.05] transition-all">View Active Loot</a>
+            </div>
+        `
+    },
+    {
+        id: 'valorant-episode-12-agent-nexus-leaks',
+        category: 'Valorant Arsenal',
+        title: 'Valorant Agent 28 Leaks: Is "Nexus" the Next Controller?',
+        description: 'New datamined files suggest the next Valorant agent is codenamed "Nexus." We breakdown the leaked abilities and the possible release date.',
+        content: `
+            <p>Riot Games is preparing to shake up the meta once again. Following the release of the last Duelist, leakers have found references to a new Controller agent known as "Nexus" in the Episode 12 PBE files.</p>
+            
+            <h2>Leaked Abilities</h2>
+            <ul>
+                <li><strong>Phase Shift (E):</strong> A signature smoke that can be moved after deployment.</li>
+                <li><strong>Neural Link (Q):</strong> A trap that reveals enemies in a small radius and slows their fire rate.</li>
+                <li><strong>Static Field (C):</strong> A throwable disc that creates a zone of silence, blocking all sound cues.</li>
+                <li><strong>Reality Anchor (X):</strong> A massive ultimate that prevents all mobility abilities (dashes, teleports) within its range.</li>
+            </ul>
+            
+            <h2>Release Date Prediction</h2>
+            <p>Given the current Battlepass timer, we expect Nexus to be revealed during the VCT Champions 2026 finals, with a playable release in early August.</p>
+            
+            <h2>Explore the Database</h2>
+            <p>While waiting for the new agent, you can browse every current weapon skin and bundle in our <strong>Valorant</strong> tab. Our database is updated minutes after every patch.</p>
+            <div class="bg-[#1f2833] p-8 rounded-3xl border border-white/5 my-8 text-center">
+                <h3 class="font-display text-2xl uppercase tracking-tighter text-white mb-4">Launch Valorant Hub</h3>
+                <p class="text-white/50 mb-6 text-sm">See all skins, buddies, and player cards in the ultimate Valorant explorer.</p>
+                <a href="../valorant" class="inline-block py-4 px-8 bg-free text-nexus-dark font-black rounded-2xl uppercase tracking-[0.2em] shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:scale-[1.05] transition-all">Open Arsenal</a>
+            </div>
+        `
+    },
+    {
+        id: 'cs2-operation-desert-strike-leaks-2026',
+        category: 'Trending',
+        title: 'CS2 Operation "Desert Strike" Leak: New Knives and Maps',
+        description: 'Is Valve finally dropping a new operation? Leaks suggest "Desert Strike" is coming with a brand new weapon case and a return to classic maps.',
+        content: `
+            <p>Counter-Strike 2 players have been starving for content. But the wait might be over. A string of updates to the SteamDB dedicated server branch suggests that Operation "Desert Strike" is in the final testing phase.</p>
+            
+            <h2>New Skin Collections</h2>
+            <p>The operation is rumored to include the "Nomad's Treasure" case, featuring a high-tier skin for the Kukri Knife and a new M4A1-S skin that changes colors based on the map's lighting.</p>
+            
+            <h2>Map Rotation Changes</h2>
+            <p>Leaks point to a revamped version of **Cobblestone** and a new competitive map set in a high-tech research facility in Dubai. Train is also expected to make a permanent return to the Active Duty pool.</p>
+            
+            <h2>Convert Your Skill</h2>
+            <p>Coming from another shooter to try the new operation? Don't let your aim suffer. Use our <strong>Sens Converter</strong> to port your sensitivity from Valorant or Apex Legends to CS2 with 1:1 precision.</p>
+            <div class="bg-[#1f2833] p-8 rounded-3xl border border-white/5 my-8 text-center">
+                <h3 class="font-display text-2xl uppercase tracking-tighter text-white mb-4">Port Your Sens</h3>
+                <p class="text-white/50 mb-6 text-sm">Maintain your muscle memory across all major FPS titles instantly.</p>
+                <a href="../sens" class="inline-block py-4 px-8 bg-neon-cyan text-arcade-bg font-black rounded-2xl uppercase tracking-[0.2em] shadow-[0_0_20px_rgba(102,252,241,0.3)] hover:scale-[1.05] transition-all">Open Converter</a>
+            </div>
+        `
+    },
+    {
+        id: 'how-to-get-free-discord-nitro-2026',
+        category: 'Trending',
+        title: 'How to Get Free Discord Nitro in 2026 (Safe & Verified)',
+        description: 'Stop falling for "Nitro Generator" scams. We list the 3 legitimate ways to get Nitro for free through official partner promotions.',
+        content: `
+            <p>Everyone wants those custom emojis and high-quality streaming, but $9.99 a month adds up. The internet is full of "Nitro Generators" that are actually token loggers designed to steal your account. Here is how to get it for real.</p>
+            
+            <h2>1. Epic Games Store Promotions</h2>
+            <p>Discord and Epic Games have a long-standing partnership. Twice a year, Epic usually offers 1-3 months of Nitro for free to new users. We track these giveaways the second they go live.</p>
+            
+            <h2>2. YouTube Premium & Xbox Game Pass</h2>
+            <p>If you have an active subscription to YouTube Premium or Game Pass, check your "Perks" or "Rewards" tab. They almost always have a Nitro trial code waiting for you.</p>
+            
+            <h2>3. Partnered Giveaways</h2>
+            <p>Large gaming brands like SteelSeries and Alienware often give away thousands of Nitro codes during major eSports events.</p>
+            
+            <h2>Stay Notified with NexusLoot</h2>
+            <p>Our <strong>Loot Drop</strong> tab isn't just for games. We monitor for software perks, including Discord Nitro promotions, so you can claim them before they run out of codes.</p>
+            <div class="bg-[#1f2833] p-8 rounded-3xl border border-white/5 my-8 text-center">
+                <h3 class="font-display text-2xl uppercase tracking-tighter text-white mb-4">Check for Nitro Perks</h3>
+                <p class="text-white/50 mb-6 text-sm">Find free software trials and gaming perks in our unified loot tracker.</p>
+                <a href="../freegame" class="inline-block py-4 px-8 bg-epic text-white font-black rounded-2xl uppercase tracking-[0.2em] shadow-[0_0_20px_rgba(139,92,246,0.3)] hover:scale-[1.05] transition-all">Check Loot Drop</a>
+            </div>
+        `
+    },
+    {
+        id: 'osrs-raids-4-forgotten-abyss-leaks',
+        category: 'OSRS Market',
+        title: 'OSRS Raids 4: "The Forgotten Abyss" Reward Leaks',
+        description: 'Is a new Best-in-Slot range weapon coming? We analyze the leaked rewards for OSRS Raids 4 and how it will impact the GE.',
+        content: `
+            <p>The Old School RuneScape team has teased the next massive PvM challenge: The Forgotten Abyss. While the mechanics are still a mystery, datamined icons have given us a glimpse at the rewards.</p>
+            
+            <h2>The "Abyssal Bow" Rumor</h2>
+            <p>One of the icons looks suspiciously like a T85 Shortbow. If this weapon outclasses the Twisted Bow in certain scenarios, we could see a massive shift in the high-tier gear market.</p>
+            
+            <h2>New Magic Robes</h2>
+            <p>A new set of robes that provides a percentage boost to "Void" spells is also on the list. This could make niche spellbooks viable for high-level raiding for the first time.</p>
+            
+            <h2>Market Preparation</h2>
+            <p>When Raids 4 launches, the price of supplies (Brew, Restores, Anglers) will skyrocket. Use the <strong>⚔️ OSRS Market</strong> tab to stock up while prices are still low. Our tracker shows you the 7-day average so you know when to buy.</p>
+            <div class="bg-[#1f2833] p-8 rounded-3xl border border-white/5 my-8 text-center">
+                <h3 class="font-display text-2xl uppercase tracking-tighter text-white mb-4">Analyze the GE</h3>
+                <p class="text-white/50 mb-6 text-sm">Get the edge on the OSRS economy with live price data and margin tracking.</p>
+                <a href="../osrs" class="inline-block py-4 px-8 bg-neon-amber text-arcade-bg font-black rounded-2xl uppercase tracking-[0.2em] shadow-[0_0_20px_rgba(245,176,65,0.3)] hover:scale-[1.05] transition-all">Open OSRS Tracker</a>
+            </div>
+        `
+    },
+    {
+        id: 'albion-online-best-solo-mists-builds-2026',
+        category: 'Albion Market',
+        title: 'Albion Online: Top 5 Solo Mists Builds for Silver Profit',
+        description: 'Dominate the Mists and farm millions of silver per hour. We breakdown the meta builds for solo players in 2026.',
+        content: `
+            <p>The Mists of Avalon are the best place for solo players in Albion Online to make consistent silver and fame. But if you aren't running a meta build, you are just a walking loot bag for 8.3 gankers.</p>
+            
+            <h2>The 2026 Meta</h2>
+            <ul>
+                <li><strong>Carving Sword:</strong> Still the king of mobility and burst.</li>
+                <li><strong>Double Bladed Staff:</strong> The ultimate reset build for those who hate dying.</li>
+                <li><strong>Battleaxe:</strong> Great sustain for clearing camps and taking 1v1s.</li>
+            </ul>
+            
+            <h2>Farming the Silver</h2>
+            <p>Don't just kill mobs—look for Abbey entrances. The chests inside are worth 10x more than open-world farming. Also, keep an eye on the Black Market prices for the gear you find.</p>
+            
+            <h2>Check Your Profits</h2>
+            <p>Before you sell your loot in Brecilien, check the prices in Caerleon and the Royal Cities using our <strong>🛡️ Albion Market</strong> tracker. A 5-minute transport could double your silver per hour.</p>
+            <div class="bg-[#1f2833] p-8 rounded-3xl border border-white/5 my-8 text-center">
+                <h3 class="font-display text-2xl uppercase tracking-tighter text-white mb-4">Max Your Silver</h3>
+                <p class="text-white/50 mb-6 text-sm">Compare Albion market prices across all major cities and the Black Market.</p>
+                <a href="../albion" class="inline-block py-4 px-8 bg-neon-green text-arcade-bg font-black rounded-2xl uppercase tracking-[0.2em] shadow-[0_0_20px_rgba(69,162,158,0.3)] hover:scale-[1.05] transition-all">Launch Albion Tracker</a>
+            </div>
+        `
+    },
+    {
+        id: 'minecraft-movie-2026-exclusive-cape-code',
+        category: 'Trending',
+        title: 'Minecraft Movie 2026: How to Claim Your Exclusive Cape',
+        description: 'The Minecraft Movie is launching! Here is the step-by-step guide on how to link your Microsoft account and claim the theater-exclusive cape.',
+        content: `
+            <p>The long-awaited Minecraft Movie is finally hitting theaters. To celebrate, Mojang is releasing a limited-edition "Blocky" cape that will only be available to those who attend a screening or participate in the launch event.</p>
+            
+            <h2>How to Get the Code</h2>
+            <p>Check your digital ticket receipt for a 16-digit alphanumeric code. This code can be redeemed on the official Minecraft website. Make sure you are logged into the correct Microsoft account!</p>
+            
+            <h2>Redemption Issues</h2>
+            <p>The redemption servers are expected to be under heavy load. If your cape doesn't show up in the character creator immediately, wait 24 hours for the database to sync.</p>
+            
+            <h2>More Free Loot</h2>
+            <p>Love exclusive cosmetics? Our <strong>Loot Drop</strong> tab tracks Twitch Drops and promotional codes for dozens of games, from Minecraft to Valorant. Never miss a limited-time item again.</p>
+            <div class="bg-[#1f2833] p-8 rounded-3xl border border-white/5 my-8 text-center">
+                <h3 class="font-display text-2xl uppercase tracking-tighter text-white mb-4">Track More Freebies</h3>
+                <p class="text-white/50 mb-6 text-sm">Get real-time updates on gaming promos, capes, and exclusive skins.</p>
+                <a href="../freegame" class="inline-block py-4 px-8 bg-epic text-white font-black rounded-2xl uppercase tracking-[0.2em] shadow-[0_0_20px_rgba(139,92,246,0.3)] hover:scale-[1.05] transition-all">Open Loot Drop</a>
+            </div>
+        `
+    },
+    {
+        id: 'fortnite-chapter-7-map-leak-2026',
+        category: 'Trending',
+        title: 'Fortnite Chapter 7 Map Leak: The Return of Tilted Towers?',
+        description: 'Leaked internal documents from Epic Games suggest Chapter 7 will feature a "Multiverse" map containing classic POIs from every previous chapter.',
+        content: `
+            <p>Fortnite Chapter 6 is winding down, and the hype for Chapter 7 is already off the charts. Dataminers have found a "Master Map" file that seems to combine the best parts of Chapters 1, 2, and 4.</p>
+            
+            <h2>The Return of the GOATs</h2>
+            <p>Yes, Tilted Towers is rumored to be back, but with a twist. It will be "Cyber-Tilted," featuring neon lights and vertical movement rails. Other rumored POIs include Slurpy Swamp and The Agency.</p>
+            
+            <h2>New Movement Mechanics</h2>
+            <p>Expect "Wall Running" and "Grapple Gloves" to be part of the base movement kit in Chapter 7. The meta is about to get much faster.</p>
+            
+            <h2>Master the Meta</h2>
+            <p>New mechanics mean you need perfect aim. If you are coming from other games to try the new Fortnite chapter, use our <strong>Sens Converter</strong> to keep your muscle memory sharp. We support Fortnite to Valorant, CS2, and more.</p>
+            <div class="bg-[#1f2833] p-8 rounded-3xl border border-white/5 my-8 text-center">
+                <h3 class="font-display text-2xl uppercase tracking-tighter text-white mb-4">Port Your Aim</h3>
+                <p class="text-white/50 mb-6 text-sm">Instantly convert your sensitivity for the new Fortnite season.</p>
+                <a href="../sens" class="inline-block py-4 px-8 bg-neon-cyan text-arcade-bg font-black rounded-2xl uppercase tracking-[0.2em] shadow-[0_0_20px_rgba(102,252,241,0.3)] hover:scale-[1.05] transition-all">Launch Converter</a>
+            </div>
+        `
+    },
+    {
+        id: 'top-10-expensive-cs2-skins-2026',
+        category: 'Trending',
+        title: 'Top 10 Most Expensive CS2 Skins in 2026: Why Prices Boomed',
+        description: 'CS2 skin prices have reached insane levels. We look at the most expensive items in the game and why investors are dumping millions into pixels.',
+        content: `
+            <p>In 2026, the Counter-Strike 2 skin market is no longer just for gamers—it's for high-frequency traders and investors. With some skins selling for the price of a luxury car, the "pixel economy" is real.</p>
+            
+            <h2>The $1 Million Club</h2>
+            <p>The StatTrak Factory New Blue Gem Karambit remains the holy grail, with private offers reportedly exceeding $2.5 million. But even "common" high-tier items like Dragon Lores have doubled in value since 2024.</p>
+            
+            <h2>Why the Prices are Rising</h2>
+            <ul>
+                <li><strong>Scarcity:</strong> Many older cases are no longer dropping, making supply extremely limited.</li>
+                <li><strong>Global Demand:</strong> The player base in Asia has exploded, driving up competition for rare patterns.</li>
+                <li><strong>Institutional Investment:</strong> Hedge funds have actually started "skin portfolios."</li>
+            </ul>
+            
+            <h2>Build Your Own Library</h2>
+            <p>While you might not have a million dollars, you can still build a respectable library for free. Our <strong>Loot Drop</strong> tracker finds legitimate skin giveaways and case openings from verified partners.</p>
+            <div class="bg-[#1f2833] p-8 rounded-3xl border border-white/5 my-8 text-center">
+                <h3 class="font-display text-2xl uppercase tracking-tighter text-white mb-4">Claim Free Skins</h3>
+                <p class="text-white/50 mb-6 text-sm">Track verified giveaways for CS2, Valorant, and more in one place.</p>
+                <a href="../freegame" class="inline-block py-4 px-8 bg-epic text-white font-black rounded-2xl uppercase tracking-[0.2em] shadow-[0_0_20px_rgba(139,92,246,0.3)] hover:scale-[1.05] transition-all">Check Loot Drop</a>
+            </div>
+        `
     }
 ];
 
