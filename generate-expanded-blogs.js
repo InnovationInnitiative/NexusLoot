@@ -487,6 +487,259 @@ const intelligenceArticles = [
                 <a href="../freegame" class="inline-block py-4 px-8 bg-epic text-white font-black rounded-2xl uppercase tracking-[0.2em] shadow-[0_0_20px_rgba(139,92,246,0.3)] hover:scale-[1.05] transition-all">Check Loot Drop</a>
             </div>
         `
+    },
+    {
+        id: 'black-myth-wukong-dlc-leaks-2026',
+        category: 'Trending',
+        title: 'Black Myth: Wukong DLC Leaks: The Return of the Great Sage',
+        description: 'Rumors of a massive expansion for Black Myth: Wukong are surfacing. New bosses, new transformations, and a possible 2026 release date revealed.',
+        content: `
+            <p>Black Myth: Wukong took the world by storm with its breathtaking visuals and challenging combat. Now, Game Science is reportedly working on a massive DLC that will expand the Journey to the West even further.</p>
+            <h2>New Bosses and Environments</h2>
+            <p>Leaked concept art suggests we will be traveling to the Celestial Palace itself. Expect 12 new major bosses, including a rematch with a powered-up Erlang Shen.</p>
+            <h2>Release Window</h2>
+            <p>Industry insiders point toward a Q4 2026 release. While you wait, keep an eye on our <strong>Loot Drop</strong> for any potential Steam key giveaways or promotions related to the base game.</p>
+            <div class="bg-[#1f2833] p-8 rounded-3xl border border-white/5 my-8 text-center">
+                <h3 class="font-display text-2xl uppercase tracking-tighter text-white mb-4">Track Gaming News</h3>
+                <a href="../freegame" class="inline-block py-4 px-8 bg-epic text-white font-black rounded-2xl uppercase tracking-[0.2em]">View Free Loot</a>
+            </div>
+        `
+    },
+    {
+        id: 'how-to-get-free-valorant-points-2026',
+        category: 'Valorant Arsenal',
+        title: 'How to Get Free Valorant Points (VP) in 2026: 100% Legit',
+        description: 'Stop searching for VP generators. We list the only verified ways to earn free Valorant Points through official Riot partners and rewards programs.',
+        content: `
+            <p>Valorant Points (VP) are the lifeblood of the skin economy, but they can get expensive. While "VP Generators" are 100% scams, there are legitimate ways to get them for free if you are patient.</p>
+            <h2>Microsoft Rewards</h2>
+            <p>The most consistent method remains Microsoft Rewards. By using Bing and completing daily tasks, you can redeem points for Riot Gift Cards. Many pro players use this to fund their battlepasses.</p>
+            <h2>Official Tournaments</h2>
+            <p>Community tournaments often have VP prizes. Check our <strong>Valorant</strong> hub to stay updated on the latest competitive news and potential community events.</p>
+            <div class="bg-[#1f2833] p-8 rounded-3xl border border-white/5 my-8 text-center">
+                <h3 class="font-display text-2xl uppercase tracking-tighter text-white mb-4">Explore Valorant Skins</h3>
+                <a href="../valorant" class="inline-block py-4 px-8 bg-free text-nexus-dark font-black rounded-2xl uppercase tracking-[0.2em]">Open Arsenal</a>
+            </div>
+        `
+    },
+    {
+        id: 'steam-deck-2-release-date-rumors',
+        category: 'Trending',
+        title: 'Steam Deck 2 Release Date & Specs: Everything We Know',
+        description: 'Valve is reportedly testing the next generation of handheld gaming. OLED 2.0, improved battery life, and a potential 2026 announcement.',
+        content: `
+            <p>The Steam Deck revolutionized portable gaming, but the hardware is starting to show its age with newer AAA titles. The Steam Deck 2 is the most anticipated piece of gaming hardware for 2026.</p>
+            <h2>Rumored Specs</h2>
+            <p>Expect a custom APU from AMD with RDNA 4 architecture, offering a 40% performance boost over the current model. A 120Hz OLED screen is also highly likely to be the new standard.</p>
+            <h2>Will it Be Free?</h2>
+            <p>While the hardware definitely won't be free, Valve often holds massive giveaways during seasonal sales. Track these events on our <strong>Loot Drop</strong> tab.</p>
+            <div class="bg-[#1f2833] p-8 rounded-3xl border border-white/5 my-8 text-center">
+                <h3 class="font-display text-2xl uppercase tracking-tighter text-white mb-4">Win a Steam Deck</h3>
+                <a href="../freegame" class="inline-block py-4 px-8 bg-epic text-white font-black rounded-2xl uppercase tracking-[0.2em]">Check Active Giveaways</a>
+            </div>
+        `
+    },
+    {
+        id: 'elden-ring-shadow-of-the-erdtree-secret-ending',
+        category: 'Trending',
+        title: 'Elden Ring: Shadow of the Erdtree Secret Ending Discovered?',
+        description: 'Two years after release, players have found a hidden trigger in the DLC that points to a "Age of the Crucible" ending. Here is how to unlock it.',
+        content: `
+            <p>FromSoftware is famous for hiding lore in plain sight. The latest discovery in Shadow of the Erdtree requires a specific set of gestures in the Land of Shadow that changes the final boss outcome.</p>
+            <h2>The Age of the Crucible</h2>
+            <p>This ending reportedly features a cinematic involving Miquella and St. Trina that clarifies the origin of the Erdtree itself. It requires 100% completion of the NPC questlines.</p>
+            <h2>Get the Guide</h2>
+            <p>Stay tuned to our <strong>Daily Games</strong> for more lore-based challenges and rewards.</p>
+            <div class="bg-[#1f2833] p-8 rounded-3xl border border-white/5 my-8 text-center">
+                <h3 class="font-display text-2xl uppercase tracking-tighter text-white mb-4">Test Your Lore</h3>
+                <a href="../games" class="inline-block py-4 px-8 bg-epic text-white font-black rounded-2xl uppercase tracking-[0.2em]">Play Daily Games</a>
+            </div>
+        `
+    },
+    {
+        id: 'fortnite-og-map-return-2026',
+        category: 'Trending',
+        title: 'Fortnite OG Map Returning Permanently in 2026?',
+        description: 'Epic Games has registered new domains suggesting the Chapter 1 map is coming back as a standalone permanent mode. Tilted Towers is home.',
+        content: `
+            <p>The "OG" season was the most successful period in Fortnite history. Now, internal leaks suggest Epic is building a dedicated "Legacy" mode that will rotate through the Chapter 1 and 2 maps permanently.</p>
+            <h2>Why Now?</h2>
+            <p>Player retention for the newer chapters has dipped, and the "Multiverse" theme for 2026 allows for different timelines to coexist. This mode will reportedly have its own separate Battlepass.</p>
+            <h2>Get Your OG Sens</h2>
+            <p>If you haven't played since 2018, your sensitivity might feel off. Use our <strong>Sens Converter</strong> to get back into fighting shape.</p>
+            <div class="bg-[#1f2833] p-8 rounded-3xl border border-white/5 my-8 text-center">
+                <h3 class="font-display text-2xl uppercase tracking-tighter text-white mb-4">Fix Your Aim</h3>
+                <a href="../sens" class="inline-block py-4 px-8 bg-neon-cyan text-arcade-bg font-black rounded-2xl uppercase tracking-[0.2em]">Launch Converter</a>
+            </div>
+        `
+    },
+    {
+        id: 'robux-giveaways-safe-vs-scam-2026',
+        category: 'Trending',
+        title: 'Robux Giveaways: Safe vs Scam (How to Earn Robux in 2026)',
+        description: 'Roblox is bigger than ever, and so are the scams. We breakdown the legitimate ways to earn Robux without losing your account.',
+        content: `
+            <p>With millions of kids looking for "Free Robux," the internet has become a minefield of malicious sites. If a site asks for your password or "cookies," it is a scam.</p>
+            <h2>Legit Methods</h2>
+            <p>The only real ways to get Robux for free are through the Roblox Affiliate Program, Microsoft Rewards, or legitimate developer-sponsored giveaways on platforms like <strong>NexusLoot</strong>.</p>
+            <h2>Security First</h2>
+            <p>Never share your login info. Always use 2FA. We track verified rewards on our dashboard every day.</p>
+            <div class="bg-[#1f2833] p-8 rounded-3xl border border-white/5 my-8 text-center">
+                <h3 class="font-display text-2xl uppercase tracking-tighter text-white mb-4">Find Real Rewards</h3>
+                <a href="../freegame" class="inline-block py-4 px-8 bg-epic text-white font-black rounded-2xl uppercase tracking-[0.2em]">Open Loot Drop</a>
+            </div>
+        `
+    },
+    {
+        id: 'cs2-source-3-engine-leaks',
+        category: 'Trending',
+        title: 'CS2 Source 3 Engine? Valve Rumored to be Porting CS2 Already',
+        description: 'The "Source 3" trademark has appeared in Valve’s recent filings. Is CS2 getting an engine overhaul to fix sub-tick issues in 2026?',
+        content: `
+            <p>While CS2 is still relatively new, the community has been vocal about sub-tick and performance issues. A new "S3" branch in the SteamDB suggests Valve is working on a major core update.</p>
+            <h2>What is Source 3?</h2>
+            <p>Rumors suggest it is a modular evolution of Source 2 designed for ultra-low latency and 500FPS+ gaming. It would finally resolve the "dying behind walls" complaints.</p>
+            <h2>Analyze the Market</h2>
+            <p>An engine update usually means new skins. Keep an eye on the market using our <strong>CS2 Market</strong> tools (Coming Soon) or check active giveaways.</p>
+            <div class="bg-[#1f2833] p-8 rounded-3xl border border-white/5 my-8 text-center">
+                <h3 class="font-display text-2xl uppercase tracking-tighter text-white mb-4">Claim Free Skins</h3>
+                <a href="../freegame" class="inline-block py-4 px-8 bg-epic text-white font-black rounded-2xl uppercase tracking-[0.2em]">Check Loot Drop</a>
+            </div>
+        `
+    },
+    {
+        id: 'osrs-varlamore-part-3-release-date',
+        category: 'OSRS Market',
+        title: 'OSRS Varlamore Part 3: Release Date and Reward Leaks',
+        description: 'The final chapter of the Varlamore expansion is coming. We look at the new Colosseum rewards and the impact on the OSRS economy.',
+        content: `
+            <p>Varlamore has been one of the most successful expansions in OSRS history. Part 3 will finally unlock the western mountains and the "Primal Grove" slayer dungeon.</p>
+            <h2>New BiS Gear?</h2>
+            <p>Leaks suggest a new T80 ring that increases the effectiveness of "Burn" damage. This will likely cause a massive spike in the price of related gear on the Grand Exchange.</p>
+            <h2>Track the Prices</h2>
+            <p>Use our <strong>⚔️ OSRS Market</strong> tab to see the latest margins and prepare your bank for the update.</p>
+            <div class="bg-[#1f2833] p-8 rounded-3xl border border-white/5 my-8 text-center">
+                <h3 class="font-display text-2xl uppercase tracking-tighter text-white mb-4">Launch OSRS Tracker</h3>
+                <a href="../osrs" class="inline-block py-4 px-8 bg-neon-amber text-arcade-bg font-black rounded-2xl uppercase tracking-[0.2em]">Analyze GE Data</a>
+            </div>
+        `
+    },
+    {
+        id: 'albion-online-europe-server-meta',
+        category: 'Albion Market',
+        title: 'Albion Europe Server Meta: Best Builds for the New Frontier',
+        description: 'The Europe server launch has reset the economy. Here are the top 5 builds for solo and group play to dominate the Royal Cities in 2026.',
+        content: `
+            <p>With a fresh start on the Europe server, everyone is racing for Tier 8. The meta is currently dominated by high-mobility ganking builds and efficient solo fame farmers.</p>
+            <h2>The Silver Rush</h2>
+            <p>Transporting goods to Caerleon is more profitable than ever because the Black Market is hungry for early-tier gear. Use our <strong>🛡️ Albion Market</strong> helper to find the best source cities.</p>
+            <h2>Build Recommendations</h2>
+            <p>Double Bladed Staff and Nature Staff remain the most efficient for early progression. Get your gear, check the market, and start profit-running.</p>
+            <div class="bg-[#1f2833] p-8 rounded-3xl border border-white/5 my-8 text-center">
+                <h3 class="font-display text-2xl uppercase tracking-tighter text-white mb-4">Find Trade Routes</h3>
+                <a href="../albion" class="inline-block py-4 px-8 bg-neon-green text-arcade-bg font-black rounded-2xl uppercase tracking-[0.2em]">Open Albion Helper</a>
+            </div>
+        `
+    },
+    {
+        id: 'apex-legends-mobile-2-leaks',
+        category: 'Trending',
+        title: 'Apex Legends Mobile 2.0: Is Respawn Bringing It Back?',
+        description: 'After the sudden shutdown of the first version, new job listings at EA suggest a "Mobile 2.0" built on a new cross-play engine is in development.',
+        content: `
+            <p>The first Apex Mobile was a masterpiece but suffered from poor monetization and engine fragmentation. The new version is rumored to be a direct port of the PC version using cloud-hybrid tech.</p>
+            <h2>Cross-Progression</h2>
+            <p>The biggest leak is that your PC/Console skins will finally carry over to mobile. This would be a massive win for long-time players.</p>
+            <h2>Fix Your Mobile Sens</h2>
+            <p>When it drops, you’ll need to port your PC sensitivity to the new mobile sliders. Our <strong>Sens Converter</strong> will be ready with the update.</p>
+            <div class="bg-[#1f2833] p-8 rounded-3xl border border-white/5 my-8 text-center">
+                <h3 class="font-display text-2xl uppercase tracking-tighter text-white mb-4">Convert Your Sens</h3>
+                <a href="../sens" class="inline-block py-4 px-8 bg-neon-cyan text-arcade-bg font-black rounded-2xl uppercase tracking-[0.2em]">Open Converter</a>
+            </div>
+        `
+    },
+    {
+        id: 'twitch-drops-schedule-june-2026',
+        category: 'Free Loot',
+        title: 'Twitch Drops Schedule June 2026: Claim Your Exclusive Loot',
+        description: 'From Valorant to Rust, we track every active Twitch Drop campaign. Link your accounts and get free skins just for watching streams.',
+        content: `
+            <p>Twitch Drops are the easiest way to get exclusive gaming loot. In June 2026, there are major campaigns for the VCT Masters and the new Tarkov wipe.</p>
+            <h2>How to Claim</h2>
+            <p>Always ensure your game account is linked to your Twitch profile. You can track all these "Freebies" in our <strong>Loot Drop</strong> tab so you never miss a limited-time item.</p>
+            <div class="bg-[#1f2833] p-8 rounded-3xl border border-white/5 my-8 text-center">
+                <h3 class="font-display text-2xl uppercase tracking-tighter text-white mb-4">View All Drops</h3>
+                <a href="../freegame" class="inline-block py-4 px-8 bg-epic text-white font-black rounded-2xl uppercase tracking-[0.2em]">Check Loot Drop</a>
+            </div>
+        `
+    },
+    {
+        id: 'genshin-impact-6-0-snezhnaya-leaks',
+        category: 'Trending',
+        title: 'Genshin Impact 6.0 Leaks: Snezhnaya, The Cryo Archon, and more',
+        description: 'The final chapter of the Teyvat storyline is approaching. Here are the leaked details about Snezhnaya and the long-awaited Tsaritsa.',
+        content: `
+            <p>Snezhnaya has been a mystery since the game launched in 2020. Version 6.0 will finally take us to the land of ice and the Fatui. The Tsaritsa is rumored to be a sword user with a unique "Absolute Zero" mechanic.</p>
+            <h2>New Gameplay Elements</h2>
+            <p>Leaks suggest a "Frostbite" meter for the open world, similar to Dragonspine but much more intense. Players will need specific characters to survive the deep north.</p>
+            <h2>Claim Free Primogems</h2>
+            <p>Every new region comes with codes. We track all active Genshin codes and giveaways on our dashboard.</p>
+            <div class="bg-[#1f2833] p-8 rounded-3xl border border-white/5 my-8 text-center">
+                <h3 class="font-display text-2xl uppercase tracking-tighter text-white mb-4">Get Free Loot</h3>
+                <a href="../freegame" class="inline-block py-4 px-8 bg-epic text-white font-black rounded-2xl uppercase tracking-[0.2em]">Check Active Promos</a>
+            </div>
+        `
+    },
+    {
+        id: 'league-of-legends-mmo-progress-update',
+        category: 'Trending',
+        title: 'League of Legends MMO: 2026 Progress Report & Class Leaks',
+        description: 'Riot’s ambitious MMO is still in development. New leaks suggest a "Combat Class" system based on Runeterra regions rather than traditional tropes.',
+        content: `
+            <p>Riot Games restarted development on the LoL MMO a while back to make it more "unique." In 2026, we are finally seeing the first leaked screenshots of the Shurima region.</p>
+            <h2>The Region-Class System</h2>
+            <p>Instead of being a "Warrior," you might be a "Noxian Soldier" or an "Ionian Monk," with abilities unique to your starting region. This would be a game-changer for the genre.</p>
+            <h2>Test Your Knowledge</h2>
+            <p>Think you know Runeterra? Practice your champion knowledge on our <strong>⚔️ LoL-Guess</strong> game while you wait for the MMO.</p>
+            <div class="bg-[#1f2833] p-8 rounded-3xl border border-white/5 my-8 text-center">
+                <h3 class="font-display text-2xl uppercase tracking-tighter text-white mb-4">Play LoL Guess</h3>
+                <a href="../games" class="inline-block py-4 px-8 bg-epic text-white font-black rounded-2xl uppercase tracking-[0.2em]">Start Guessing</a>
+            </div>
+        `
+    },
+    {
+        id: 'free-playstation-plus-games-june-2026',
+        category: 'Free Loot',
+        title: 'Free PlayStation Plus Games June 2026: AAA Leaks',
+        description: 'The June PS Plus lineup is reportedly massive. Leaks suggest a major Soulslike and a popular sports title will be free for all subscribers.',
+        content: `
+            <p>Sony is reportedly looking to boost sub numbers with a "Mega Month" in June. The leaked lineup includes a 2025 blockbuster and two high-quality indie titles.</p>
+            <h2>The Lineup</h2>
+            <p>Rumors point to **Lords of the Fallen 2** (or similar) being the headliner. Remember to add these to your library even if you don’t have space to install them.</p>
+            <h2>Never Miss a Free Game</h2>
+            <p>We track PS Plus, Game Pass, and Epic Games giveaways in one unified dashboard. Check our <strong>Loot Drop</strong> tab every week.</p>
+            <div class="bg-[#1f2833] p-8 rounded-3xl border border-white/5 my-8 text-center">
+                <h3 class="font-display text-2xl uppercase tracking-tighter text-white mb-4">Track All Loot</h3>
+                <a href="../freegame" class="inline-block py-4 px-8 bg-epic text-white font-black rounded-2xl uppercase tracking-[0.2em]">Check Active Giveaways</a>
+            </div>
+        `
+    },
+    {
+        id: 'xbox-game-pass-ultimate-deals-2026',
+        category: 'Free Loot',
+        title: 'Xbox Game Pass Ultimate: How to Get 12 Months for Cheap',
+        description: 'The "Gold Conversion" is gone, but new "Family Plan" exploits and regional deals allow you to get Game Pass Ultimate for under $5/month.',
+        content: `
+            <p>Game Pass is the best deal in gaming, but the price has steadily risen. In 2026, savvy players are using the "Reward Point Stacking" method to get their subscription for free.</p>
+            <h2>The Stacking Method</h2>
+            <p>By combining Microsoft Rewards with specific third-party key bundles, you can extend your membership at a fraction of the retail cost. We track these "Perks" and deals on our dashboard.</p>
+            <h2>Claim Your Loot</h2>
+            <p>Check the <strong>Loot Drop</strong> tab for any active Game Pass trial codes or partner promotions.</p>
+            <div class="bg-[#1f2833] p-8 rounded-3xl border border-white/5 my-8 text-center">
+                <h3 class="font-display text-2xl uppercase tracking-tighter text-white mb-4">Launch Loot Drop</h3>
+                <a href="../freegame" class="inline-block py-4 px-8 bg-epic text-white font-black rounded-2xl uppercase tracking-[0.2em]">Check Active Giveaways</a>
+            </div>
+        `
     }
 ];
 

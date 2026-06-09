@@ -46,6 +46,7 @@ Build a highly polished, single-page, multi-game tracker dashboard called "Nexus
 - [ ] **Drops Tracker:** Add a dedicated hub for active Twitch Drop campaigns.
 
 ## 📝 Latest Updates
+- **Update 36:** **Massive SEO Injection.** Injected 15 new high-traffic articles into the Neural Archives (Total: 76). New topics include Black Myth: Wukong DLC leaks, Free Valorant Points guides, Steam Deck 2 rumors, and OG Fortnite map return leaks.
 - **Update 35:** **Expanded Clickbait Library.** Injected 10 new high-traffic articles into the Neural Archives (Total: 61). New topics include Silksong 2026 release leaks, GTA 6 early access myths, Steam Summer Sale AAA deals, and Valorant Agent 28 "Nexus" datamines.
 - **Update 34:** **Albion Transport Engine.** Transformed the Albion Market tracker into a specialized "Transport Helper". The engine now compares all major Royal Cities and the Caerleon Black Market in real-time to identify the most profitable city-to-city trade runs. Added dynamic "Source → Destination" routing to the UI.
 - **Update 33:** **Aggressive SEO Expansion.** Expanded the Neural Archives to 51 articles, specifically adding high-traffic clickbait topics targeting GTA 6 access, Epic Games mystery leaks, Valorant Night Market hacks, and OSRS market crashes. Reverted the manual Poké-Guess override as the Gengar promotion period has concluded.
