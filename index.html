@@ -155,6 +155,85 @@
                 mount.innerHTML = `<div id="converter-mount" class="animate-in fade-in slide-in-from-bottom-4 duration-700"></div>`;
                 if (window.converter) window.converter.init();
             }},
+            intelligence: { path: '/intelligence', render: () => {
+                const mount = document.getElementById('app-view');
+                mount.innerHTML = `
+                    <div class="mb-12">
+                        <h2 class="font-display text-4xl text-white mb-2 uppercase tracking-tighter italic text-center md:text-left">Nexus Intelligence Hub</h2>
+                        <p class="text-white/30 text-[10px] uppercase tracking-[0.4em] mb-12 text-center md:text-left">Real-time meta analysis // Strategic Data Stream</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            <!-- Valorant Meta -->
+                            <div class="glass-card bg-[#1f2833] rounded-[2.5rem] p-8 border border-white/5 card-glow">
+                                <h3 class="font-display text-xs uppercase tracking-[0.3em] text-epic mb-6 flex items-center gap-2"><i class="fa-solid fa-crosshairs"></i> Valorant Meta</h3>
+                                <div class="space-y-4">
+                                    <div class="flex justify-between items-center p-3 bg-white/5 rounded-xl">
+                                        <span class="text-[10px] font-bold text-white/60">S-Tier Agents</span>
+                                        <span class="text-[10px] font-black text-epic">Jett, Viper, Omen</span>
+                                    </div>
+                                    <div class="flex justify-between items-center p-3 bg-white/5 rounded-xl">
+                                        <span class="text-[10px] font-bold text-white/60">Trending Map</span>
+                                        <span class="text-[10px] font-black text-white">Abyss</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- MMO Arbitrage -->
+                            <div class="glass-card bg-[#1f2833] rounded-[2.5rem] p-8 border border-white/5 card-glow">
+                                <h3 class="font-display text-xs uppercase tracking-[0.3em] text-neon-cyan mb-6 flex items-center gap-2"><i class="fa-solid fa-coins"></i> Market Heatmap</h3>
+                                <div class="space-y-4">
+                                    <div class="flex justify-between items-center p-3 bg-white/5 rounded-xl">
+                                        <span class="text-[10px] font-bold text-white/60">OSRS High Vol</span>
+                                        <span class="text-[10px] font-black text-neon-cyan">Rev Ether (+8%)</span>
+                                    </div>
+                                    <div class="flex justify-between items-center p-3 bg-white/5 rounded-xl">
+                                        <span class="text-[10px] font-bold text-white/60">Albion Flip</span>
+                                        <span class="text-[10px] font-black text-white">T8 Wood (Bridgewatch)</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Global Loot -->
+                            <div class="glass-card bg-[#1f2833] rounded-[2.5rem] p-8 border border-white/5 card-glow">
+                                <h3 class="font-display text-xs uppercase tracking-[0.3em] text-legendary mb-6 flex items-center gap-2"><i class="fa-solid fa-gift"></i> High-Value Loot</h3>
+                                <div class="space-y-4">
+                                    <div class="flex justify-between items-center p-3 bg-white/5 rounded-xl">
+                                        <span class="text-[10px] font-bold text-white/60">Must Claim</span>
+                                        <span class="text-[10px] font-black text-legendary">Epic Games Mystery #4</span>
+                                    </div>
+                                    <div class="flex justify-between items-center p-3 bg-white/5 rounded-xl">
+                                        <span class="text-[10px] font-bold text-white/60">Active Drops</span>
+                                        <span class="text-[10px] font-black text-white">Valorant Night Market Live</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Hardware Meta -->
+                        <div class="mt-12 glass-card bg-nexus-surface rounded-[3rem] p-12 border border-white/5">
+                            <h3 class="font-display text-2xl uppercase tracking-tighter italic mb-8">Hardware of the Elite // <span class="text-white/20">Pro Gear Index</span></h3>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                                <div class="text-center">
+                                    <p class="text-[8px] uppercase text-white/30 mb-2">Most Used Mouse</p>
+                                    <p class="text-xs font-black text-white">Logitech G Pro X Superlight 2</p>
+                                </div>
+                                <div class="text-center">
+                                    <p class="text-[8px] uppercase text-white/30 mb-2">Most Used Keyboard</p>
+                                    <p class="text-xs font-black text-white">Wooting 60HE</p>
+                                </div>
+                                <div class="text-center">
+                                    <p class="text-[8px] uppercase text-white/30 mb-2">Most Used Monitor</p>
+                                    <p class="text-xs font-black text-white">ZOWIE XL2566K (360Hz)</p>
+                                </div>
+                                <div class="text-center">
+                                    <p class="text-[8px] uppercase text-white/30 mb-2">Most Used Headset</p>
+                                    <p class="text-xs font-black text-white">HyperX Cloud II</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }},
             osrs: { path: '/osrs', render: () => {
                 const mount = document.getElementById('app-view');
                 mount.innerHTML = `<div id="tracker-mount" class="animate-in fade-in slide-in-from-bottom-4 duration-700"></div>`;
