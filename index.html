@@ -122,20 +122,33 @@
         const VIEWS = {
             giveaways: { path: '/freegame', api: 'https://www.gamerpower.com/api/giveaways', render: renderGiveaways },
             valorant: { path: '/valorant', api: ['https://valorant-api.com/v1/weapons', 'https://valorant-api.com/v1/bundles'], render: renderValorant },
-            pokeguess: { path: '/pokeguess', render: () => {
+            games: { path: '/games', render: () => {
                 const mount = document.getElementById('app-view');
-                mount.innerHTML = `<div id="game-mount" class="animate-in fade-in slide-in-from-bottom-4 duration-700"></div>`;
-                if (window.gameEngine) window.gameEngine.switchGame('pokemon');
-            }},
-            lolguess: { path: '/lolguess', render: () => {
-                const mount = document.getElementById('app-view');
-                mount.innerHTML = `<div id="game-mount" class="animate-in fade-in slide-in-from-bottom-4 duration-700"></div>`;
-                if (window.gameEngine) window.gameEngine.switchGame('league');
-            }},
-            wordle: { path: '/wordle', render: () => {
-                const mount = document.getElementById('app-view');
-                mount.innerHTML = `<div id="game-mount" class="animate-in fade-in slide-in-from-bottom-4 duration-700"></div>`;
-                if (window.gameEngine) window.gameEngine.switchGame('wordle');
+                mount.innerHTML = `
+                    <div class="mb-12">
+                        <h2 class="font-display text-4xl text-white mb-2 uppercase tracking-tighter italic text-center md:text-left">The Training Ground</h2>
+                        <p class="text-white/30 text-[10px] uppercase tracking-[0.4em] mb-12 text-center md:text-left">Master your knowledge. Maintain your streak.</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            <div onclick="window.gameEngine.switchGame('pokemon')" class="glass-card bg-[#1f2833] rounded-[2.5rem] p-10 border border-white/5 hover:border-neon-cyan transition-all group cursor-pointer text-center card-glow">
+                                <i class="fa-solid fa-circle-dot text-4xl text-neon-cyan mb-6 group-hover:scale-110 transition-transform"></i>
+                                <h3 class="font-display text-xl text-white uppercase mb-2">Poké-Guess</h3>
+                                <p class="text-[9px] text-white/40 uppercase tracking-widest">Identify the Entity</p>
+                            </div>
+                            <div onclick="window.gameEngine.switchGame('league')" class="glass-card bg-[#1f2833] rounded-[2.5rem] p-10 border border-white/5 hover:border-epic transition-all group cursor-pointer text-center card-glow">
+                                <i class="fa-solid fa-shield-halved text-4xl text-epic mb-6 group-hover:scale-110 transition-transform"></i>
+                                <h3 class="font-display text-xl text-white uppercase mb-2">LoL-Guess</h3>
+                                <p class="text-[9px] text-white/40 uppercase tracking-widest">Champion Databank</p>
+                            </div>
+                            <div onclick="window.gameEngine.switchGame('wordle')" class="glass-card bg-[#1f2833] rounded-[2.5rem] p-10 border border-white/5 hover:border-neon-amber transition-all group cursor-pointer text-center card-glow">
+                                <i class="fa-solid fa-keyboard text-4xl text-neon-amber mb-6 group-hover:scale-110 transition-transform"></i>
+                                <h3 class="font-display text-xl text-white uppercase mb-2">Wordle</h3>
+                                <p class="text-[9px] text-white/40 uppercase tracking-widest">Gaming Terminology</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="game-mount" class="animate-in fade-in slide-in-from-bottom-4 duration-700"></div>
+                `;
             }},
             sens: { path: '/sens', render: () => {
                 const mount = document.getElementById('app-view');
@@ -293,5 +306,7 @@
     </script>
     <!-- Adsterra Social Bar -->
     <script src="https://pl29600983.effectivecpmnetwork.com/d9/67/3b/d9673b40062c8e70dbcb40185a13054f.js"></script>
+</body>
+</html>  <script src="https://pl29600983.effectivecpmnetwork.com/d9/67/3b/d9673b40062c8e70dbcb40185a13054f.js"></script>
 </body>
 </html>

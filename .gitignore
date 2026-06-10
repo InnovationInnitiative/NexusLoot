@@ -1,0 +1,6 @@
+node_modules/
+.vite/
+.vercel/
+*.log
+.env
+worker/node_modules/
