@@ -58,22 +58,33 @@
         <!-- Navigation -->
         <nav class="sticky top-0 z-50 bg-nexus-dark/90 backdrop-blur-md border-b border-nexus-border">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between h-16 items-center">
-                    <div class="flex items-center gap-3 cursor-pointer" onclick="location.reload()">
+                <div class="flex justify-between h-16 items-center gap-4">
+                    <div class="flex shrink-0 items-center gap-3 cursor-pointer" onclick="location.reload()">
                         <i class="fa-solid fa-bolt-lightning text-epic text-2xl drop-shadow-[0_0_8px_#8B5CF6]"></i>
-                        <span class="font-display text-xl tracking-tighter italic uppercase text-white">Nexus<span class="text-epic">Loot</span></span>
+                        <span class="font-display text-xl tracking-tighter italic uppercase text-white hidden md:block">Nexus<span class="text-epic">Loot</span></span>
                     </div>
-                    <div class="flex gap-4 sm:gap-8 overflow-x-auto no-scrollbar pb-2 sm:pb-0">
+                    <div class="flex gap-4 sm:gap-6 overflow-visible items-center justify-end flex-grow">
                         <button onclick="switchTab('giveaways')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white" data-tab="giveaways">Loot Drop</button>
                         <button onclick="switchTab('valorant')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white" data-tab="valorant">Valorant</button>
-                        <button onclick="switchTab('pokeguess')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white" data-tab="pokeguess">🎯 Poké-Guess</button>
-                        <button onclick="switchTab('lolguess')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white" data-tab="lolguess">⚔️ LoL-Guess</button>
-                        <button onclick="switchTab('wordle')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white" data-tab="wordle">⌨️ Wordle</button>
-                        <button onclick="switchTab('sens')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white" data-tab="sens">🖱️ Sens</button>
-                        <button onclick="switchTab('osrs')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white" data-tab="osrs">⚔️ OSRS</button>
-                        <button onclick="switchTab('albion')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white" data-tab="albion">🛡️ Albion</button>
-                        <button onclick="switchTab('intelligence')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white" data-tab="intelligence">🧠 Intelligence</button>
-                        <a href="/blog/" class="text-[10px] sm:text-xs font-bold uppercase tracking-widest py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white flex items-center gap-1"><i class="fa-solid fa-book-open text-[10px]"></i> Blog</a>
+                        
+                        <!-- Dropdown Menu -->
+                        <div class="relative group">
+                            <button class="text-[10px] sm:text-xs font-bold uppercase tracking-widest py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white flex items-center gap-2">
+                                More Tools <i class="fa-solid fa-chevron-down text-[8px] transition-transform group-hover:rotate-180"></i>
+                            </button>
+                            <div class="absolute right-0 top-full mt-0 w-56 bg-nexus-surface border border-white/10 rounded-xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-[100] overflow-hidden flex flex-col">
+                                <button onclick="switchTab('intelligence')" class="tab-link text-left px-5 py-3 text-[10px] sm:text-xs font-bold uppercase tracking-widest hover:bg-white/5 hover:text-white transition-colors w-full flex items-center gap-3" data-tab="intelligence"><i class="fa-solid fa-brain w-4 text-epic"></i> Intelligence</button>
+                                <button onclick="switchTab('osrs')" class="tab-link text-left px-5 py-3 text-[10px] sm:text-xs font-bold uppercase tracking-widest hover:bg-white/5 hover:text-neon-cyan transition-colors w-full flex items-center gap-3" data-tab="osrs"><i class="fa-solid fa-coins w-4 text-neon-cyan"></i> OSRS Market</button>
+                                <button onclick="switchTab('albion')" class="tab-link text-left px-5 py-3 text-[10px] sm:text-xs font-bold uppercase tracking-widest hover:bg-white/5 hover:text-white transition-colors w-full flex items-center gap-3" data-tab="albion"><i class="fa-solid fa-shield w-4 text-blue-400"></i> Albion Trade</button>
+                                
+                                <div class="h-px bg-white/10 w-full my-1"></div>
+                                
+                                <button onclick="switchTab('games')" class="tab-link text-left px-5 py-3 text-[10px] sm:text-xs font-bold uppercase tracking-widest hover:bg-white/5 hover:text-epic transition-colors w-full flex items-center gap-3" data-tab="games"><i class="fa-solid fa-gamepad w-4 text-legendary"></i> Minigames</button>
+                                <button onclick="switchTab('sens')" class="tab-link text-left px-5 py-3 text-[10px] sm:text-xs font-bold uppercase tracking-widest hover:bg-white/5 hover:text-white transition-colors w-full flex items-center gap-3" data-tab="sens"><i class="fa-solid fa-mouse w-4 text-white/60"></i> Sens Calc</button>
+                            </div>
+                        </div>
+
+                        <a href="/blog/" class="text-[10px] sm:text-xs font-bold uppercase tracking-widest py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white flex items-center gap-2"><i class="fa-solid fa-book-open text-[10px] text-epic"></i> Archives</a>
                     </div>
                 </div>
             </div>
