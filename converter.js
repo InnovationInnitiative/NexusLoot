@@ -28,6 +28,12 @@ class SensConverter {
             color: '#00ff00'
         };
         this.profiles = JSON.parse(localStorage.getItem('nexus_sens_profiles')) || [];
+        this.proProfiles = [
+            { name: "TenZ", game: "Valorant", sens: 0.35, dpi: 800, ch: { length: 4, thickness: 2, gap: 2, opacity: 1, color: "#00ff00", outline: true, outlineThickness: 1, dot: false } },
+            { name: "S1mple", game: "CS2 / Apex", sens: 3.09, dpi: 400, ch: { length: 3, thickness: 1, gap: -2, opacity: 1, color: "#00ff00", outline: false, outlineThickness: 1, dot: false } },
+            { name: "Shroud", game: "Valorant", sens: 0.78, dpi: 450, ch: { length: 5, thickness: 2, gap: 3, opacity: 1, color: "#ffffff", outline: true, outlineThickness: 1, dot: false } },
+            { name: "Aspas", game: "Valorant", sens: 0.4, dpi: 800, ch: { length: 2, thickness: 1, gap: 0, opacity: 1, color: "#00ff00", outline: false, outlineThickness: 1, dot: false } }
+        ];
     }
 
     init() {
@@ -48,10 +54,12 @@ class SensConverter {
                     <p class="text-white/30 text-[10px] uppercase tracking-[0.3em]">Pro-Gamer Precision // Cross-Game Sync</p>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div class="grid grid-cols-1 xl:grid-cols-3 gap-12">
                     <!-- Left: Source -->
                     <div class="glass-card bg-[#1f2833] p-8 rounded-3xl border border-white/5">
-                        <h2 class="text-neon-cyan uppercase font-bold text-xs mb-6 tracking-widest">Source Configuration</h2>
+                        <h2 class="text-neon-cyan uppercase font-bold text-xs mb-6 tracking-widest flex items-center gap-2">
+                            <i class="fa-solid fa-input-numeric"></i> Source
+                        </h2>
                         <div class="space-y-6">
                             <div>
                                 <label class="block text-[10px] uppercase text-white/40 mb-2">Game</label>
@@ -70,9 +78,11 @@ class SensConverter {
                         </div>
                     </div>
 
-                    <!-- Right: Target -->
+                    <!-- Middle: Target -->
                     <div class="glass-card bg-[#1f2833] p-8 rounded-3xl border border-neon-cyan/20">
-                        <h2 class="text-neon-green uppercase font-bold text-xs mb-6 tracking-widest">Target Output</h2>
+                        <h2 class="text-neon-green uppercase font-bold text-xs mb-6 tracking-widest flex items-center gap-2">
+                            <i class="fa-solid fa-bolt"></i> Output
+                        </h2>
                         <div class="space-y-6">
                             <div>
                                 <label class="block text-[10px] uppercase text-white/40 mb-2">Target Game</label>
@@ -87,12 +97,32 @@ class SensConverter {
                             </div>
                         </div>
                     </div>
+
+                    <!-- Right: Pro Deck -->
+                    <div class="glass-card bg-[#1f2833] p-8 rounded-3xl border border-white/5 overflow-hidden flex flex-col">
+                        <h2 class="text-epic uppercase font-bold text-xs mb-6 tracking-widest flex items-center gap-2">
+                            <i class="fa-solid fa-crown"></i> Pro Archives
+                        </h2>
+                        <div class="space-y-3 flex-grow overflow-y-auto pr-2 no-scrollbar">
+                            ${this.proProfiles.map(p => `
+                                <div onclick="window.converter.applyPro('${p.name}')" class="p-4 bg-white/5 rounded-2xl border border-white/5 hover:border-epic/50 cursor-pointer transition-all group">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <span class="text-[10px] font-black uppercase text-white group-hover:text-epic">${p.name}</span>
+                                        <span class="text-[8px] text-white/20 uppercase font-bold">${p.game}</span>
+                                    </div>
+                                    <p class="text-[8px] text-white/40 uppercase tracking-widest">${p.sens} Sens // ${p.dpi} DPI</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Crosshair Section -->
                 <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-12 border-t border-white/5 pt-12">
                     <div class="space-y-6">
-                        <h2 class="text-neon-amber uppercase font-bold text-xs mb-6 tracking-widest">Crosshair Studio</h2>
+                        <h2 class="text-neon-amber uppercase font-bold text-xs mb-6 tracking-widest flex items-center gap-2">
+                            <i class="fa-solid fa-eye"></i> Crosshair Studio
+                        </h2>
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-[8px] uppercase text-white/40 mb-1">Length: <span id="val-length">${this.crosshair.length}</span></label>
@@ -130,7 +160,7 @@ class SensConverter {
                             </div>
                         </div>
                         <div class="pt-4 space-y-2">
-                            <button onclick="window.converter.saveProfile()" class="w-full py-4 bg-neon-cyan text-arcade-bg font-black rounded-2xl uppercase tracking-[0.2em] shadow-[0_0_20px_rgba(102,252,241,0.3)] hover:scale-[1.02] transition-all">Save Profile</button>
+                            <button onclick="window.converter.saveProfile()" class="w-full py-4 bg-neon-cyan text-arcade-bg font-black rounded-2xl uppercase tracking-[0.2em] shadow-[0_0_20px_rgba(102,252,241,0.3)] hover:scale-[1.02] transition-all">Save My Config</button>
                             <div class="flex gap-2">
                                 <button onclick="window.converter.exportCS2(event)" class="flex-1 py-3 bg-[#ff8c00]/10 hover:bg-[#ff8c00]/20 text-[#ff8c00] border border-[#ff8c00]/30 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all">Copy CS2 Cmds</button>
                                 <button onclick="window.converter.exportValorant(event)" class="flex-1 py-3 bg-[#ff4655]/10 hover:bg-[#ff4655]/20 text-[#ff4655] border border-[#ff4655]/30 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all">Copy Val Specs</button>
@@ -143,13 +173,13 @@ class SensConverter {
                             <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=400&q=80" class="absolute inset-0 w-full h-full object-cover opacity-40">
                             <canvas id="crosshair-preview" width="250" height="250" class="relative z-10"></canvas>
                         </div>
-                        <p class="text-[8px] text-white/20 mt-4 uppercase tracking-widest">Live Visual Neural-Link</p>
+                        <p class="text-[8px] text-white/20 mt-4 uppercase tracking-widest italic">Live Neural Rendering</p>
                     </div>
                 </div>
 
                 <!-- Saved Profiles -->
                 <div id="profiles-container" class="mt-12 pt-12 border-t border-white/5">
-                    <h2 class="text-white/40 uppercase font-bold text-[10px] mb-6 tracking-widest">My Saved Profiles</h2>
+                    <h2 class="text-white/40 uppercase font-bold text-[10px] mb-6 tracking-widest">User Tactical Deck</h2>
                     <div id="profiles-list" class="grid grid-cols-2 md:grid-cols-4 gap-4">
                         <!-- Profiles will be injected here -->
                     </div>
@@ -157,6 +187,33 @@ class SensConverter {
             </div>
         `;
         this.renderProfiles();
+    }
+
+    applyPro(name) {
+        const p = this.proProfiles.find(pro => pro.name === name);
+        if (!p) return;
+
+        document.getElementById('source-game').value = p.game;
+        document.getElementById('source-sens').value = p.sens;
+        document.getElementById('mouse-dpi').value = p.dpi;
+        
+        this.crosshair = { ...p.ch };
+        
+        document.getElementById('ch-length').value = p.ch.length;
+        document.getElementById('ch-thickness').value = p.ch.thickness;
+        document.getElementById('ch-gap').value = p.ch.gap;
+        document.getElementById('ch-opacity').value = p.ch.opacity;
+        document.getElementById('ch-outlinethick').value = p.ch.outlineThickness;
+        document.getElementById('ch-color').value = p.ch.color;
+        document.getElementById('ch-dot').checked = !!p.ch.dot;
+        document.getElementById('ch-outline').checked = !!p.ch.outline;
+
+        this.handleUpdate();
+        
+        // Visual feedback
+        const center = document.querySelector('.neon-title');
+        center.classList.add('animate-pulse', 'text-epic');
+        setTimeout(() => center.classList.remove('animate-pulse', 'text-epic'), 1000);
     }
 
     setupEventListeners() {
