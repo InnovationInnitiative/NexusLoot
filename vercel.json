@@ -7,6 +7,7 @@
     { "source": "/wordle", "destination": "/index.html" },
     { "source": "/sens", "destination": "/index.html" },
     { "source": "/osrs", "destination": "/index.html" },
-    { "source": "/albion", "destination": "/index.html" }
+    { "source": "/albion", "destination": "/index.html" },
+    { "source": "/intelligence", "destination": "/index.html" }
   ]
 }

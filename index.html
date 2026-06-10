@@ -72,6 +72,7 @@
                         <button onclick="switchTab('sens')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white" data-tab="sens">🖱️ Sens</button>
                         <button onclick="switchTab('osrs')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white" data-tab="osrs">⚔️ OSRS</button>
                         <button onclick="switchTab('albion')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white" data-tab="albion">🛡️ Albion</button>
+                        <button onclick="switchTab('intelligence')" class="tab-link text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white" data-tab="intelligence">🧠 Intelligence</button>
                         <a href="/blog/" class="text-[10px] sm:text-xs font-bold uppercase tracking-widest py-5 border-b-2 border-transparent whitespace-nowrap hover:text-white flex items-center gap-1"><i class="fa-solid fa-book-open text-[10px]"></i> Blog</a>
                     </div>
                 </div>
@@ -103,9 +104,10 @@
 
         <footer class="border-t border-nexus-border py-16 mt-32 bg-black/40 text-center">
             <div class="max-w-7xl mx-auto px-4">
-                <h4 class="font-display text-lg mb-4 italic uppercase">NEXUS<span class="text-epic">LOOT</span></h4>
+                <h4 class="font-display text-lg mb-4 italic uppercase text-white">NEXUS<span class="text-epic">LOOT</span></h4>
                 <div class="flex justify-center gap-6 mb-6">
-                    <a href="blog/index.html" class="text-[10px] text-white/40 hover:text-white uppercase tracking-widest transition-colors">Neural Archives (Blog)</a>
+                    <a href="/blog/" class="text-[10px] text-white/40 hover:text-white uppercase tracking-widest transition-colors">Neural Archives</a>
+                    <a href="/sitemap.xml" class="text-[10px] text-white/40 hover:text-white uppercase tracking-widest transition-colors">Sitemap</a>
                 </div>
                 <p class="text-[9px] text-white/20 uppercase tracking-[0.2em]">© 2026 Innovation Initiative Hub // Omni-Game Traffic Terminal</p>
             </div>
@@ -171,10 +173,10 @@
                                         <span class="text-[10px] font-bold text-white/60">S-Tier Agents</span>
                                         <span class="text-[10px] font-black text-epic">Jett, Viper, Omen</span>
                                     </div>
-                                    <div class="flex justify-between items-center p-3 bg-white/5 rounded-xl">
-                                        <span class="text-[10px] font-bold text-white/60">Trending Map</span>
-                                        <span class="text-[10px] font-black text-white">Abyss</span>
-                                    </div>
+                                    <a href="/blog/article.html?id=valorant-agent-28-nexus-leaks" class="flex justify-between items-center p-3 bg-white/5 rounded-xl hover:bg-white/10 transition-colors">
+                                        <span class="text-[10px] font-bold text-white/60">Latest Leak</span>
+                                        <span class="text-[10px] font-black text-white">Agent 28 "Nexus" →</span>
+                                    </a>
                                 </div>
                             </div>
 
@@ -182,14 +184,14 @@
                             <div class="glass-card bg-[#1f2833] rounded-[2.5rem] p-8 border border-white/5 card-glow">
                                 <h3 class="font-display text-xs uppercase tracking-[0.3em] text-neon-cyan mb-6 flex items-center gap-2"><i class="fa-solid fa-coins"></i> Market Heatmap</h3>
                                 <div class="space-y-4">
-                                    <div class="flex justify-between items-center p-3 bg-white/5 rounded-xl">
-                                        <span class="text-[10px] font-bold text-white/60">OSRS High Vol</span>
-                                        <span class="text-[10px] font-black text-neon-cyan">Rev Ether (+8%)</span>
-                                    </div>
-                                    <div class="flex justify-between items-center p-3 bg-white/5 rounded-xl">
+                                    <a href="/blog/article.html?id=osrs-flipping-guide" class="flex justify-between items-center p-3 bg-white/5 rounded-xl hover:bg-white/10 transition-colors">
+                                        <span class="text-[10px] font-bold text-white/60">OSRS Guide</span>
+                                        <span class="text-[10px] font-black text-neon-cyan">1M to 10M Flip →</span>
+                                    </a>
+                                    <a href="/blog/article.html?id=albion-black-market-guide" class="flex justify-between items-center p-3 bg-white/5 rounded-xl hover:bg-white/10 transition-colors">
                                         <span class="text-[10px] font-bold text-white/60">Albion Flip</span>
-                                        <span class="text-[10px] font-black text-white">T8 Wood (Bridgewatch)</span>
-                                    </div>
+                                        <span class="text-[10px] font-black text-white">Black Market Intel →</span>
+                                    </a>
                                 </div>
                             </div>
 
@@ -197,10 +199,10 @@
                             <div class="glass-card bg-[#1f2833] rounded-[2.5rem] p-8 border border-white/5 card-glow">
                                 <h3 class="font-display text-xs uppercase tracking-[0.3em] text-legendary mb-6 flex items-center gap-2"><i class="fa-solid fa-gift"></i> High-Value Loot</h3>
                                 <div class="space-y-4">
-                                    <div class="flex justify-between items-center p-3 bg-white/5 rounded-xl">
+                                    <a href="/blog/article.html?id=free-steam-keys-2026" class="flex justify-between items-center p-3 bg-white/5 rounded-xl hover:bg-white/10 transition-colors">
                                         <span class="text-[10px] font-bold text-white/60">Must Claim</span>
-                                        <span class="text-[10px] font-black text-legendary">Epic Games Mystery #4</span>
-                                    </div>
+                                        <span class="text-[10px] font-black text-legendary">Free Steam Keys →</span>
+                                    </a>
                                     <div class="flex justify-between items-center p-3 bg-white/5 rounded-xl">
                                         <span class="text-[10px] font-bold text-white/60">Active Drops</span>
                                         <span class="text-[10px] font-black text-white">Valorant Night Market Live</span>
@@ -366,6 +368,47 @@
             }
         }
 
+        window.toggleGlobalSearch = () => {
+            const search = document.createElement('div');
+            search.id = 'global-search-overlay';
+            search.className = 'fixed inset-0 z-[200] bg-nexus-dark/95 backdrop-blur-3xl flex items-center justify-center p-8 animate-in fade-in duration-300';
+            search.innerHTML = `
+                <div class="w-full max-w-4xl">
+                    <div class="relative">
+                        <i class="fa-solid fa-magnifying-glass absolute left-8 top-1/2 -translate-y-1/2 text-epic text-2xl"></i>
+                        <input type="text" placeholder="Accessing Database... Search Valorant, OSRS, or Intelligence Archives" 
+                               class="w-full bg-white/5 border border-white/10 rounded-[2rem] py-8 pl-20 pr-8 text-2xl text-white outline-none focus:border-epic/50 shadow-2xl"
+                               onkeydown="if(event.key === 'Enter') handleGlobalSearch(this.value)">
+                    </div>
+                    <p class="mt-6 text-[10px] uppercase tracking-[0.5em] text-white/20 text-center italic">Press ESC to abort mission</p>
+                </div>
+            `;
+            document.body.appendChild(search);
+            search.querySelector('input').focus();
+            
+            const escHandler = (e) => {
+                if (e.key === 'Escape') {
+                    search.remove();
+                    document.removeEventListener('keydown', escHandler);
+                }
+            };
+            document.addEventListener('keydown', escHandler);
+        };
+
+        window.handleGlobalSearch = (val) => {
+            if (!val) return;
+            const query = val.toLowerCase();
+            const overlay = document.getElementById('global-search-overlay');
+            
+            if (query === 'sens') { switchTab('sens'); if(overlay) overlay.remove(); return; }
+            if (query === 'osrs') { switchTab('osrs'); if(overlay) overlay.remove(); return; }
+            if (query === 'albion') { switchTab('albion'); if(overlay) overlay.remove(); return; }
+            if (query === 'intel' || query === 'meta') { switchTab('intelligence'); if(overlay) overlay.remove(); return; }
+            if (query === 'games' || query === 'loot') { switchTab('giveaways'); if(overlay) overlay.remove(); return; }
+            
+            window.location.href = `/blog/?search=${encodeURIComponent(val)}`;
+        };
+
         // --- ROUTING ENGINE ---
         window.addEventListener('popstate', (e) => {
             if (e.state && e.state.tabId) {
@@ -385,7 +428,5 @@
     </script>
     <!-- Adsterra Social Bar -->
     <script src="https://pl29600983.effectivecpmnetwork.com/d9/67/3b/d9673b40062c8e70dbcb40185a13054f.js"></script>
-</body>
-</html>  <script src="https://pl29600983.effectivecpmnetwork.com/d9/67/3b/d9673b40062c8e70dbcb40185a13054f.js"></script>
 </body>
 </html>

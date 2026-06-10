@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexusLoot Intelligence // Loading...</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Lexend:wght@700;800&display=swap');
+        body { background-color: #020617; color: #f8fafc; font-family: 'Inter', sans-serif; }
+        .prose h2 { font-family: 'Lexend', sans-serif; color: #fff; font-size: 2rem; text-transform: uppercase; margin-top: 3rem; margin-bottom: 1rem; }
+        .prose p { color: rgba(255,255,255,0.7); line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.1rem; }
+        .prose ul { color: rgba(255,255,255,0.7); list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1.5rem; }
+        .prose li { margin-bottom: 0.5rem; }
+        .prose strong { color: #66fcf1; }
+    </style>
+</head>
+<body>
+    <nav class="sticky top-0 z-50 bg-nexus-dark/90 backdrop-blur-md border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <a href="../index.html" class="flex items-center gap-3 cursor-pointer">
+                    <i class="fa-solid fa-bolt-lightning text-epic text-2xl drop-shadow-[0_0_8px_#8B5CF6]"></i>
+                    <span class="font-display text-xl tracking-tighter italic uppercase text-white">Nexus<span class="text-epic">Loot</span> // Blog</span>
+                </a>
+                <a href="index.html" class="text-xs font-bold uppercase tracking-widest text-white/50 hover:text-white transition-colors">← Back to Articles</a>
+            </div>
+        </div>
+    </nav>
+
+    <main id="article-mount" class="max-w-4xl mx-auto px-4 py-16">
+        <!-- Content injected here -->
+        <div class="py-32 text-center">
+            <div class="animate-spin text-epic text-4xl mb-4"><i class="fa-solid fa-circle-notch"></i></div>
+            <p class="text-white/20 uppercase tracking-widest text-[10px]">Accessing Database...</p>
+        </div>
+    </main>
+
+    <footer class="border-t border-white/5 py-16 mt-32 bg-black/40 text-center">
+        <div class="max-w-7xl mx-auto px-4">
+            <h4 class="font-display text-lg mb-4 italic uppercase">NEXUS<span class="text-epic">LOOT</span></h4>
+            <p class="text-[9px] text-white/20 uppercase tracking-[0.2em]">© 2026 Innovation Initiative Hub</p>
+        </div>
+    </footer>
+
+    <script src="../blog-data.js"></script>
+    <script>
+        function renderArticle() {
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id');
+            const blog = window.getBlogById(id);
+            const mount = document.getElementById('article-mount');
+
+            if (!blog) {
+                mount.innerHTML = `
+                    <div class="py-32 text-center">
+                        <i class="fa-solid fa-triangle-exclamation text-drop text-6xl mb-6"></i>
+                        <h1 class="font-display text-4xl uppercase tracking-tighter text-white">404: Article Not Found</h1>
+                        <p class="text-white/30 mt-4 uppercase tracking-[0.4em]">The requested data stream has been terminated.</p>
+                        <a href="index.html" class="inline-block mt-12 py-4 px-8 bg-epic text-white font-black rounded-2xl uppercase tracking-[0.2em]">Return to Archives</a>
+                    </div>
+                `;
+                return;
+            }
+
+            document.title = `${blog.title} | NexusLoot Intelligence`;
+
+            mount.innerHTML = `
+                <div class="mb-12">
+                    <div class="flex items-center gap-4 mb-6">
+                        <span class="text-[8px] font-bold text-white uppercase tracking-widest border border-white/20 px-3 py-1 rounded-full bg-white/5" style="border-color: ${blog.themeColor}; color: ${blog.themeColor}">${blog.category}</span>
+                        <span class="text-[10px] text-white/30 font-mono">Published: ${blog.published}</span>
+                    </div>
+                    <h1 class="font-display text-5xl uppercase tracking-tighter italic text-white leading-tight mb-12">${blog.title}</h1>
+                    <div class="relative rounded-[3rem] overflow-hidden aspect-video border border-white/10 mb-16">
+                        <img src="${blog.image}" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-nexus-dark/80 via-transparent to-transparent"></div>
+                    </div>
+                </div>
+
+                <div class="prose max-w-none">
+                    ${blog.content}
+                </div>
+
+                <!-- Shared Footer Ad Placeholder -->
+                <div class="mt-20 p-8 glass-card rounded-[3rem] border border-dashed border-white/10 text-center">
+                    <p class="text-[8px] uppercase tracking-widest text-white/20 mb-4">Neural Ad Stream</p>
+                    <div class="w-full min-h-[90px] bg-white/5 flex items-center justify-center rounded-2xl">
+                        <span class="text-[7px] uppercase text-white/10 italic italic">Sponsored Interface Expansion</span>
+                    </div>
+                </div>
+            `;
+
+            // Re-apply style for strong tags based on themeColor
+            const style = document.createElement('style');
+            style.textContent = `.prose strong { color: ${blog.themeColor}; }`;
+            document.head.appendChild(style);
+        }
+
+        renderArticle();
+    </script>
+</body>
+</html>
