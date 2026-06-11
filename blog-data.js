@@ -4,14 +4,54 @@
 
 const BLOG_DATA = [
     {
-        id: 'fortnite-chapter-7-chronos-leak',
+        id: 'gta-6-early-access-scam-alert-2026',
         category: 'Trending',
-        title: 'Fortnite Chapter 7: The "Chronos" Event Leak',
-        description: 'Time travel is returning to Fortnite. Leaked files suggest Chapter 7 will feature a dynamic map that changes eras every match.',
-        image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=2070',
-        published: 'June 10, 2026',
+        title: 'GTA 6 "Early Access" Beta Invites are Stealing Steam Accounts (June 2026 Alert)',
+        description: 'The hype for GTA 6 is being weaponized. Thousands of players have reported losing their Steam and Epic accounts to a "Beta Invite" phishing campaign.',
+        image: 'https://images.unsplash.com/photo-1552820728-8b83bb6b773f?auto=format&fit=crop&q=80&w=2070',
+        published: 'June 11, 2026',
+        themeColor: '#EF4444',
+        content: `<p>As we approach the official release window for Grand Theft Auto VI, malicious actors are scaling up their efforts to compromise gaming accounts. A new wave of highly convincing "Early Access Beta" emails is currently circulating.</p><h2>How the Scam Works</h2><p>The email uses official Rockstar Games branding and directs users to a "Nexus-Link" where they are asked to sign in with their Steam or Rockstar Social Club credentials. Once entered, the attackers use automated bots to bypass 2FA and lock you out of your account.</p><h2>Rockstar\'s Official Stance</h2><p>Rockstar Games has confirmed that they are <strong>NOT</strong> running a public beta. All official invites will be sent through the Rockstar Games Launcher, not third-party links.</p>`
+    },
+    {
+        id: 'valorant-agent-29-chronos-leak',
+        category: 'Valorant Arsenal',
+        title: 'Valorant Agent 29 "Chronos" Leak: Everything We Know About the Time-Rewind Duelist',
+        description: 'Is Riot adding time travel to Valorant? Leaked ability icons and voice lines suggest Agent 29 can rewind their own position and health.',
+        image: 'https://images.unsplash.com/photo-1624138784614-87fd1b6528f8?auto=format&fit=crop&q=80&w=1933',
+        published: 'June 11, 2026',
         themeColor: '#8B5CF6',
-        content: `<p>The latest datamine from the v34.10 update has revealed a codename: <strong>Chronos</strong>. According to insiders, Epic Games is planning the most ambitious map change in history.</p><h2>The Era System</h2><p>Instead of a static map, Chapter 7 will reportedly rotate between "Primal," "Neo," and "OG" versions of POIs depending on the storm phase.</p>`
+        content: `<p>The Valorant community is buzzing after a massive leak from the Riot PBE. A new codename, "Chronos," has appeared in the localization files, pointing towards a Duelist with a focus on temporal manipulation.</p><h2>Potential Abilities</h2><ul><li><strong>Rewind (E):</strong> After a short delay, Chronos returns to the position they were in 3 seconds ago, regaining lost health but keeping spent ammo.</li><li><strong>Time Pocket (Q):</strong> Throw a grenade that creates a field where projectiles move 50% slower.</li><li><strong>Momentum (C):</strong> A short dash that increases fire rate for 2 seconds.</li><li><strong>Grand Paradox (X):</strong> Mark an area. If Chronos dies within 10 seconds, they are instantly revived at the start of the area with full shields.</li></ul>`
+    },
+    {
+        id: 'steam-summer-sale-2026-hidden-gems',
+        category: 'Free Loot',
+        title: 'Steam Summer Sale 2026: The $0.99 AAA Masterpiece You Must Buy',
+        description: 'The Summer Sale is live, and one legendary RPG has hit a historical low of 95% off. We breakdown the best deals for under $10.',
+        image: 'https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&q=80&w=2070',
+        published: 'June 11, 2026',
+        themeColor: '#10B981',
+        content: `<p>The 2026 Steam Summer Sale has officially begun, and while the front page is full of the usual suspects, the real treasure is buried in the deep discounts section. This year, publishers are being more aggressive than ever with legacy titles.</p><h2>The "Dollar Store" Gems</h2><p>The standout deal this year is a 95% discount on a 2024 GOTY contender. We can\'t name it here for legal reasons, but it rhymes with "Cybersunk." Other notable deals include:</p><ul><li>Mass Effect Legendary Edition - $4.99</li><li>Hollow Knight - $1.99</li><li>The Witcher 3: Complete Edition - $2.50</li></ul>`
+    },
+    {
+        id: 'fortnite-og-chapter-1-return-2026',
+        category: 'Trending',
+        title: 'Fortnite OG Chapter 1 Map Return Confirmed for November 2026',
+        description: 'It’s official. Epic Games has confirmed the permanent return of the Chapter 1 map as a standalone "Classic" mode coming later this year.',
+        image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=2070',
+        published: 'June 11, 2026',
+        themeColor: '#45a29e',
+        content: `<p>After years of teasing and limited-time events, Epic Games is finally giving the fans what they want. In a surprise press release this morning, the development team announced "Fortnite: Origins," a permanent mode featuring the Season 1-5 map.</p><h2>Zero Build Support?</h2><p>The biggest question is whether the OG map will support Zero Build. Epic stated that the map has been "subtly adjusted" to allow for Zero Build mechanics without losing the classic aesthetic of Tilted Towers and Dusty Depot.</p>`
+    },
+    {
+        id: 'epic-games-mystery-game-leak-june-11',
+        category: 'Free Loot',
+        title: 'Epic Games Store Mystery Game Leak: A Massive AAA Title is Coming Today',
+        description: 'The countdown is almost over. Leaked logs from the Epic CDN suggest that today\'s free mystery game is a high-profile open-world sequel.',
+        image: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=2070',
+        published: 'June 11, 2026',
+        themeColor: '#10B981',
+        content: `<p>The Epic Games Store "Mega Sale" mystery games have been incredible so far, but today\'s drop is rumored to be the crown jewel. According to Dealabs leaker billbil-kun, we are looking at a $60 title going free for one week.</p><h2>The Leak</h2><p>While we can\'t confirm 100%, the internal codename "Red_Sunset" strongly suggests a Western-themed masterpiece or a popular samurai action game. The vault opens at 11 AM EST today.</p>`
     },
     {
         id: 'elden-ring-2-leaks-2026',
